@@ -1,0 +1,16 @@
+import = [
+  "~/.config/alacritty/themes/themes/gruvbox_dark.toml"
+]
+[shell]
+program = "/bin/zsh"
+args = ["--login"]
+
+[cursor]
+style = "Block"
+
+[font]
+normal = { family = "MartianMono Nerd Font", style = "Regular" }
+size = 16.0
+
+[window]
+option_as_alt = "OnlyLeft"
