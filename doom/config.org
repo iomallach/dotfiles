@@ -77,7 +77,6 @@ Hack into flycheck-checker-get in order to inject python checkers, like ruff, et
               (when (derived-mode-p 'sh-mode)
                 (setq my/flycheck-local-cache '((lsp . ((next-checkers . (sh-posix-bash))))))))))
 
-(advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
 #+end_src
 
 ** Formatting
@@ -95,4 +94,13 @@ Overwrite default aphelia formatters set for ruff. Hook them into python-mode.
         '(ruff ruff-isort))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist)
         '(ruff ruff-isort)))
+#+end_src
+* Evil
+** Highlight yank
+#+begin_src emacs-lisp
+(after! evil
+  (defun my/evil-yank-advice (func beg end &rest args)
+    (pulse-momentary-highlight-region beg end)
+    (apply func beg end args))
+  (advice-add 'evil-yank :around 'my/evil-yank-advice))
 #+end_src
