@@ -23,7 +23,12 @@ Relative across the board.
 #+end_src
 ** Modeline
 #+begin_src emacs-lisp
-(after! doom-modeline (setq doom-modeline-height 45))
+(after! doom-modeline (setq doom-modeline-height 45)
+  (setq
+        doom-modeline-buffer-file-name-style 'file-name
+        doom-modeline-major-mode-icon t
+        doom-modeline-battery t)
+  (display-battery-mode))
 #+end_src
 ** Org mode
 *** Line numbers
