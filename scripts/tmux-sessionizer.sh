@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/dev/rust ~/dev/python ~/dev/thirdparty ~/Documents/development/rust ~/Documents/development/go ~/Documents/development/rust/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~/dev/rust ~/dev/python ~/dev/thirdparty ~/Documents/development/rust ~/Documents/development/go ~/Documents/development/rust/ ~/.config -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
