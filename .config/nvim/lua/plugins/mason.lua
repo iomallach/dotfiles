@@ -20,7 +20,8 @@ return {
       "luacheck",
       "stylua",
       "hadolint",
-      "actionlint",
+      "json-lsp",
+      "yaml-language-server",
     },
 
     PATH = "skip",
