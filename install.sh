@@ -3,6 +3,8 @@ xcode-select --install
 
 echo "Installing homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/iomallach/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "Homebrew has been installed"
 
 echo "Tapping..."
@@ -13,7 +15,7 @@ brew tap FelixKratz/formulae
 brew tap d12frosted/emacs-plus
 
 echo "Installing packages"
-brew search '/font-.*-nerd-font' | awk '{ print $1 }' | xargs -I{} brew install --cask
+brew search '/font-.*-nerd-font' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
 brew install --cask font-sf-pro
 brew install neovim
 brew install stow
@@ -65,6 +67,9 @@ rustup component add rustfmt
 
 echo "Cloning dotfiles..."
 git clone https://github.com/iomallach/dotfiles ~/
+
+echo "Clonning tmux plugin manager"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 echo "Starting services..."
 brew services start sketchybar
