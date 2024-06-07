@@ -27,6 +27,7 @@ shift + alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # maximize
 shift + alt - m : yabai -m window --toggle zoom-fullscreen
+shift + alt - p : yabai -m window --toggle zoom-parent
 
 # balance
 shift + alt - e : yabai -m space --balance
@@ -36,3 +37,13 @@ shift + alt - a : yabai -m window --resize left:-20:0
 
 # decrease size
 shift + alt - s : yabai -m window --resize left:20:0
+
+# Move to space
+shift + ctrl - h : yabai -m window --space prev; yabai -m space --focus prev
+shift + ctrl - l : yabai -m window --space next; yabai -m space --focus next
+
+# Warp windows
+shift + alt + cmd - h : yabai -m window --warp west;
+shift + alt + cmd - l : yabai -m window --warp east;
+shift + alt + cmd - j : yabai -m window --warp south;
+shift + alt + cmd - k : yabai -m window --warp north;

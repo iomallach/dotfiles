@@ -11,7 +11,8 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Zsh plugins
-zinit light zdharma-continuum/fast-syntax-highlighting
+# zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
@@ -23,7 +24,7 @@ zinit snippet OMZP::git
 autoload -U compinit && compinit
 
 # Fast syntax highlighting theme
-fast-theme XDG:catppuccin-macchiato
+# fast-theme XDG:catppuccin-macchiato
 
 # History
 HISTSIZE=5000
