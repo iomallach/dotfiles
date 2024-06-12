@@ -75,7 +75,7 @@ local options = {
 
 return {
   "nvim-tree/nvim-tree.lua",
-  lazy = false,
+  cmd = "NvimTreeToggle",
   config = function()
     require("nvim-tree").setup(options)
   end,
