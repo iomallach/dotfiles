@@ -1,7 +1,7 @@
 local keymap = vim.keymap
 
 local opts = function(desc)
-	return { desc = desc, noremap = true, silent = true }
+  return { desc = desc, noremap = true, silent = true }
 end
 
 -- Directory navigation
@@ -13,13 +13,13 @@ keymap.set("n", "<C-h>", "<C-w>h", opts("Navigate left"))
 keymap.set("n", "<C-j>", "<C-w>j", opts("Navigate down"))
 keymap.set("n", "<C-k>", "<C-w>k", opts("Navigate up"))
 keymap.set("n", "<C-l>", "<C-w>l", opts("Navigate right"))
-keymap.set("t", "<C-h>", "[[<Cmd>wincmd h<CR>") -- Navigate left
-keymap.set("t", "<C-j>", "[[<Cmd>wincmd j<CR>") -- Navigate down
-keymap.set("t", "<C-k>", "[[<Cmd>wincmd k<CR>") -- Navigate up
-keymap.set("t", "<C-l>", "[[<Cmd>wincmd l<CR>") -- Navigate right
-keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>") -- Navigate left
-keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>") -- Navigate down
-keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>") -- Navigate up
+keymap.set("t", "<C-h>", "[[<Cmd>wincmd h<CR>")    -- Navigate left
+keymap.set("t", "<C-j>", "[[<Cmd>wincmd j<CR>")    -- Navigate down
+keymap.set("t", "<C-k>", "[[<Cmd>wincmd k<CR>")    -- Navigate up
+keymap.set("t", "<C-l>", "[[<Cmd>wincmd l<CR>")    -- Navigate right
+keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>")  -- Navigate left
+keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>")  -- Navigate down
+keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>")    -- Navigate up
 keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>") -- Navigate right
 
 -- Insert mode movement
@@ -45,10 +45,10 @@ keymap.set("n", "<A-Left>", "<CMD>vertical resize +2<CR>")
 keymap.set("n", "<A-Right>", "<CMD>vertical resize -2<CR>")
 
 keymap.set(
-	"v",
-	"<leader>/",
-	"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-	{ desc = "Comment Toggle" }
+  "v",
+  "<leader>/",
+  "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+  { desc = "Comment Toggle" }
 )
 
 -- Indenting
@@ -58,7 +58,7 @@ keymap.set("v", ">", ">gv")
 -- From nvchad
 keymap.set("n", "<Esc>", "<cmd>noh<CR>", { desc = "General Clear highlights" })
 keymap.set("n", "<leader>fm", function()
-	require("conform").format({ lsp_fallback = true })
+  require("conform").format({ lsp_fallback = true })
 end, { desc = "Format Files" })
 
 -- DAP
@@ -85,3 +85,10 @@ keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, opts("Toggle Undotree"))
 
 -- ZenMode
 keymap.set("n", "<leader>tz", "<CMD>ZenMode<CR>", opts("Toggle ZenMode"))
+
+-- copy into system clipboard
+keymap.set("n", "<leader>y", '"+y')
+keymap.set("v", "<leader>y", '"+y')
+keymap.set("n", "<leader>Y", '"+Y')
+
+keymap.set('n', 'x', '"_x')
