@@ -7,4 +7,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-sketchybar --set $NAME label="${TEMPERATURE}"
+sketchybar --set $NAME label="${TEMPERATURE}󰔄"
