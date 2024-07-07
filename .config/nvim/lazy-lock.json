@@ -14,6 +14,7 @@
   "diffview.nvim": { "branch": "main", "commit": "3dc498c9777fe79156f3d32dddd483b8b3dbd95f" },
   "doom-one.nvim": { "branch": "main", "commit": "76595eec15896a5da7f4e39ceeded6ffb0f4dc38" },
   "everforest": { "branch": "master", "commit": "af8605d60c24339dcfac6ebe00330aa579d49968" },
+  "firenvim": { "branch": "master", "commit": "c6e37476ab3b58cf01ababfe80ec9335798e70e5" },
   "flash.nvim": { "branch": "main", "commit": "11a2e667d19d8f48c93c6ed2e2e525ac6b1b79be" },
   "friendly-snippets": { "branch": "main", "commit": "dd2fd1281d4b22e7b4a5bfafa3e142d958e251f2" },
   "gitsigns.nvim": { "branch": "main", "commit": "805610a9393fa231f2c2b49cb521bfa413fadb3d" },
