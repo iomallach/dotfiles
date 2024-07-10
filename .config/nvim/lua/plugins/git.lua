@@ -50,6 +50,7 @@ return {
     "tpope/vim-fugitive",
     lazy = false,
     cmd = "Git",
+    cond = true,
     -- config = function()
     -- 	-- TODO: this duplicates keymaps, consider moving to utils
     -- 	local opts = function(desc)
