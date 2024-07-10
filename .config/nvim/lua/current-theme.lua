@@ -1,1 +1,3 @@
-vim.cmd("colorscheme catppuccin-macchiato")
+if not vim.g.vscode then
+  vim.cmd("colorscheme catppuccin-macchiato")
+end
