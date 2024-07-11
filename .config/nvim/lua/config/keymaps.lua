@@ -72,7 +72,11 @@ keymap.set("n", "<leader>tb", "<CMD>lua require'gitsigns'.toggle_current_line_bl
 -- Bufferline
 keymap.set("n", "<tab>", "<CMD>BufferLineCycleNext<CR>", opts("Next buffer"))
 keymap.set("n", "<S-tab>", "<CMD>BufferLineCyclePrev<CR>", opts("Previous buffer"))
-keymap.set("n", "<leader>x", "<CMD>bd<CR>", opts("Close buffer"))
+if not vim.g.vscode then
+  keymap.set("n", "<leader>x", "<CMD>bd<CR>", opts("Close buffer"))
+else
+  keymap.set("n", "<leader>x", "<CMD>lua require('vscode').call('workbench.action.closeActiveEditor')<CR>")
+end
 
 -- Neogit
 keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", opts("Open Neogit"))
