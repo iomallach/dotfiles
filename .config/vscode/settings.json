@@ -1,0 +1,15 @@
+{
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.colorTheme": "Catppuccin Macchiato",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "editor.fontFamily": "CascaydiaCove Nerd Font",
+  "editor.fontSize": 16,
+  "vscode_custom_css.imports": [
+    "file:///Users/iomallach/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.3/dist/updateHandler.js"
+  ],
+  "editor.minimap.enabled": false,
+  "editor.lineNumbers": "relative",
+  "workbench.editor.showTabs": "single"
+}
