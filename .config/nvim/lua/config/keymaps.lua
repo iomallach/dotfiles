@@ -79,10 +79,18 @@ else
 end
 
 -- Neogit
-keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", opts("Open Neogit"))
+if not vim.g.vscode then
+  keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", opts("Open Neogit"))
+else
+  keymap.set("n", "<leader>gg", "<CMD>lua require('vscode').call('magit.status')<CR>")
+end
 
 -- Oil
-keymap.set("n", "-", "<CMD>Oil --float<CR>", opts("Open float oil"))
+if not vim.g.vscode then
+  keymap.set("n", "-", "<CMD>Oil --float<CR>", opts("Open float oil"))
+else
+  keymap.set("n", "-", "<CMD>lua require('vscode').call('extension.dired.open')<CR>")
+end
 
 -- Undotree
 keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, opts("Toggle Undotree"))
@@ -96,3 +104,17 @@ keymap.set("v", "<leader>y", '"+y')
 keymap.set("n", "<leader>Y", '"+Y')
 
 keymap.set('n', 'x', '"_x')
+
+-- vscode only
+if vim.g.vscode then
+  keymap.set("n", "<leader>tv", "<CMD>lua require('vscode').call('workbench.action.toggleSidebarVisibility')<CR>")
+  keymap.set("n", "<leader>lD", "<CMD>lua require('vscode').call('workbench.actions.view.problems')<CR>")
+  keymap.set("n", "<leader>ff", "<CMD>lua require('vscode').call('find-it-faster.findFiles')<CR>")
+  keymap.set("n", "<leader>ff", "<CMD>lua require('vscode').call('find-it-faster.findWithinFiles')<CR>")
+  keymap.set("n", "<leader>lrn", "<CMD>lua require('vscode').call('editor.action.rename')<CR>")
+  keymap.set("n", "<leader>lfr", "<CMD>lua require('vscode').call('references-view.findReferences')<CR>")
+  keymap.set("n", "<leader>ca", "<CMD>lua require('vscode').call('editor.action.refactor')<CR>")
+  keymap.set("n", "<leader>tp", "<CMD>lua require('vscode').call('workbench.action.togglePanel')<CR>")
+  keymap.set("n", "<leader>tt", "<CMD>lua require('vscode').call('workbench.action.terminal.toggleTerminal')<CR>")
+  keymap.set("n", "<leader>fc", "<CMD>lua require('vscode').call('workbench.action.showCommands')<CR>")
+end
