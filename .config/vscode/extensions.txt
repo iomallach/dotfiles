@@ -1,0 +1,13 @@
+asvetliakov.vscode-neovim
+be5invis.vscode-custom-css
+brandonkirbyson.vscode-animations
+catppuccin.catppuccin-vsc
+catppuccin.catppuccin-vsc-icons
+evgeniypeshkov.syntax-highlighter
+kahole.magit
+rrudi.vscode-dired
+rust-lang.rust-analyzer
+tomrijndorp.find-it-faster
+usernamehw.errorlens
+vadimcn.vscode-lldb
+waderyan.gitblame
