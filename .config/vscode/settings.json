@@ -11,5 +11,9 @@
   ],
   "editor.minimap.enabled": false,
   "editor.lineNumbers": "relative",
-  "workbench.editor.showTabs": "single"
+  "workbench.editor.showTabs": "single",
+  "find-it-faster.general.useTerminalInEditor": true,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.fontLigatures": true
 }
