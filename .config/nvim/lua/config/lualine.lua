@@ -1,11 +1,13 @@
-local stbufnr = function()
+local M = {}
+
+M.stbufnr = function()
   return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
 end
 
-local lsp_info = function()
+M.lsp_info = function()
   if rawget(vim, "lsp") then
     for _, client in ipairs(vim.lsp.get_active_clients()) do
-      if client.attached_buffers[stbufnr()] and client.name ~= "null-ls" then
+      if client.attached_buffers[M.stbufnr()] and client.name ~= "null-ls" then
         return (vim.o.columns > 100 and "   LSP ~ " .. client.name .. " ") or "   LSP "
       end
     end
@@ -14,7 +16,7 @@ local lsp_info = function()
   return ""
 end
 
-local working_dir = function()
+M.working_dir = function()
   local components = {}
   for component in vim.fn.getcwd():gmatch("[^/]+") do
     table.insert(components, component)
@@ -22,7 +24,7 @@ local working_dir = function()
   return " " .. components[#components] .. " "
 end
 
-local config = function()
+M.config = function()
   -- ""
   require("lualine").setup({
     options = {
@@ -35,10 +37,10 @@ local config = function()
       lualine_a = { "mode" },
       lualine_b = { { "filetype", icon_only = true, icon = { align = "right" } }, "filename" },
       lualine_c = { { "branch", icon = "" }, { "diff", symbols = { added = " ", modified = " ", removed = " " } } },
-      lualine_x = { "diagnostics", lsp_info },
+      lualine_x = { "diagnostics", M.lsp_info },
       lualine_y = {
         {
-          working_dir,
+          M.working_dir,
           padding = 0,
         },
       },
@@ -55,9 +57,4 @@ local config = function()
   })
 end
 
-return {
-  "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  lazy = false,
-  config = config,
-}
+return M

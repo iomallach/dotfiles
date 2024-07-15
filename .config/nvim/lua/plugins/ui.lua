@@ -66,12 +66,6 @@ return {
             enabled = false,
           },
         },
-        -- Show @recording messages
-        -- https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#show-recording-messages
-        routes = {
-          view = "notify",
-          filter = { event = "msg_showmode" },
-        },
         -- you can enable a preset for easier configuration
         presets = {
           bottom_search = true,         -- use a classic bottom cmdline for search
@@ -114,5 +108,13 @@ return {
     config = function()
       require("bufferline").setup()
     end,
-  }
+    -- Do not load
+    cond = false,
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    lazy = false,
+    config = require("config.lualine").config,
+  },
 }
