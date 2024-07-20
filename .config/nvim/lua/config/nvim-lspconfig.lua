@@ -65,7 +65,7 @@ lspconfig.basedpyright.setup({
   capabilities = capabilities,
   filetypes = { "python" },
   settings = {
-    pyright = {
+    basedpyright = {
       disableOrganizeImport = true,
       analysis = {
         useLibraryCodeForTypes = true,
