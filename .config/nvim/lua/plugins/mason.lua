@@ -6,7 +6,7 @@ return {
       "clangd",
       "clang-format",
       "rust-analyzer",
-      "pyright",
+      "basedpyright",
       "mypy",
       "ruff",
       "debugpy",

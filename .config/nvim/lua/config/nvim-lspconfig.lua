@@ -57,7 +57,7 @@ lspconfig.clangd.setup({
   capabilities = capabilities,
 })
 
-lspconfig.pyright.setup({
+lspconfig.basedpyright.setup({
   on_attach = function(client, bufnr)
     -- TODO: If it annoys with failures, try pcall()
     -- vim.cmd("PyrightSetPythonPath .venv/bin/python")
