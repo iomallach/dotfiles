@@ -126,6 +126,11 @@ return {
   config = function()
     local opts = options()
     local cmp = require("cmp")
+    opts.sources = opts.sources or {}
+    table.insert(opts.sources, {
+      name = "lazydev",
+      group_index = 0,   -- set group index to 0 to skip loading LuaLS completions
+    })
     cmp.setup(opts)
     -- Luasnip
     local ls = require("luasnip")
