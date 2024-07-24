@@ -1,9 +1,10 @@
 return {
-	{
-		"stevearc/conform.nvim",
-		lazy = false,
-		config = function()
-			require("config.conform")
-		end,
-	},
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    config = function()
+      require("config.conform")
+    end,
+  },
 }
