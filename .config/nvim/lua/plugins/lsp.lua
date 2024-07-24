@@ -45,5 +45,10 @@ return {
     config = function()
       require("config.nvim-lspconfig")
     end,
+  },
+  {
+    "folke/trouble.nvim",
+    opts = {},
+    cmd = "Trouble",
   }
 }
