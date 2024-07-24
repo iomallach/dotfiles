@@ -1,6 +1,6 @@
 return {
   "mfussenegger/nvim-lint",
-  lazy = false,
+  event = { "BufEnter", "InsertLeave", "TextChanged" },
   config = function()
     local lint = require("lint")
     local mypy = lint.linters.mypy
