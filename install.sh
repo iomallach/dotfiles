@@ -57,6 +57,7 @@ brew install --cask google-chrome
 brew install emacs --with-native-comp
 brew install tldr
 brew install wireshark
+brew install --cask sioyek
 
 echo "Installing app icons for sketchybar"
 curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v1.0.23/sketchybar-app-font.ttf -o $HOME/Library/Fonts/sketchybar-app-font.ttf
