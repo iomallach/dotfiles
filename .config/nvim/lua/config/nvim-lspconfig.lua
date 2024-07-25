@@ -35,9 +35,9 @@ lspconfig.lua_ls.setup({
   capabilities = capabilities,
   settings = {
     Lua = {
-      -- diagnostics = {
-      --   globals = { "vim" },
-      -- },
+      diagnostics = {
+        globals = { "vim" },
+      },
       workspace = {
         library = {
           [vim.fn.expand("$VIMRUNTIME/lua")] = true,

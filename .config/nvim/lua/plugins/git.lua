@@ -48,7 +48,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    lazy = false,
+    event = "BufEnter",
     cmd = "Git",
     cond = true,
     -- config = function()
