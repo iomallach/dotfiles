@@ -4,5 +4,5 @@ return {
   config = function()
     require('render-markdown').setup({})
   end,
-  file_types = { "markdown" },
+  ft = { "markdown" },
 }
