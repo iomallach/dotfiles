@@ -118,3 +118,6 @@ if vim.g.vscode then
   keymap.set("n", "<leader>tt", "<CMD>lua require('vscode').call('workbench.action.terminal.toggleTerminal')<CR>")
   keymap.set("n", "<leader>fc", "<CMD>lua require('vscode').call('workbench.action.showCommands')<CR>")
 end
+
+-- Built in terminal
+keymap.set("t", "<ESC>", "<C-\\><C-n>", opts("Escape terminal mode"))
