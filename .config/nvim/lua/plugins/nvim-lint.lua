@@ -22,6 +22,7 @@ return {
       c = { "clangtidy" },
       python = { "mypy", "ruff" },
       dockerfile = { "hadolint" },
+      go = { "golangcilint" },
     }
     vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter", "BufWritePre" }, {
       callback = function()

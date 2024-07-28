@@ -92,6 +92,10 @@ lspconfig.gopls.setup({
   },
 })
 
+lspconfig.templ.setup({
+  capabilities = capabilities,
+})
+
 lspconfig.jsonls.setup {
   commands = {
     Format = {
@@ -101,5 +105,13 @@ lspconfig.jsonls.setup {
     }
   }
 }
+
+lspconfig.tailwindcss.setup({
+  settings = {
+    includeLanguages = {
+      templ = "html",
+    },
+  },
+})
 
 lspconfig.yamlls.setup {}

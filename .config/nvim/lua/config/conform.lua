@@ -37,6 +37,7 @@ local options = {
     lua = { "stylua" },
     c = { "clang_format" },
     python = { "ruff_format", "ruff_fix" },
+    go = { "gofumpt", "goimports" },
   },
   format_on_save = {
     -- These options will be passed to conform.format()
