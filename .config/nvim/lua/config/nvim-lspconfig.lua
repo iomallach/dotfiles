@@ -115,3 +115,10 @@ lspconfig.tailwindcss.setup({
 })
 
 lspconfig.yamlls.setup {}
+
+require('java').setup({
+  jdk = {
+    auto_install = false,
+  },
+})
+lspconfig.jdtls.setup({})
