@@ -47,6 +47,10 @@ utils.map(
 	{ desc = "Comment Toggle" }
 )
 
+-- Escaping insert mode
+utils.map("i", "jk", "<ESC>", utils.opts("Escape insert mode"))
+utils.map("i", "kj", "<ESC>", utils.opts("Escape insert mode"))
+
 -- Indenting
 utils.map("v", "<", "<gv")
 utils.map("v", ">", ">gv")
