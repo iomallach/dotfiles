@@ -1,0 +1,1 @@
+require("config.java.jdtls").setup_jdtls()
