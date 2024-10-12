@@ -16,6 +16,8 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
 
 # Zsh snippets
 zinit snippet OMZP::git
@@ -76,3 +78,8 @@ eval "$(starship init zsh)"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 export PATH=$PATH:/Users/iomallach/.spicetify
+
+# Created by `pipx` on 2024-07-24 18:43:00
+export PATH="$PATH:/Users/iomallach/.local/bin"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
