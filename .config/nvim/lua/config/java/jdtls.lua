@@ -118,12 +118,10 @@ local function java_keymaps()
 	-- Set a Vim motion to <Space> + <Shift>J + u to update the project configuration
 	vim.keymap.set("n", "<leader>Ju", "<Cmd> JdtUpdateConfig<CR>", { desc = "[J]ava [U]pdate Config" })
 
-	vim.keymap.set(
-		"n",
-		"<leader>Jr",
-		require("config.java.run_and_debug").run_spring_boot,
-		{ desc = "[R]un spring boot application" }
-	)
+	local run_and_debug = require("config.java.run_and_debug")
+	vim.keymap.set("n", "<leader>Jr", run_and_debug.run_spring_boot, { desc = "[R]un spring boot application" })
+	vim.keymap.set("n", "<leader>Jtc", run_and_debug.run_test_class(false), { desc = "[T]est [C]lass" })
+	vim.keymap.set("n", "<leader>Jtm", run_and_debug.run_test_method(false), { desc = "[T]est [M]ethod" })
 end
 
 M.setup_jdtls = function()
