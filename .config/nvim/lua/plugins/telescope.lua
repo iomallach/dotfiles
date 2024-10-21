@@ -78,6 +78,12 @@ return {
 		keymap.set("n", "<leader>fr", "<CMD>Telescope lsp_references<CR>", { desc = "Telescope Find References" })
 		keymap.set("n", "<leader>ft", "<CMD>Telescope help_tags<CR>", { desc = "Telescope Find References" })
 		keymap.set("n", "<leader>fp", "<CMD>Telescope persisted<CR>", { desc = "Telescope Find Persisted Sessions" })
+		keymap.set(
+			"n",
+			"<leader>/",
+			"<CMD>Telescope current_buffer_fuzzy_find<CR>",
+			{ desc = "Telescope Fuzzy Find in Buffer" }
+		)
 	end,
 	config = function()
 		local telescope = require("telescope")

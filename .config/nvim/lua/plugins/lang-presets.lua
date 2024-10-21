@@ -79,4 +79,14 @@ return {
 			require("config.neotest").setup_keymaps()
 		end,
 	},
+	{
+		"iomallach/poetry.nvim",
+		ft = { "python" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("poetry").setup_user_command()
+		end,
+	},
 }

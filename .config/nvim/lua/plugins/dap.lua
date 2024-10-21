@@ -13,8 +13,26 @@ return {
 	},
 	{
 		"leoluz/nvim-dap-go",
+		event = "VeryLazy",
 		config = function()
-			require("dap-go").setup()
+			require("dap-go").setup({
+				dap_configurations = {
+					{
+						-- Must be "go" or it will be ignored by the plugin
+						type = "go",
+						name = "Attach remote",
+						mode = "remote",
+						request = "attach",
+					},
+					{
+						type = "go",
+						name = "Debug (Build Flags)",
+						request = "launch",
+						program = "${file}",
+						buildFlags = require("dap-go").get_build_flags,
+					},
+				},
+			})
 		end,
 	},
 	{
@@ -71,16 +89,22 @@ return {
 				},
 			}
 
+			dap.defaults.fallback.external_terminal = {
+				command = "/opt/homebrew/bin/wezterm",
+				args = { "-e" },
+			}
+			dap.defaults.fallback.force_external_terminal = true
+
 			require("nvim-dap-virtual-text").setup()
 
 			-- Keymaps
-			vim.keymap.set("n", "<F1>", dap.continue)
-			vim.keymap.set("n", "<F2>", dap.step_into)
-			vim.keymap.set("n", "<F3>", dap.step_over)
-			vim.keymap.set("n", "<F4>", dap.step_out)
-			vim.keymap.set("n", "<F5>", dap.step_back)
-			vim.keymap.set("n", "<F11>", dap.restart)
-			vim.keymap.set("n", "<F12>", dap.terminate)
+			vim.keymap.set("n", "<leader>dc", dap.continue)
+			vim.keymap.set("n", "<leader>di", dap.step_into)
+			vim.keymap.set("n", "<leader>do", dap.step_over)
+			vim.keymap.set("n", "<leader>du", dap.step_out)
+			vim.keymap.set("n", "<leader>da", dap.step_back)
+			vim.keymap.set("n", "<leader>de", dap.restart)
+			vim.keymap.set("n", "<leader>dt", dap.terminate)
 			vim.keymap.set("n", "<leader>dr", dap.repl.open)
 		end,
 	},
