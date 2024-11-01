@@ -89,4 +89,10 @@ return {
 			require("poetry").setup_user_command()
 		end,
 	},
+	{
+		"nvim-java/nvim-java",
+		dependencies = {
+			"ibhagwan/fzf-lua",
+		},
+	},
 }

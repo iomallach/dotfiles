@@ -116,9 +116,13 @@ lspconfig.tailwindcss.setup({
 
 lspconfig.yamlls.setup({})
 
--- require('java').setup({
---   jdk = {
---     auto_install = false,
---   },
--- })
--- lspconfig.jdtls.setup({})
+require("java").setup({
+	jdk = {
+		auto_install = false,
+	},
+})
+lspconfig.jdtls.setup({
+	init_options = {
+		bundles = require("spring_boot").java_extensions(),
+	},
+})

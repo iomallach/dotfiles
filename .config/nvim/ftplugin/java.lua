@@ -1,1 +1,1 @@
-require("config.java.jdtls").setup_jdtls()
+-- require("config.java.jdtls").setup_jdtls()

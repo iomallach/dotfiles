@@ -51,11 +51,11 @@ return {
 		opts = {},
 		cmd = "Trouble",
 	},
-	{
-		"mfussenegger/nvim-jdtls",
-		dependencies = {
-			"mfussenegger/nvim-dap",
-			"ray-x/lsp_signature.nvim",
-		},
-	},
+	-- {
+	-- 	"mfussenegger/nvim-jdtls",
+	-- 	dependencies = {
+	-- 		"mfussenegger/nvim-dap",
+	-- 		"ray-x/lsp_signature.nvim",
+	-- 	},
+	-- },
 }
