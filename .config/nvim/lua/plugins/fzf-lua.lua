@@ -1,0 +1,9 @@
+return {
+	"ibhagwan/fzf-lua",
+	event = "VimEnter",
+	init = function()
+		local keymap = require("vim.keymap")
+		keymap.set("n", "<leader>fg", "<CMD>FzfLua live_grep<CR>", { desc = "Fzf Live Grep" })
+		keymap.set("n", "<leader>fws", "<CMD>FzfLua live_workspace_symbols", { desc = "Fzf Live Workspace symbols" })
+	end,
+}

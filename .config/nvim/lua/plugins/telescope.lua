@@ -52,7 +52,7 @@ return {
 	init = function()
 		local keymap = require("vim.keymap")
 		keymap.set("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Telescope Find Files" })
-		keymap.set("n", "<leader>fg", "<CMD>Telescope live_grep<CR>", { desc = "Telescope Live Grep" })
+		-- keymap.set("n", "<leader>fg", "<CMD>Telescope live_grep<CR>", { desc = "Telescope Live Grep" })
 		keymap.set("n", "<leader>fb", "<CMD>Telescope buffers<CR>", { desc = "Telescope Find Buffers" })
 		keymap.set("n", "<leader>fa", "<CMD>Telescope <CR>", { desc = "Telescope Find All" })
 		keymap.set(
@@ -69,12 +69,12 @@ return {
 			"<CMD>Telescope lsp_document_symbols<CR>",
 			{ desc = "Telescope Document Symbols" }
 		)
-		keymap.set(
-			"n",
-			"<leader>fws",
-			"<CMD>Telescope lsp_workspace_symbols<CR>",
-			{ desc = "Telescope Document Symbols" }
-		)
+		-- keymap.set(
+		-- 	"n",
+		-- 	"<leader>fws",
+		-- 	"<CMD>Telescope lsp_workspace_symbols<CR>",
+		-- 	{ desc = "Telescope Document Symbols" }
+		-- )
 		keymap.set("n", "<leader>fr", "<CMD>Telescope lsp_references<CR>", { desc = "Telescope Find References" })
 		keymap.set("n", "<leader>ft", "<CMD>Telescope help_tags<CR>", { desc = "Telescope Find References" })
 		keymap.set("n", "<leader>fp", "<CMD>Telescope persisted<CR>", { desc = "Telescope Find Persisted Sessions" })
