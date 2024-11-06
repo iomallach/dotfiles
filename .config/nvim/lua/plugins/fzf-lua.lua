@@ -7,7 +7,7 @@ return {
 		keymap.set(
 			"n",
 			"<leader>fws",
-			"<CMD>FzfLua live_workspace_symbols<CR>",
+			"<CMD>FzfLua lsp_live_workspace_symbols<CR>",
 			{ desc = "Fzf Live Workspace symbols" }
 		)
 	end,
