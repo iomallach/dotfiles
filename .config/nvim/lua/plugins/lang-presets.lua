@@ -94,5 +94,22 @@ return {
 		dependencies = {
 			"ibhagwan/fzf-lua",
 		},
+		init = function()
+			local run_and_debug = require("config.java.run_and_debug")
+			vim.keymap.set("n", "<leader>Jr", run_and_debug.run_spring_boot, { desc = "[R]un spring boot application" })
+			vim.keymap.set("n", "<leader>Jtc", run_and_debug.run_test_class(false), { desc = "[T]est [C]lass" })
+			vim.keymap.set("n", "<leader>Jtm", run_and_debug.run_test_method(false), { desc = "[T]est [M]ethod" })
+
+			local dap = require("dap")
+			dap.configurations.java = {
+				{
+					type = "java",
+					request = "attach",
+					name = "Attach to a process",
+					hostName = "localhost",
+					port = "5005",
+				},
+			}
+		end,
 	},
 }
