@@ -41,4 +41,6 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
 	window:set_config_overrides(overrides)
 end)
 
+config.max_fps = 120
+
 return config
