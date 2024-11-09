@@ -39,6 +39,7 @@ local options = {
 		c = { "clang_format" },
 		python = { "ruff_format", "ruff_fix" },
 		go = { "gofumpt", "goimports" },
+		java = { "google-java-format" },
 	},
 	format_on_save = {
 		-- These options will be passed to conform.format()

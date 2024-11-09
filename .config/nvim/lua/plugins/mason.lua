@@ -1,34 +1,46 @@
+local ensure_installed = function()
+	local ei = {
+		"clangd",
+		"clang-format",
+		"rust-analyzer",
+		"basedpyright",
+		"mypy",
+		"ruff",
+		"debugpy",
+		"gopls",
+		"gofumpt",
+		"goimports",
+		"golines",
+		"golangci-lint",
+		"lua-language-server",
+		"checkmake",
+		"luacheck",
+		"stylua",
+		"hadolint",
+		"json-lsp",
+		"yaml-language-server",
+		"jdtls",
+		"tailwindcss-language-server",
+		"templ",
+		"delve",
+		"java-debug-adapter",
+		"java-test",
+		"checkstyle",
+		"google-java-format",
+	}
+
+	vim.api.nvim_create_user_command("MasonInstallAll", function()
+		vim.cmd("MasonInstall " .. table.concat(ei, " "))
+	end, {})
+
+	vim.g.mason_binaries_list = ei
+end
+
 return {
 	"williamboman/mason.nvim",
 	cmd = "Mason",
 	opts = {
-		ensure_installed = {
-			"clangd",
-			"clang-format",
-			"rust-analyzer",
-			"basedpyright",
-			"mypy",
-			"ruff",
-			"debugpy",
-			"gopls",
-			"gofumpt",
-			"goimports",
-			"golines",
-			"golangci-lint",
-			"lua-language-server",
-			"checkmake",
-			"luacheck",
-			"stylua",
-			"hadolint",
-			"json-lsp",
-			"yaml-language-server",
-			"jdtls",
-			"tailwindcss-language-server",
-			"templ",
-			"delve",
-			"java-debug-adapter",
-			"java-test",
-		},
+		ensure_installed = ensure_installed(),
 
 		PATH = "skip",
 
@@ -52,14 +64,4 @@ return {
 		},
 		max_concurrent_installers = 10,
 	},
-	-- config = function(_, opts)
-	--   require("mason").setup(opts)
-	--   vim.api.nvim_create_user_command("MasonInstallAll", function()
-	--     if opts.ensure_installed and #opts.ensure_installed > 0 then
-	--       vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
-	--     end
-	--   end, {})
-	--
-	--   vim.g.mason_binaries_list = opts.ensure_installed
-	-- end
 }
