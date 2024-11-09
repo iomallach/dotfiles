@@ -116,6 +116,26 @@ lspconfig.tailwindcss.setup({
 
 lspconfig.yamlls.setup({})
 
+-- Tell our JDTLS language features it is capable of
+capabilities = {
+	workspace = {
+		configuration = true,
+	},
+	textDocument = {
+		completion = {
+			completionItem = {
+				snippetSupport = false,
+			},
+		},
+	},
+}
+
+local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+for k, v in pairs(lsp_capabilities) do
+	capabilities[k] = v
+end
+
 require("java").setup({
 	jdk = {
 		auto_install = false,
@@ -127,33 +147,107 @@ lspconfig.jdtls.setup({
 	},
 	settings = {
 		java = {
+			signatureHelp = {
+				enabled = true,
+			},
+			-- Use the fernflower decompiler when using the javap command to decompile byte code back to java code
+			contentProvider = {
+				preferred = "fernflower",
+			},
+			-- Setup automatical package import oranization on file save
+			saveActions = {
+				organizeImports = true,
+			},
+			-- Customize completion options
+			completion = {
+				-- When using an unimported static method, how should the LSP rank possible places to import the static method from
+				favoriteStaticMembers = {
+					"org.hamcrest.MatcherAssert.assertThat",
+					"org.hamcrest.Matchers.*",
+					"org.hamcrest.CoreMatchers.*",
+					"org.junit.jupiter.api.Assertions.*",
+					"java.util.Objects.requireNonNull",
+					"java.util.Objects.requireNonNullElse",
+					"org.mockito.Mockito.*",
+				},
+				-- Try not to suggest imports from these packages in the code action window
+				filteredTypes = {
+					"com.sun.*",
+					"io.micrometer.shaded.*",
+					"java.awt.*",
+					"jdk.*",
+					"sun.*",
+				},
+				-- Set the order in which the language server should organize imports
+				importOrder = {
+					"java",
+					"jakarta",
+					"javax",
+					"com",
+					"org",
+				},
+			},
+			sources = {
+				-- How many classes from a specific package should be imported before automatic imports combine them all into a single import
+				organizeImports = {
+					starThreshold = 9999,
+					staticThreshold = 9999,
+				},
+			},
+			-- How should different pieces of code be generated?
+			codeGeneration = {
+				-- When generating toString use a json format
+				toString = {
+					template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+				},
+				-- When generating hashCode and equals methods use the java 7 objects method
+				hashCodeEquals = {
+					useJava7Objects = true,
+				},
+				-- When generating code use code blocks
+				useBlocks = true,
+			},
+			-- If changes to the project will require the developer to update the projects configuration advise the developer before accepting the change
+			configuration = {
+				updateBuildConfiguration = "interactive",
+			},
+			-- enable code lens in the lsp
 			referencesCodeLens = {
 				enabled = true,
 			},
 			implementationsCodeLens = {
 				enabled = true,
 			},
+			-- enable inlay hints for parameter names,
 			inlayHints = {
 				parameterNames = {
-					enabled = "all", -- literals, all, none
+					enabled = "all",
+				},
+				variableTypes = {
+					enabled = true, -- Show variable type hints
+				},
+				methodReturnTypes = {
+					enabled = true, -- Show return type hints for methods
+				},
+				lambdaParameterTypes = {
+					enabled = true, -- Show parameter types for lambda expressions
 				},
 			},
 		},
 	},
 	on_attach = function(client, bufnr)
-		-- Code Lens autocommand setup
-		if client.server_capabilities.codeLensProvider then
-			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.codelens.refresh()
-				end,
-			})
-		end
+		-- Refresh the codelens
+		-- Code lens enables features such as code reference counts, implemenation counts, and more.
+		vim.lsp.codelens.refresh()
 
-		-- Inlay Hints (requires Neovim 0.10+)
-		if client.server_capabilities.inlayHintProvider then
-			vim.lsp.buf.inlay_hint(bufnr, true)
-		end
+		-- Code Lens autocommand setup
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			pattern = { "*.java" },
+			callback = function()
+				local _, _ = pcall(vim.lsp.codelens.refresh)
+			end,
+		})
+
+		-- require("lsp-inlayhints").on_attach(client, bufnr)
 	end,
 })
