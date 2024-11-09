@@ -16,10 +16,6 @@ return {
 		version = "^4",
 		ft = { "rust" },
 		dependencies = {
-			{
-				"lvimuser/lsp-inlayhints.nvim",
-				opts = {},
-			},
 			"nvim-lua/plenary.nvim",
 			"mfussenegger/nvim-dap",
 		},
@@ -31,19 +27,42 @@ return {
 					},
 				},
 				server = {
-					on_attach = function(client, bufnr)
-						require("lsp-inlayhints").on_attach(client, bufnr)
-						local map = vim.keymap.set
-
-						-- Inlayhints mappings
-						map("n", "<leader>lht", function()
-							require("lsp-inlayhints").toggle()
-						end, { desc = "Toggle inlayhints" })
-
-						map("n", "<leader>lhr", function()
-							require("lsp-inlayhints").reset()
-						end, { desc = "Reset inlayhints" })
-					end,
+					settings = {
+						["rust-analyzer"] = {
+							inlayHints = {
+								bindingModeHints = {
+									enable = false,
+								},
+								chainingHints = {
+									enable = true,
+								},
+								closingBraceHints = {
+									enable = true,
+									minLines = 25,
+								},
+								closureReturnTypeHints = {
+									enable = "never",
+								},
+								lifetimeElisionHints = {
+									enable = "never",
+									useParameterNames = false,
+								},
+								maxLength = 25,
+								parameterHints = {
+									enable = true,
+								},
+								reborrowHints = {
+									enable = "never",
+								},
+								renderColons = true,
+								typeHints = {
+									enable = true,
+									hideClosureInitialization = false,
+									hideNamedConstructor = false,
+								},
+							},
+						},
+					},
 				},
 			}
 		end,

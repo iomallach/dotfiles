@@ -41,6 +41,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = "chrisgrieser/nvim-lsp-endhints",
 		lazy = false,
 		config = function()
 			require("config.nvim-lspconfig")
@@ -50,6 +51,34 @@ return {
 		"folke/trouble.nvim",
 		opts = {},
 		cmd = "Trouble",
+	},
+	{
+		"chrisgrieser/nvim-lsp-endhints",
+		event = "LspAttach",
+		config = function()
+			require("lsp-endhints").setup({
+				icons = {
+					type = "󰜁 ",
+					parameter = "󰏪 ",
+					offspec = " ", -- hint kind not defined in official LSP spec
+					unknown = " ", -- hint kind is nil
+				},
+				label = {
+					padding = 1,
+					marginLeft = 0,
+					bracketedParameters = true,
+				},
+				autoEnableHints = true,
+			})
+
+			local map = vim.keymap.set
+			-- inlay hints will show at the end of the line (default)
+			map("n", "<leader>lhe", require("lsp-endhints").enable)
+			-- inlay hints will show as if the plugin was not installed
+			map("n", "<leader>lhd", require("lsp-endhints").disable)
+			-- toggle between the two
+			map("n", "<leader>lht", require("lsp-endhints").toggle)
+		end,
 	},
 	-- {
 	-- 	"mfussenegger/nvim-jdtls",

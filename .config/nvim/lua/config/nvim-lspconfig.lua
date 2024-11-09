@@ -44,6 +44,7 @@ lspconfig.lua_ls.setup({
 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 				},
 			},
+			hint = { enable = true },
 			maxPreload = 100000,
 			preloadFileSize = 10000,
 		},
@@ -55,6 +56,17 @@ lspconfig.clangd.setup({
 		client.server_capabilities.signatureHelpProvider = false
 	end,
 	capabilities = capabilities,
+	settings = {
+		clangd = {
+			InlayHints = {
+				Designators = true,
+				Enabled = true,
+				ParameterNames = true,
+				DeducedTypes = true,
+			},
+			fallbackFlags = { "-std=c++20" },
+		},
+	},
 })
 
 lspconfig.pyright.setup({
@@ -87,6 +99,15 @@ lspconfig.gopls.setup({
 			usePlaceholders = true,
 			analyses = {
 				unusedparams = true,
+			},
+			hints = {
+				rangeVariableTypes = true,
+				parameterNames = true,
+				constantValues = true,
+				assignVariableTypes = true,
+				compositeLiteralFields = true,
+				compositeLiteralTypes = true,
+				functionTypeParameters = true,
 			},
 		},
 	},
@@ -247,7 +268,5 @@ lspconfig.jdtls.setup({
 				local _, _ = pcall(vim.lsp.codelens.refresh)
 			end,
 		})
-
-		-- require("lsp-inlayhints").on_attach(client, bufnr)
 	end,
 })
