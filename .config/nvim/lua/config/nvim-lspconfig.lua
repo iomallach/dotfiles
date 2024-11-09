@@ -125,4 +125,35 @@ lspconfig.jdtls.setup({
 	init_options = {
 		bundles = require("spring_boot").java_extensions(),
 	},
+	settings = {
+		java = {
+			referencesCodeLens = {
+				enabled = true,
+			},
+			implementationsCodeLens = {
+				enabled = true,
+			},
+			inlayHints = {
+				parameterNames = {
+					enabled = "all", -- literals, all, none
+				},
+			},
+		},
+	},
+	on_attach = function(client, bufnr)
+		-- Code Lens autocommand setup
+		if client.server_capabilities.codeLensProvider then
+			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.codelens.refresh()
+				end,
+			})
+		end
+
+		-- Inlay Hints (requires Neovim 0.10+)
+		if client.server_capabilities.inlayHintProvider then
+			vim.lsp.buf.inlay_hint(bufnr, true)
+		end
+	end,
 })
