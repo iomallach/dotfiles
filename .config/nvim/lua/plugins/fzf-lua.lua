@@ -10,5 +10,7 @@ return {
 			"<CMD>FzfLua lsp_live_workspace_symbols<CR>",
 			{ desc = "Fzf Live Workspace symbols" }
 		)
+		keymap.set("n", "<leader>fb", "<CMD>FzfLua buffers<CR>", { desc = "Fzf Buffers" })
+		keymap.set("n", "<leader>ff", "<CMD>FzfLua files<CR>", { desc = "Fzf Files" })
 	end,
 }

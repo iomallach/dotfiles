@@ -51,9 +51,9 @@ return {
 	cmd = "Telescope",
 	init = function()
 		local keymap = require("vim.keymap")
-		keymap.set("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Telescope Find Files" })
+		-- keymap.set("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Telescope Find Files" })
 		-- keymap.set("n", "<leader>fg", "<CMD>Telescope live_grep<CR>", { desc = "Telescope Live Grep" })
-		keymap.set("n", "<leader>fb", "<CMD>Telescope buffers<CR>", { desc = "Telescope Find Buffers" })
+		-- keymap.set("n", "<leader>fb", "<CMD>Telescope buffers<CR>", { desc = "Telescope Find Buffers" })
 		keymap.set("n", "<leader>fa", "<CMD>Telescope <CR>", { desc = "Telescope Find All" })
 		keymap.set(
 			"n",
