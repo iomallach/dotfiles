@@ -42,8 +42,12 @@ M.config = function()
 			},
 			lualine_x = {
 				{
-					require("noice").api.status.mode.get,
-					cond = require("noice").api.status.mode.has,
+					function()
+						return "recording@" .. vim.fn.reg_recording()
+					end,
+					cond = function()
+						return vim.fn.reg_recording() ~= ""
+					end,
 					color = { fg = "#ff9e64" },
 				},
 				"diagnostics",
