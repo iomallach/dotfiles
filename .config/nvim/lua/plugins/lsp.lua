@@ -22,6 +22,9 @@ return {
 				definition_action_keys = {
 					edit = "<CR>",
 				},
+				ui = {
+					code_action = "",
+				},
 			})
 		end,
 		dependencies = {
@@ -41,7 +44,6 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = "chrisgrieser/nvim-lsp-endhints",
 		lazy = false,
 		config = function()
 			require("config.nvim-lspconfig")
