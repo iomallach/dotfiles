@@ -63,7 +63,7 @@ return {
 						enabled = false,
 					},
 					signature = {
-						enabled = false,
+						enabled = true,
 					},
 				},
 				-- you can enable a preset for easier configuration

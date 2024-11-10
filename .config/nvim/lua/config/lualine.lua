@@ -6,7 +6,7 @@ end
 
 M.lsp_info = function()
 	if rawget(vim, "lsp") then
-		for _, client in ipairs(vim.lsp.get_active_clients()) do
+		for _, client in ipairs(vim.lsp.get_clients()) do
 			if client.attached_buffers[M.stbufnr()] and client.name ~= "null-ls" then
 				return (vim.o.columns > 100 and "   LSP ~ " .. client.name .. " ") or "   LSP "
 			end
