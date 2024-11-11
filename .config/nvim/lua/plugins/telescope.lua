@@ -13,7 +13,7 @@ local options = function()
 				},
 			},
 		},
-		extensions_list = { "themes", "fzf", "ui-select", "persisted", "gradle" },
+		extensions_list = { "themes", "fzf", "ui-select", "persisted" },
 		extensions = {
 			fzf = {
 				fuzzy = true,
@@ -21,7 +21,6 @@ local options = function()
 				override_file_sorter = true,
 				case_mode = "smart_case",
 			},
-			gradle = { split = "split" },
 			["ui-select"] = {
 				require("telescope.themes").get_dropdown(),
 			},
