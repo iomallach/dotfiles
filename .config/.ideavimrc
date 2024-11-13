@@ -10,12 +10,16 @@ source ~/.vimrc
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
-set scrolloff=5
+set scrolloff=10
 
 " Do incremental searching.
+set visualbell
+set ignorecase
+set smartcase
 set incsearch
 set hlsearch
 
+set ideamarks
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
@@ -28,7 +32,8 @@ Plug 'machakann/vim-highlightedyank'
 " Commentary plugin
 Plug 'tpope/vim-commentary'
 " Leap
-Plug 'acejump/AceJump'
+map s <Action>(flash.search)
+" Plug 'acejump/AceJump'
 " Surround
 set surround
 " NERDTree
@@ -39,7 +44,7 @@ set which-key
 
 "" Configure quickscope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+"let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 "" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
 "" Map \r to the Reformat Code action
@@ -55,9 +60,9 @@ let g:highlightedyank_highlight_duration = "1000"
 
 " AceJump
 " Press `S` in normal mode to activate AceJump mode before the caret
-nmap S <Action>(AceBackwardAction)
+" nmap S <Action>(AceBackwardAction)
 " Press `s` in normal mode to activate AceJump mode after the caret
-nmap s <Action>(AceForwardAction)
+" nmap s <Action>(AceForwardAction)
 
 " NERDTree
 nmap <leader>nt :NERDTreeToggle<CR>
@@ -81,8 +86,6 @@ nnoremap <leader>z :action ToggleZenMode<CR>
 
 " Git management
 nnoremap <leader>tb :action Annotate<cr>
-nnoremap <leader>gb :action Git.Branches<cr>
-noremap <leader>gsl :action Vcs.Show.Log<CR>
 
 " Search and Find
 nnoremap <leader>fg :action FindInPath<CR>
@@ -107,24 +110,23 @@ nnoremap <leader>glc :action JumpToLastChange<CR>
 nnoremap <leader>gi :action GotoImplementation<CR>
 nnoremap <leader>gd :action GotoDeclaration<CR>
 nnoremap <leader>gt :action GotoTypeDeclaration<CR>
+map <leader>gs :action GoToSuperMethod<cr>
 nnoremap H :action PreviousTab<CR>
 nnoremap L :action NextTab<CR>
 nnoremap [e :action GotoPreviousError<cr>
 nnoremap ]e :action GotoNextError<cr>
 nnoremap [[ :action MethodUp<cr>
 nnoremap ]] :action MethodDown<cr>
-map <c-j> <Action>(PopupMenu-selectnext)
-map <c-k> <Action>(PopupMenu-selectprev)
 map <leader>ns <Action>(ShowNavBar)
 map <leader>fb <Action>(Switcher)
 map <leader>fp <Action>(ManageRecentProjects)
 
 " View
-map <leader>o :acton FileStructurePopup<CR>
+map <leader>fo :action FileStructurePopup<cr>
 map <leader>ld :action ShowErrorDescription<CR>
 map zc <Action>(CollapseRegion)
 map zo <Action>(ExpandRegion)
-map <C-x> <Action>(HideActiveWindow)
+map <C-x> <Action>(HideAllWindows)
 
 " terminal
 nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
@@ -144,9 +146,10 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
-" vim debug"
+" vim
 nnoremap <Leader>vt :action VimFindActionIdAction<CR>
 nnoremap <Leader>va :action VimActions<CR>
+nmap <leader>vr <Action>(IdeaVim.ReloadVimRc.reload)
 
 " Gradle
 map <leader>eg <Action>(Gradle.ExecuteTask)
@@ -157,17 +160,44 @@ map <leader>trd <Action>(DebugClass)
 map <leader>db <Action>(ToggleLineBreakpoint)
 
 " To sort
-map <leader>ci <Action>(InspectCode)
-map <leader>ck <Action>(QuickJavaDoc)
-map <leader>cr <Action>(RefactoringMenu)
-map <leader>ct <Action>(ExpressionTypeInfo)
-map <leader>cg <Action>(Generate)
-map <leader>tz <Action>(ToggleZenMode)
+nmap <leader>ci <Action>(InspectCode)
+nmap <leader>ck <Action>(QuickJavaDoc)
+nmap <leader>cr <Action>(RefactoringMenu)
+nmap <leader>ct <Action>(ExpressionTypeInfo)
+nmap <leader>cg <Action>(Generate)
+nmap <leader>tz <Action>(ToggleZenMode)
+nmap <leader>cp <Action>(ParameterInfo)
+nmap <leader>cl <Action>(Refactorings.QuickListPopupAction)
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>sw <Action>(SurroundWith)
 
 map <leader>ra <Action>(RunAnything)
-map <leader>rl <Action>(Rerun)
+map <leader>rr <Action>(Rerun)
 map <leader>rc <Action>(ChooseRunConfiguration)
+map <leader>rm <Action>(RunMenu)
+map <leader>rl <Action>(RecentLocations)
 
-map <leader>+ <Action>(EditorIncreaseFontSize)
-map <leader>- <Action>(EditorDecreaseFontSize)
-map <leader>= <Action>(EditorResetFontSize)
+map <leader>+ <Action>(EditorIncreaseFontSizeGlobal)
+map <leader>- <Action>(EditorDecreaseFontSizeGlobal)
+map <leader>= <Action>(EditorResetFontSizeGlobal)
+
+nmap <leader>bs <Action>(ShowBookmarks)
+
+" Git
+nmap <leader>Gc <Action>(Vcs.Show.Local.Changes)
+nmap <leader>Gb <Action>(Git.Branches)
+nmap <leader>Gf <Action>(Git.Fetch)
+nmap <leader>Gp <Action>(Vcs.Push)
+nmap <leader>GP <Action>(Git.Commit.And.Push.Executor)
+nmap <leader>Go <Action>(Github.View.Pull.Request)
+nmap <leader>Gm <Action>(VcsGroups)
+noremap <leader>Gl :action Vcs.Show.Log<CR>
+
+nmap <leader>wr <Action>(actions.GoldenRatioApplyAction)
+nmap <leader>wt <Action>(actions.GoldenRatioToggleAction)
+
+" Harpoon
+nmap <leader>hm <Action>(ca.alexgirard.harpoonIJ.mainGroup)
+nmap <leader>hs <Action>(ShowHarpoon)
+nmap <leader>hS <Action>(SelectHarpoonItem)
+nmap <leader>ha <Action>(AddToHarpoon)
