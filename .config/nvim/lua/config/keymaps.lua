@@ -121,3 +121,9 @@ end
 
 -- Built in terminal
 utils.map("t", "<ESC>", "<C-\\><C-n>", utils.opts("Escape terminal mode"))
+
+-- Shortcut for "+ register
+utils.map("n", "\\", '"+', utils.opts("Clipboard register"))
+
+-- Alternate buffer
+utils.map("n", "<leader><space>", "<C-^>", utils.opts("Alternate buffer"))
