@@ -1,0 +1,1 @@
+tmux popup zsh
