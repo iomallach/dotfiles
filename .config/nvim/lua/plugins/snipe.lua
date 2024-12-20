@@ -10,4 +10,9 @@ return {
 		},
 	},
 	opts = {},
+	config = function()
+		require("snipe").setup({
+			sort = "last",
+		})
+	end,
 }

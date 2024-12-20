@@ -78,7 +78,8 @@ local options = function()
 			{ name = "buffer" },
 			{ name = "nvim_lua" },
 			{ name = "path" },
-			{ name = "codeium" },
+			-- { name = "codeium" },
+			{ name = "supermaven" },
 		},
 		formatting = {
 			format = function(entry, vim_item)
@@ -91,7 +92,9 @@ local options = function()
 end
 
 return {
-	"hrsh7th/nvim-cmp",
+	-- "hrsh7th/nvim-cmp",
+	"iguanacucumber/magazine.nvim",
+	name = "nvim-cmp", -- Otherwise highlighting gets messed up
 	event = "InsertEnter",
 	dependencies = {
 		{
@@ -128,11 +131,15 @@ return {
 		},
 
 		-- cmp sources plugins
+		{ "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
+		{ "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
+		{ "iguanacucumber/mag-buffer", name = "cmp-buffer" },
+		{ "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
 		{
 			"saadparwaiz1/cmp_luasnip",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
+			-- "hrsh7th/cmp-nvim-lua",
+			-- "hrsh7th/cmp-nvim-lsp",
+			-- "hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 		},
 	},
