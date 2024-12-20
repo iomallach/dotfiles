@@ -1,4 +1,4 @@
-selected=$(tmux list-sessions -F '#S' | fzf)
+selected=$(tmux popup "tmux list-sessions -F '#S' | fzf")
 
 if [[ -z $selected ]]; then
     exit 0
