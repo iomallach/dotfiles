@@ -32,7 +32,7 @@ local opts = {
 
 return {
 	"nvim-treesitter/nvim-treesitter",
-	lazy = false,
+	event = "VeryLazy",
 	config = function()
 		require("nvim-treesitter.configs").setup(opts)
 	end,

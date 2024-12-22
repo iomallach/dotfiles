@@ -9,7 +9,7 @@ return {
 	},
 	{
 		"glepnir/lspsaga.nvim",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			require("lspsaga").setup({
 				-- keybinds for navigation in lspsaga window
@@ -44,7 +44,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			require("config.nvim-lspconfig")
 		end,

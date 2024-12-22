@@ -80,6 +80,7 @@ local options = function()
 			{ name = "path" },
 			-- { name = "codeium" },
 			{ name = "supermaven" },
+			{ name = "render-markdown" },
 		},
 		formatting = {
 			format = function(entry, vim_item)
@@ -154,11 +155,11 @@ return {
 		cmp.setup(opts)
 		-- Luasnip
 		local ls = require("luasnip")
-		vim.keymap.set({ "i", "s" }, "<A-n>", function()
+		vim.keymap.set({ "i", "s" }, "<C-n>", function()
 			ls.jump(1)
 		end, { silent = true })
 
-		vim.keymap.set({ "i", "s" }, "<A-p>", function()
+		vim.keymap.set({ "i", "s" }, "<C-p>", function()
 			ls.jump(-1)
 		end, { silent = true })
 	end,
