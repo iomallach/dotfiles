@@ -13,23 +13,7 @@ for type, icon in pairs(diagnostic_signs) do
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem = {
-	documentationFormat = { "markdown", "plaintext" },
-	snippetSupport = true,
-	preselectSupport = true,
-	insertReplaceSupport = true,
-	labelDetailsSupport = true,
-	deprecatedSupport = true,
-	commitCharactersSupport = true,
-	tagSupport = { valueSet = { 1 } },
-	resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
-		},
-	},
-}
+capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 lspconfig.lua_ls.setup({
 	capabilities = capabilities,
@@ -45,6 +29,7 @@ lspconfig.lua_ls.setup({
 				},
 			},
 			hint = { enable = true },
+			codeLens = { enable = true },
 			maxPreload = 100000,
 			preloadFileSize = 10000,
 		},

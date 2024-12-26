@@ -69,9 +69,6 @@ utils.map("n", "<leader>dr", "<CMD>DapContinue<CR>", { desc = "Run or continue" 
 -- Gitsigns
 utils.map("n", "<leader>tb", "<CMD>lua require'gitsigns'.toggle_current_line_blame()<CR>", { desc = "Toggle Blame" })
 
--- Bufferline
-utils.map("n", "<tab>", "<CMD>BufferLineCycleNext<CR>", utils.opts("Next buffer"))
-utils.map("n", "<S-tab>", "<CMD>BufferLineCyclePrev<CR>", utils.opts("Previous buffer"))
 if not vim.g.vscode then
 	utils.map("n", "<leader>bk", "<CMD>bd<CR>", utils.opts("Close buffer"))
 else
