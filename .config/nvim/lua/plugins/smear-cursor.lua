@@ -4,11 +4,11 @@ return {
 	opts = {
 		-- How fast the smear's head moves towards the target.
 		-- 0: no movement, 1: instantaneous, default: 0.6
-		stiffness = 0.8,
+		stiffness = 0.6,
 
 		-- How fast the smear's tail moves towards the head.
 		-- 0: no movement, 1: instantaneous, default: 0.3
-		trailing_stiffness = 0.6,
+		trailing_stiffness = 0.4,
 
 		-- How much the tail slows down when getting close to the head.
 		-- 0: no slowdown, more: more slowdown, default: 0.1
