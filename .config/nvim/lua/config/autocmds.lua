@@ -31,6 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "gK", function()
 			vim.lsp.buf.signature_help()
 		end, opts("Signature help"))
+		map("n", "<leader>lgi", require("fzf-lua").lsp_implementations, opts("Lsp Go to implementation"))
 		map("n", "<leader>lpd", require("goto-preview").goto_preview_definition, opts("Peek definition"))
 		map("n", "<leader>lgd", vim.lsp.buf.definition, opts("Go to definition"))
 		map("n", "<leader>lgt", vim.lsp.buf.type_definition, opts("Go to type definition"))
