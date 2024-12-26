@@ -13,30 +13,6 @@ return {
 		end,
 	},
 	{
-		"glepnir/lspsaga.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("lspsaga").setup({
-				-- keybinds for navigation in lspsaga window
-				move_in_saga = { prev = "<C-k>", next = "<C-j>" },
-				-- use enter to open file with finder
-				finder_action_keys = {
-					open = "<CR>",
-				},
-				-- use enter to open file with definition preview
-				definition_action_keys = {
-					edit = "<CR>",
-				},
-				ui = {
-					code_action = "",
-				},
-			})
-		end,
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-	},
-	{
 		"williamboman/mason-lspconfig.nvim",
 		opts = {
 			ensure_installed = {
@@ -86,6 +62,24 @@ return {
 			-- toggle between the two
 			map("n", "<leader>lht", require("lsp-endhints").toggle)
 		end,
+	},
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "VeryLazy", -- Or `LspAttach`
+		priority = 1000, -- needs to be loaded in first
+		config = function()
+			require("tiny-inline-diagnostic").setup({
+				always_show = true,
+				options = {
+					show_source = true,
+				},
+			})
+		end,
+	},
+	{
+		"rmagatti/goto-preview",
+		event = "BufEnter",
+		config = true, -- necessary as per https://github.com/rmagatti/goto-preview/issues/88
 	},
 	-- {
 	-- 	"mfussenegger/nvim-jdtls",
