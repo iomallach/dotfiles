@@ -27,7 +27,7 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
 		config = function()
-			require("config.nvim-lspconfig")
+			require("config.nvim-lspconfig").setup()
 		end,
 	},
 	{
