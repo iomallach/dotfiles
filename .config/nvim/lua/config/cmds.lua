@@ -5,6 +5,5 @@ vim.api.nvim_create_user_command("Redir", function(ctx)
 	vim.opt_local.modified = false
 end, { nargs = "+", complete = "command" })
 
-vim.api.nvim_create_user_command("MyCmd", require("config.stuff").my_cmd, {})
 vim.api.nvim_create_user_command("Gr", require("config.gradle_cmd").run_gradle_task, { nargs = 1 })
 vim.api.nvim_create_user_command("GradleList", require("config.gradle_cmd").telescope_find_gradle_tasks, {})

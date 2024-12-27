@@ -1,7 +1,7 @@
 local function get_ruff_executable()
 	local path_to_ruff = vim.fn.getcwd() .. "/.venv/bin/ruff"
 	local is_ruff_in_venv = vim.fn.filereadable(path_to_ruff)
-	if is_ruff_in_venv then
+	if is_ruff_in_venv == 1 then
 		return path_to_ruff
 	end
 	return "ruff"

@@ -21,13 +21,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			float = { border = "rounded" },
 			virtual_text = false,
 		})
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-			border = "rounded",
-		})
 
-		map("n", "[d", vim.diagnostic.goto_prev, opts("Go to previous diagnostic"))
-		map("n", "]d", vim.diagnostic.goto_next, opts("Go to next diagnostic"))
-		map("n", "K", vim.lsp.buf.hover, opts("Hover doc"))
+		map("n", "[d", function()
+			vim.diagnostic.jump({ count = -1, float = true })
+		end, opts("Go to previous diagnostic"))
+		map("n", "]d", function()
+			vim.diagnostic.jump({ count = 1, float = true })
+		end, opts("Go to next diagnostic"))
+		map("n", "K", function()
+			vim.lsp.buf.hover({ border = "rounded" })
+		end, opts("Hover doc"))
 		map("n", "gK", function()
 			vim.lsp.buf.signature_help()
 		end, opts("Signature help"))
