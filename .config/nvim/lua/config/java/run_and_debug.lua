@@ -18,13 +18,13 @@ local function get_spring_boot_runner(profiles, debug)
 	return "./gradlew bootRun " .. profile_param .. debug_param_str
 end
 
-local function get_test_runner(debug, test_name)
+local function get_test_runner(debug, test_name, project_root)
 	local debug_param_str = ""
 	if debug then
 		debug_param_str = debug_param
 	end
 
-	return "./gradlew test --tests " .. test_name .. debug_param_str
+	return "./gradlew --project-dir " .. project_root .. " test --tests " .. test_name .. debug_param_str .. " --info"
 end
 
 local function find_node_by_type(expr, type_name)
@@ -127,6 +127,28 @@ local function get_current_full_method_name(delimiter)
 	return full_class_name .. delimiter .. method_name
 end
 
+local function find_gradle_project_dir()
+	-- Get the absolute path of the directory where the current buffer is located
+	local dir = vim.fn.expand("%:p:h")
+	-- If any folder in the path has build.gradle or settings.gradle, return it
+	while dir and dir ~= "" do
+		local build_gradle = dir .. "/build.gradle"
+		local settings_gradle = dir .. "/settings.gradle"
+		if vim.fn.filereadable(build_gradle) == 1 or vim.fn.filereadable(settings_gradle) == 1 then
+			return dir
+		end
+		-- Move one directory up
+		local parent = vim.fn.fnamemodify(dir, ":h")
+		if parent == dir then
+			-- At root directory
+			break
+		end
+		dir = parent
+	end
+	-- Not found
+	return nil
+end
+
 M.run_spring_boot = function()
 	local profiles = vim.fn.input("Spring profiles: ")
 	local debug = vim.fn.input("Debug (y/n): ")
@@ -142,14 +164,16 @@ end
 M.run_test_class = function(debug)
 	return function()
 		local test_class = get_current_full_class_name()
-		vim.cmd("vsplit | term " .. get_test_runner(debug, test_class))
+		local project_root = find_gradle_project_dir()
+		vim.cmd("vsplit | term " .. get_test_runner(debug, test_class, project_root))
 	end
 end
 
 M.run_test_method = function(debug)
 	return function()
 		local test_method = get_current_full_method_name(".")
-		vim.cmd("vsplit | term " .. get_test_runner(debug, test_method))
+		local project_root = find_gradle_project_dir()
+		vim.cmd("vsplit | term " .. get_test_runner(debug, test_method, project_root))
 	end
 end
 
