@@ -81,5 +81,7 @@ export PATH=$PATH:/Users/iomallach/.spicetify
 
 # Created by `pipx` on 2024-07-24 18:43:00
 export PATH="$PATH:/Users/iomallach/.local/bin"
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
