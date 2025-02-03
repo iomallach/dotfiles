@@ -35,6 +35,7 @@ return {
 			ignore_exitcode = true,
 			parser = checkstyle.parser,
 		}
+		lint.linters.custom_checkstyle = custom_checkstyle
 
 		local java_checkstyle = nil
 		if checkstyleCfg_exists_in_path then
