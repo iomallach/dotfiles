@@ -109,6 +109,4 @@ M.setup = function(external_opts)
 	async_prepare_gradle_daemon()
 end
 
-M.init()
-
 return M

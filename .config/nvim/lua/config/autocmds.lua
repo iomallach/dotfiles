@@ -66,3 +66,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+vim.api.nvim_create_augroup("JavaProject", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPost", {
+	pattern = "*.java",
+	callback = function()
+		if vim.g.java_project_initialized == 0 then
+			local gradle_fzf = require("config.java.gradle_fzf")
+			gradle_fzf.init()
+			vim.keymap.set("n", "<leader>eg", gradle_fzf.fzf_find_gradle_tasks, { desc = "Execute gradle" })
+			vim.g.java_project_initialized = 1
+		end
+	end,
+	group = "JavaProject",
+})

@@ -123,7 +123,5 @@ return {
 				},
 			}
 		end,
-
-		-- require("telescope").load_extension("gradle"),
 	},
 }
