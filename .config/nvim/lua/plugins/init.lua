@@ -1,4 +1,3 @@
 return {
-  { "folke/neoconf.nvim", cmd = "Neoconf" },
-  "windwp/nvim-autopairs",
+	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 }

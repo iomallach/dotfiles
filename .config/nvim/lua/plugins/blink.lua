@@ -16,11 +16,20 @@ return {
 				opts = {},
 				version = "*",
 			},
+			{
+				"L3MON4D3/LuaSnip",
+				-- follow latest release.
+				version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+				-- install jsregexp (optional!).
+				build = "make install_jsregexp",
+			},
 		},
 		event = "InsertEnter",
 
 		opts = {
-			-- snippets = {} TODO: figure out snipppets
+			snippets = {
+				preset = "luasnip",
+			},
 			appearance = {
 				use_nvim_cmp_as_default = false,
 				nerd_font_variant = "normal",
