@@ -1,9 +1,5 @@
 local utils = require("config.utils")
 
--- Directory navigation
-utils.map("n", "<leader>n", ":NvimTreeToggle<CR>", utils.opts("Toggle NvimTree"))
-utils.map("n", "<leader>e", ":NvimTreeFocus<CR>", utils.opts("Focus NvimTree"))
-
 -- Pane navigation and window navigation
 utils.map("n", "<C-h>", "<C-w>h", utils.opts("Navigate left"))
 utils.map("n", "<C-j>", "<C-w>j", utils.opts("Navigate down"))
@@ -84,7 +80,13 @@ end
 
 -- Oil
 if not vim.g.vscode then
-	utils.map("n", "-", "<CMD>Oil --float<CR>", utils.opts("Open float oil"))
+	-- utils.map("n", "-", "<CMD>Oil --float<CR>", utils.opts("Open float oil"))
+	utils.map("n", "-", function()
+		local buf_name = vim.api.nvim_buf_get_name(0)
+		local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
+		require("mini.files").open(path)
+		require("mini.files").reveal_cwd()
+	end, utils.opts("Open mini files"))
 else
 	utils.map("n", "-", "<CMD>lua require('vscode').call('extension.dired.open')<CR>")
 end

@@ -322,8 +322,6 @@ M.setup_jdtls = function()
 			end,
 		})
 
-		-- require("lspsaga").init_lsp_saga()
-
 		local dap = require("dap")
 		dap.configurations.java = {
 			{

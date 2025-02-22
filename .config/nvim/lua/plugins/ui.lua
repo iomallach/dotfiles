@@ -78,6 +78,10 @@ return {
 						},
 						view = "mini",
 					},
+					{
+						filter = { event = "msg_show", kind = "warn" },
+						opts = { skip = true },
+					},
 				},
 				-- you can enable a preset for easier configuration
 				presets = {
