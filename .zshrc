@@ -85,3 +85,6 @@ export PATH="$PATH:/Users/iomallach/.local/bin"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Set path for GO to install binaries into
+export GOBIN="$HOME/.go/bin"
