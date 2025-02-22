@@ -19,6 +19,7 @@ return {
 				treesitter = true,
 				which_key = true,
 				fzf = true,
+				blink_cmp = true,
 			},
 		},
 	},

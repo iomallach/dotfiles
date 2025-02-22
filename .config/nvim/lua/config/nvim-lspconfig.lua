@@ -150,7 +150,7 @@ local setup_jdtls = function()
 		},
 	}
 
-	local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+	local lsp_capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 	for k, v in pairs(lsp_capabilities) do
 		capabilities[k] = v
@@ -275,7 +275,7 @@ M.setup = function()
 	setup_diagnostic_signs()
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+	capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities(capabilities))
 
 	setup_lua_ls(capabilities)
 	setup_clangd(capabilities)

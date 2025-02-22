@@ -154,7 +154,7 @@ M.setup_jdtls = function()
 		},
 	}
 
-	local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+	local lsp_capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 	for k, v in pairs(lsp_capabilities) do
 		capabilities[k] = v
