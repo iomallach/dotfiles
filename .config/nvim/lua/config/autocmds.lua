@@ -10,10 +10,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return { buffer = args.buf, desc = desc }
 		end
 
-		-- Attach lsp_signature to buffer
-		local bufnr = args.buf
-		require("lsp_signature").on_attach({}, bufnr)
-
 		local map = vim.keymap.set
 
 		-- Add borders

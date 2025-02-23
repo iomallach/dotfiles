@@ -62,6 +62,14 @@ return {
 				},
 			},
 
+			signature = {
+				enabled = true,
+				window = {
+					border = "rounded",
+					show_documentation = true,
+				},
+			},
+
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
 				providers = {
