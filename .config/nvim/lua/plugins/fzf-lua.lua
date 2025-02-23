@@ -24,7 +24,9 @@ return {
 		keymap.set("n", "<leader>fD", "<CMD>FzfLua diagnostics_workspace<CR>", { desc = "Fzf Diagnostics Workspace" })
 		keymap.set("n", "<leader>fa", "<CMD>FzfLua<CR>", { desc = "Fzf Find All" })
 		keymap.set("n", "<leader>ft", "<CMD>FzfLua helptags<CR>", { desc = "Fzf Helptags" })
+		keymap.set("n", "<leader>fh", "<CMD>FzfLua command_history<CR>", { desc = "Fzf Command History" })
 		keymap.set("n", "<leader>/", "<CMD>FzfLua blines<CR>", { desc = "Fzf Fuzzy find current buffer" })
+		keymap.set("n", "<leader>fa", "<CMD>FzfLua<CR>", { desc = "Fzf find find fzf command" })
 	end,
 	config = function()
 		require("fzf-lua").setup({

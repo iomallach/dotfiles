@@ -92,16 +92,6 @@ return {
 		end,
 	},
 	{
-		"iomallach/poetry.nvim",
-		ft = { "python" },
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-		config = function()
-			require("poetry").setup_user_command()
-		end,
-	},
-	{
 		"nvim-java/nvim-java",
 		dependencies = {
 			"ibhagwan/fzf-lua",
