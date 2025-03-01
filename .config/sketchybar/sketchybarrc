@@ -42,6 +42,7 @@ sketchybar --add item clock right \
     background.border_width=1 \
     background.padding_left=0 \
     icon=󰃰 \
+    icon.color=$YELLOW \
     icon.padding_left=40 \
     background.color=$SURFACE0 \
     update_freq=10 \
@@ -50,6 +51,7 @@ sketchybar --add item clock right \
 sketchybar --add item weather.icon right \
            --set weather.icon \
            icon="" \
+           icon.color=$SAPPHIRE \
            icon.y_offset=5 \
            icon.font="$FONT_FACE:Regular:15.0" \
            background.padding_right=-50
@@ -69,6 +71,8 @@ sketchybar --add item weather.temp right \
 sketchybar --add item memory right \
            --set memory \
            icon= \
+           icon.padding_left=190 \
+           icon.color=$RED \
            background.color=$SURFACE0 \
            background.border_color=$BLUE \
            background.border_width=1 \
@@ -79,18 +83,16 @@ sketchybar --add item memory right \
 sketchybar --add item cpu right \
            --set cpu \
            icon= \
-           background.color=$SURFACE0 \
-           background.border_color=$BLUE \
-           background.border_width=1 \
+           icon.color=$BLUE \
+           background.padding_right=-200 \
            update_freq=4 \
            script="$PLUGIN_DIR/cpu.sh"
 
 sketchybar --add item tempcpu right \
            --set tempcpu \
-           background.color=$SURFACE0 \
-           background.border_color=$BLUE \
-           background.border_width=1 \
+           background.padding_right=-20 \
            icon="" \
+           icon.color=$PEACH \
            update_freq=10 \
            script="$PLUGIN_DIR/temperature.sh"
 
@@ -100,6 +102,7 @@ sketchybar --add item wifi right \
            background.border_color=$BLUE \
            background.border_width=1 \
            icon=  \
+           icon.color=$BLUE \
            update_freq=15 \
            script="$PLUGIN_DIR/wifi.sh"
 
