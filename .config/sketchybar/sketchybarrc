@@ -24,10 +24,10 @@ sketchybar --bar color=0x66494d64 \
                  display=main
 
 sketchybar --default icon.font="$FONT_FACE:Regular:20.0" \
-                     icon.color=$ICON_COLOR \
+                     icon.color=$GREEN \
                      icon.padding_left=10 \
                      icon.padding_right=10 \
-                     label.color=$LABEL_COLOR \
+                     label.color=$TEXT \
                      label.font="$FONT_FACE:Regular:16.0" \
                      label.padding_right=10 \
                      background.height=30 \
@@ -41,7 +41,7 @@ sketchybar --add item clock right \
     background.border_color=$BLUE \
     background.border_width=1 \
     icon=󰃰 \
-    background.color=$BLUE \
+    background.color=$SURFACE0 \
     update_freq=10 \
     script="$PLUGIN_DIR/clock.sh" \
 
@@ -50,7 +50,9 @@ sketchybar --add event spotify_change $SPOTIFY_EVENT \
            --set spotify \
            icon= \
            icon.y_offset=1 \
-           background.color=$RED \
+           background.border_color=$BLUE \
+           background.border_width=1 \
+           background.color=$SURFACE0 \
            label.drawing=off \
            label.padding_left=3 \
            script="$PLUGIN_DIR/spotify.sh" \
@@ -59,28 +61,46 @@ sketchybar --add event spotify_change $SPOTIFY_EVENT \
 sketchybar --add item memory right \
            --set memory \
            icon= \
-           background.color=$BLUE \
+           background.color=$SURFACE0 \
+           background.border_color=$BLUE \
+           background.border_width=1 \
            update_freq=15 \
            label="$(memory_pressure | grep "System-wide memory free percentage:" | awk '{ printf("%02.0f\n", 100-$5"%") }')%"
 
 sketchybar --add item cpu right \
            --set cpu \
            icon= \
-           background.color=$YELLOW \
+           background.color=$SURFACE0 \
+           background.border_color=$BLUE \
+           background.border_width=1 \
            update_freq=4 \
            script="$PLUGIN_DIR/cpu.sh"
 
 sketchybar --add item tempcpu right \
            --set tempcpu \
-           background.color=$YELLOW \
+           background.color=$SURFACE0 \
+           background.border_color=$BLUE \
+           background.border_width=1 \
            icon="" \
            update_freq=10 \
            script="$PLUGIN_DIR/temperature.sh"
 
+sketchybar --add item wifi right \
+           --set wifi \
+           background.color=$SURFACE0 \
+           background.border_color=$BLUE \
+           background.border_width=1 \
+           icon=  \
+           update_freq=15 \
+           script="$PLUGIN_DIR/wifi.sh"
+
 sketchybar --add item front_app left \
            --set front_app \
-           background.color=$BLUE \
+           background.color=$SURFACE0 \
+           background.border_color=$BLUE \
+           background.border_width=1 \
            icon.background.drawing=on \
+           label.padding_right=20 \
            display=active \
            script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
