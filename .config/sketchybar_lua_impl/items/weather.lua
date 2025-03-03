@@ -22,7 +22,7 @@ sbar.add("item", {
 local weather_temp = sbar.add("item", {
 	position = "right",
 	label = {
-		padding_left = 0,
+		padding_left = 10,
 		padding_right = 0,
 		align = "right",
 		font = {
@@ -37,6 +37,10 @@ local weather_temp = sbar.add("item", {
 	},
 	y_offset = -6,
 	update_freq = 600,
+})
+
+weather_temp:set({
+	label = "0°C",
 })
 
 -- TODO:temperature requests are kind of broken at the moment?

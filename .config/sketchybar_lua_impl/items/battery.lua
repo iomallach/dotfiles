@@ -34,7 +34,7 @@ local function getBatteryIcon(percentage, charging)
 	end
 end
 
-battery:subscribe({ "force", "routine", "system_woke" }, function()
+local function update_battery()
 	local percentage = getBatteryPercentage()
 	local charging = isCharging()
 
@@ -42,4 +42,10 @@ battery:subscribe({ "force", "routine", "system_woke" }, function()
 		icon = getBatteryIcon(percentage, charging),
 		label = percentage .. "%",
 	})
+end
+
+update_battery()
+
+battery:subscribe({ "force", "routine", "system_woke" }, function()
+	update_battery()
 end)

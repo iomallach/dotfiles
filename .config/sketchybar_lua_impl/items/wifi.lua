@@ -15,7 +15,7 @@ local wifi = sbar.add("item", {
 	update_freq = 15,
 })
 
-wifi:subscribe({ "force", "routine", "system_woke" }, function()
+local function update_wifi()
 	local handle = io.popen("ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}'")
 	local ssid = handle:read("*a")
 	handle:close()
@@ -23,4 +23,10 @@ wifi:subscribe({ "force", "routine", "system_woke" }, function()
 	wifi:set({
 		label = ssid,
 	})
+end
+
+update_wifi()
+
+wifi:subscribe({ "force", "routine", "system_woke" }, function()
+	update_wifi()
 end)

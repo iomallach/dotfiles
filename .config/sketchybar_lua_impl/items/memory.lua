@@ -5,20 +5,22 @@ local memory = sbar.add("item", {
 	position = "right",
 	icon = {
 		string = icons.memory,
-		padding_left = 190,
 		color = colors.red,
+		padding_right = 5,
+		padding_left = 10,
 	},
 	background = {
-		color = colors.surface0,
-		border_color = colors.blue,
-		border_width = 1,
-		padding_right = 7,
+		padding_right = 0,
+		padding_left = 0,
+	},
+	label = {
+		padding_right = 10,
+		padding_left = 0,
 	},
 	update_freq = 15,
 })
 
--- TODO:might be better to use the guy's helpers here
-memory:subscribe({ "force", "routine", "system_woke" }, function()
+local function update_memory()
 	local handle = io.popen("memory_pressure")
 	local result = handle:read("*a")
 	handle:close()
@@ -30,4 +32,13 @@ memory:subscribe({ "force", "routine", "system_woke" }, function()
 	memory:set({
 		label = label,
 	})
+end
+
+update_memory()
+
+-- TODO:might be better to use the guy's helpers here
+memory:subscribe({ "force", "routine", "system_woke" }, function()
+	update_memory()
 end)
+
+return memory

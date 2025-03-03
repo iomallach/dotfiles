@@ -6,14 +6,20 @@ local cpu = sbar.add("item", {
 	icon = {
 		string = icons.cpu,
 		color = colors.blue,
+		padding_right = 5,
+		padding_left = 10,
 	},
 	background = {
-		padding_right = -200,
+		padding_right = 0,
+		padding_left = 0,
+	},
+	label = {
+		padding_right = 10,
+		padding_left = 0,
 	},
 	update_freq = 4,
 })
-
-cpu:subscribe({ "force", "routine" }, function()
+local function update_cpu()
 	local handle = io.popen("sysctl -n hw.ncpu")
 	local ncpu = handle:read("*a"):match("%d+")
 	handle:close()
@@ -28,4 +34,12 @@ cpu:subscribe({ "force", "routine" }, function()
 	cpu:set({
 		label = formatted_cpu_usage,
 	})
+end
+
+update_cpu()
+
+cpu:subscribe({ "force", "routine" }, function()
+	update_cpu()
 end)
+
+return cpu

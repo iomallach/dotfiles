@@ -65,6 +65,7 @@ sketchybar --add item weather.temp right \
 	         background.padding_left=0 \
            label.font="$FONT_FACE:Regular:10.0" \
            y_offset=-6 \
+           update_freq=600 \
            script="$PLUGIN_DIR/weather.sh"
 
 

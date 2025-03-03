@@ -17,6 +17,10 @@ local clock = sbar.add("item", {
 	update_freq = 10,
 })
 
+clock:set({
+	label = os.date("%a %b %e %H:%M"),
+})
+
 clock:subscribe({ "force", "routine", "system_woke" }, function()
 	clock:set({
 		label = os.date("%a %b %e %H:%M"),
