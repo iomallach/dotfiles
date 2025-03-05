@@ -1,7 +1,0 @@
-require("items.clock")
-require("items.weather")
-require("items.widgets.temecpu")
-require("items.wifi")
-require("items.front_app")
-require("items.spotify")
-require("items.battery")

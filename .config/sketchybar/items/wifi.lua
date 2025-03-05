@@ -3,14 +3,13 @@ local icons = require("icons")
 
 local wifi = sbar.add("item", {
 	position = "right",
-	background = {
-		color = colors.surface0,
-		border_color = colors.blue,
-		border_width = 1,
-	},
 	icon = {
 		string = icons.wifi,
 		color = colors.blue,
+		padding_left = 10,
+	},
+	label = {
+		padding_right = 10,
 	},
 	update_freq = 15,
 })
@@ -30,3 +29,5 @@ update_wifi()
 wifi:subscribe({ "force", "routine", "system_woke" }, function()
 	update_wifi()
 end)
+
+return wifi

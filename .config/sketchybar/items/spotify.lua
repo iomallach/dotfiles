@@ -11,15 +11,18 @@ local spotify = sbar.add("item", {
 	icon = {
 		string = icons.spotify,
 		y_offset = 1,
+		padding_left = 10,
+		padding_right = 5,
 	},
 	background = {
 		border_color = colors.blue,
 		border_width = 1,
 		color = colors.surface0,
+		padding_left = 10,
 	},
 	label = {
 		drawing = false,
-		padding_left = 3,
+		padding_right = 10,
 	},
 })
 

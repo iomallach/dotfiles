@@ -3,6 +3,8 @@ return {
 	mantle = 0xff1e2030,
 	crust = 0xff181926,
 
+	transparent = 0x00000000,
+
 	text = 0xffcad3f5,
 	subtext0 = 0xffb8c0e0,
 	subtext1 = 0xffa5adcb,

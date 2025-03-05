@@ -1,5 +1,6 @@
 local icons = require("icons")
 local colors = require("colors")
+local settings = require("settings")
 
 local cpu = sbar.add("item", {
 	position = "right",
@@ -16,6 +17,10 @@ local cpu = sbar.add("item", {
 	label = {
 		padding_right = 10,
 		padding_left = 0,
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Bold"],
+		},
 	},
 	update_freq = 4,
 })

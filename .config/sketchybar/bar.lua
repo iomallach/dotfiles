@@ -1,5 +1,5 @@
 sbar.bar({
-	color = 0x66494d64,
+	color = require("colors").transparent,
 	shadow = "off",
 	sticky = "on",
 	height = 32,

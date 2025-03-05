@@ -10,3 +10,9 @@ sbar.add("bracket", "temecpu.bracket", { cpu.name, tempcpu.name, memory.name }, 
 		border_width = 1,
 	},
 })
+
+sbar.add("item", {
+	position = "right",
+	label = "",
+	padding_right = 10,
+})

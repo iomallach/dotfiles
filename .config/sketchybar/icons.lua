@@ -22,4 +22,11 @@ return {
 			{ threshold = 0, icon = "󰁺" },
 		},
 	},
+	volume = {
+		{ threshold = 70, icon = "􀊩" },
+		{ threshold = 50, icon = "􀊧" },
+		{ threshold = 20, icon = "􀊥" },
+		{ threshold = 1, icon = "􀊡" },
+		{ threshold = 0, icon = "􀊣" },
+	},
 }
