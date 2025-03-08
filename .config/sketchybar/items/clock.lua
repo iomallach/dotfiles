@@ -2,34 +2,67 @@ local colors = require("colors")
 local icons = require("icons")
 local settings = require("settings")
 
-local clock = sbar.add("item", {
+local date = sbar.add("item", {
 	position = "right",
-	background = {
-		padding_left = 0,
-	},
-	icon = {
-		string = icons.datetime,
-		color = colors.yellow,
-	},
 	label = {
-		padding_right = 10,
-		padding_left = 10,
 		font = {
 			family = settings.font.text,
 			style = settings.font.style_map["SemiBold"],
+			size = 14,
 		},
+		align = "right",
 	},
+	padding_left = -63,
+	padding_right = 10,
+	y_offset = 6,
 	update_freq = 10,
 })
 
-clock:set({
-	label = os.date("%a %b %e %H:%M"),
+local time = sbar.add("item", {
+	position = "right",
+	label = {
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["SemiBold"],
+			size = 14,
+		},
+		align = "right",
+	},
+	padding_left = 20,
+	y_offset = -6,
+	update_freq = 10,
 })
 
-clock:subscribe({ "force", "routine", "system_woke" }, function()
-	clock:set({
-		label = os.date("%a %b %e %H:%M"),
+local icon = sbar.add("item", {
+	position = "right",
+	icon = {
+		string = icons.datetime,
+		color = colors.yellow,
+		align = "right",
+	},
+	padding_left = 5,
+})
+
+date:set({
+	label = os.date("%a %b %e"),
+})
+
+time:set({
+	label = os.date("%H:%M"),
+})
+
+date:subscribe({ "force", "routine", "system_woke" }, function()
+	date:set({
+		label = os.date("%a %b %e"),
+	})
+
+	time:set({
+		label = os.date("%H:%M"),
 	})
 end)
 
-return clock
+return {
+	icon = icon,
+	date = date,
+	time = time,
+}
