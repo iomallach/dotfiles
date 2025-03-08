@@ -4,7 +4,7 @@ local icons = require("icons")
 local wifi = sbar.add("item", {
 	position = "right",
 	icon = {
-		string = icons.wifi,
+		string = icons.wifi.connected,
 		color = colors.blue,
 		padding_left = 10,
 	},
@@ -19,14 +19,28 @@ local function update_wifi()
 	local ssid = handle:read("*a")
 	handle:close()
 
+	local icon
+	local color
+	if ssid == "" then
+		icon = icons.wifi.disconnected
+		color = colors.red
+	else
+		icon = icons.wifi.connected
+		color = colors.blue
+	end
+
 	wifi:set({
 		label = ssid,
+		icon = {
+			string = icon,
+			color = color,
+		},
 	})
 end
 
 update_wifi()
 
-wifi:subscribe({ "force", "routine", "system_woke" }, function()
+wifi:subscribe({ "force", "routine", "system_woke", "wifi_change" }, function()
 	update_wifi()
 end)
 

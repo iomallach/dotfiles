@@ -30,7 +30,7 @@ local weather_temp = sbar.add("item", {
 		},
 	},
 	y_offset = -6,
-	update_freq = 600,
+	update_freq = 100,
 	padding_right = -27,
 	padding_left = 10,
 })

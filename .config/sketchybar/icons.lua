@@ -4,7 +4,10 @@ return {
 	memory = "",
 	cpu = " ",
 	temperature = "",
-	wifi = " ",
+	wifi = {
+		connected = " ",
+		disconnected = "󰖪",
+	},
 	spotify = " ",
 	battery = {
 		charging = {
