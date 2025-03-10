@@ -88,3 +88,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Set path for GO to install binaries into
 export GOBIN="$HOME/.go/bin"
+
+# Add zig
+export PATH="$PATH:/Users/iomallach/.zig"
