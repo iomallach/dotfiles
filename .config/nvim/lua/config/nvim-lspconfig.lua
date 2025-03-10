@@ -79,6 +79,12 @@ local setup_pyright = function(capabilities)
 	})
 end
 
+local setup_zig = function(capabilities)
+	lspconfig.zls.setup({
+		capabilities = capabilities,
+	})
+end
+
 local setup_gopls = function(capabilities)
 	-- Setup all go related LSPs
 	-- Gopls
@@ -284,6 +290,7 @@ M.setup = function()
 	setup_jsonls()
 	lspconfig.yamlls.setup({})
 	setup_jdtls()
+	setup_zig()
 end
 
 return M
