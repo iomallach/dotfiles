@@ -43,10 +43,6 @@ utils.map(
 	{ desc = "Comment Toggle" }
 )
 
--- Escaping insert mode
-utils.map("i", "jk", "<ESC>", utils.opts("Escape insert mode"))
-utils.map("i", "kj", "<ESC>", utils.opts("Escape insert mode"))
-
 -- Indenting
 utils.map("v", "<", "<gv")
 utils.map("v", ">", ">gv")
@@ -126,3 +122,7 @@ utils.map("n", "\\", '"+', utils.opts("Clipboard register"))
 
 -- Alternate buffer
 utils.map("n", "<leader><space>", "<C-^>", utils.opts("Alternate buffer"))
+
+-- Scroll with centering
+utils.map("n", "<C-u>", "<C-u>zz", utils.opts("Scroll up and center"))
+utils.map("n", "<C-d>", "<C-d>zz", utils.opts("Scroll down and center"))
