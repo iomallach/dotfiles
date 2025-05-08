@@ -35,7 +35,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<leader>lgd", vim.lsp.buf.definition, opts("Go to definition"))
 		map("n", "<leader>lgt", vim.lsp.buf.type_definition, opts("Go to type definition"))
 		map("n", "<leader>lrn", vim.lsp.buf.rename, opts("Rename"))
-		map("n", "<leader>ld", vim.diagnostic.open_float, opts("Show line diagnostic"))
+		-- map("n", "<leader>ld", vim.diagnostic.open_float, opts("Show line diagnostic"))
+		map("n", "<leader>ld", function()
+			pcall(vim.api.nvim_del_augroup_by_name, "line-diagnostics")
+			vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+
+			vim.defer_fn(function()
+				vim.api.nvim_create_autocmd("CursorMoved", {
+					group = vim.api.nvim_create_augroup("line-diagnostics", {}),
+					once = true,
+					callback = function()
+						vim.diagnostic.config({ virtual_lines = false, virtual_text = false })
+					end,
+				})
+			end, 1)
+		end, opts("Show line diagnostic"))
 		map("n", "<leader>lD", "<CMD>Trouble diagnostics toggle filter.buf=0<CR>", opts("Buffer diagnostics (trouble)"))
 		map("n", "<leader>ltd", "<CMD>Trouble todo<CR>")
 		map("n", "<leader>lfr", require("fzf-lua").lsp_references, opts("Show references"))
