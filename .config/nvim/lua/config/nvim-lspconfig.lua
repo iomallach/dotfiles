@@ -79,6 +79,12 @@ local setup_pyright = function(capabilities)
 	})
 end
 
+local setup_pylyzer = function(capabilities)
+	lspconfig.pylyzer.setup({
+		capabilities = capabilities,
+	})
+end
+
 local setup_zig = function(capabilities)
 	lspconfig.zls.setup({
 		capabilities = capabilities,
@@ -286,6 +292,7 @@ M.setup = function()
 	setup_lua_ls(capabilities)
 	setup_clangd(capabilities)
 	setup_pyright(capabilities)
+	-- setup_pylyzer(capabilities)
 	setup_gopls(capabilities)
 	setup_jsonls()
 	lspconfig.yamlls.setup({})
