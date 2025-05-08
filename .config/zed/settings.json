@@ -10,5 +10,21 @@
   "theme": "Catppuccin Macchiato",
   "ui_font_size": 16,
   "buffer_font_size": 16,
-  "vim_mode": true
+  "vim_mode": true,
+  "languages": {
+    "Zig": {
+      // Formatting with ZLS matches `zig fmt`.
+      // The Zig FAQ answers some questions about `zig fmt`:
+      // https://github.com/ziglang/zig/wiki/FAQ
+      "format_on_save": "language_server",
+      // Make sure that zls is the primary language server
+      "language_servers": ["zls", "..."],
+      "code_actions_on_format": {
+        // Run code actions that currently supports adding and removing discards.
+        // "source.fixAll": true,
+        // Run code actions that sorts @import declarations.
+        // "source.organizeImports": true,
+      }
+    }
+  }
 }
