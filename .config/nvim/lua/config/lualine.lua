@@ -41,6 +41,7 @@ M.config = function()
 				{ "diff", symbols = { added = " ", modified = " ", removed = " " } },
 			},
 			lualine_x = {
+				"%S",
 				{
 					function()
 						return "recording@" .. vim.fn.reg_recording()

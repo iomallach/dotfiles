@@ -52,3 +52,6 @@ opt.encoding = "UTF-8"
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
+
+-- draw inflight cmd in statusline
+opt.showcmdloc = "statusline"
