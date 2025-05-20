@@ -27,6 +27,7 @@ local ensure_installed = function()
 		"java-test",
 		"checkstyle",
 		"google-java-format",
+		"marksman",
 	}
 
 	vim.api.nvim_create_user_command("MasonInstallAll", function()

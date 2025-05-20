@@ -15,86 +15,17 @@ local setup_diagnostic_signs = function()
 	end
 end
 
-local setup_lua_ls = function(capabilities)
-	lspconfig.lua_ls.setup({
-		capabilities = capabilities,
-		settings = {
-			Lua = {
-				diagnostics = {
-					globals = { "vim" },
-				},
-				workspace = {
-					library = {
-						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-						[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-					},
-				},
-				hint = { enable = true },
-				codeLens = { enable = true },
-				maxPreload = 100000,
-				preloadFileSize = 10000,
-			},
-		},
-	})
-end
-
-local setup_clangd = function(capabilities)
-	lspconfig.clangd.setup({
-		on_attach = function(client, bufnr)
-			client.server_capabilities.signatureHelpProvider = false
-		end,
-		capabilities = capabilities,
-		settings = {
-			clangd = {
-				InlayHints = {
-					Designators = true,
-					Enabled = true,
-					ParameterNames = true,
-					DeducedTypes = true,
-				},
-				fallbackFlags = { "-std=c++20" },
-			},
-		},
-	})
-end
-
-local setup_pyright = function(capabilities)
-	lspconfig.pyright.setup({
-		on_attach = function(client, bufnr)
-			-- TODO: If it annoys with failures, try pcall()
-			-- vim.cmd("PyrightSetPythonPath .venv/bin/python")
-		end,
-		capabilities = capabilities,
-		filetypes = { "python" },
-		settings = {
-			pyright = {
-				disableOrganizeImport = true,
-				analysis = {
-					useLibraryCodeForTypes = true,
-					autoSearchPaths = true,
-					autoImportCompletions = true,
-				},
-			},
-		},
-	})
-end
-
 local setup_pylyzer = function(capabilities)
-	lspconfig.pylyzer.setup({
+	vim.lsp.config("pylyzer", {
 		capabilities = capabilities,
 	})
-end
-
-local setup_zig = function(capabilities)
-	lspconfig.zls.setup({
-		capabilities = capabilities,
-	})
+	vim.lsp.enable("pylyzer")
 end
 
 local setup_gopls = function(capabilities)
 	-- Setup all go related LSPs
 	-- Gopls
-	lspconfig.gopls.setup({
+	vim.lsp.config("gopls", {
 		capabilities = capabilities,
 		cmd = { "gopls" },
 		filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -118,33 +49,24 @@ local setup_gopls = function(capabilities)
 			},
 		},
 	})
+	vim.lsp.enable("gopls")
 
 	-- Templ
-	lspconfig.templ.setup({
+	vim.lsp.config("templ", {
 		capabilities = capabilities,
 	})
+	vim.lsp.enable("templ")
 
 	-- Tailwindcss
 
-	lspconfig.tailwindcss.setup({
+	vim.lsp.config("tailwindcss", {
 		settings = {
 			includeLanguages = {
 				templ = "html",
 			},
 		},
 	})
-end
-
-local setup_jsonls = function()
-	lspconfig.jsonls.setup({
-		commands = {
-			Format = {
-				function()
-					vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
-				end,
-			},
-		},
-	})
+	vim.lsp.enable("tailwindcss")
 end
 
 local setup_jdtls = function()
@@ -173,7 +95,7 @@ local setup_jdtls = function()
 			auto_install = false,
 		},
 	})
-	lspconfig.jdtls.setup({
+	vim.lsp.config("jdtls", {
 		init_options = {
 			bundles = require("spring_boot").java_extensions(),
 		},
@@ -281,23 +203,13 @@ local setup_jdtls = function()
 			})
 		end,
 	})
+	vim.lsp.enable("jdtls")
 end
 
 M.setup = function()
 	setup_diagnostic_signs()
 
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities(capabilities))
-
-	setup_lua_ls(capabilities)
-	setup_clangd(capabilities)
-	setup_pyright(capabilities)
-	-- setup_pylyzer(capabilities)
-	setup_gopls(capabilities)
-	setup_jsonls()
-	lspconfig.yamlls.setup({})
 	setup_jdtls()
-	setup_zig()
 end
 
 return M

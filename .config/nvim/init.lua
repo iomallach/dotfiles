@@ -1,2 +1,12 @@
 require("config")
 require("current-theme")
+
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("clangd")
+vim.lsp.enable("pyright")
+vim.lsp.enable("gopls")
+vim.lsp.enable("jsonls")
+vim.lsp.enable("yamlls")
+vim.lsp.enable("zls")
+vim.lsp.enable("marksman")
+vim.lsp.enable("asm_lsp")
