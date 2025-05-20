@@ -1,6 +1,9 @@
 command_timeout = 2000
 palette = "catppuccin_macchiato"
 
+[status]
+disabled = false
+
 # format = """$directory$character"""
 # right_format = """$all"""
 
