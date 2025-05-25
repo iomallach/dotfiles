@@ -2,8 +2,8 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false,
-		priority = 1000,
+		-- lazy = false,
+		-- priority = 1000,
 		opts = {
 			integrations = {
 				cmp = true,
@@ -26,6 +26,7 @@ return {
 	{
 		"NTBBloodbath/doom-one.nvim",
 		-- priority = 1000,
+		-- lazy = false,
 		setup = function()
 			-- Add color to cursor
 			vim.g.doom_one_cursor_coloring = true
@@ -76,5 +77,11 @@ return {
 			vim.o.background = "dark" -- or "light" for light mode
 			vim.cmd([[colorscheme gruvbox]])
 		end,
+	},
+	{
+		"eldritch-theme/eldritch.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
 	},
 }
