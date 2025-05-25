@@ -60,6 +60,8 @@ utils.map("n", "<leader>dr", "<CMD>DapContinue<CR>", { desc = "Run or continue" 
 
 -- Gitsigns
 utils.map("n", "<leader>tb", "<CMD>lua require'gitsigns'.toggle_current_line_blame()<CR>", { desc = "Toggle Blame" })
+utils.map("n", "[h", "<CMD>lua require('gitsigns').prev_hunk()<CR>", { desc = "Jump previous hunk" })
+utils.map("n", "]h", "<CMD>lua require('gitsigns').next_hunk()<CR>", { desc = "Jump next hunk" })
 
 if not vim.g.vscode then
 	utils.map("n", "<leader>bk", "<CMD>bd<CR>", utils.opts("Close buffer"))
