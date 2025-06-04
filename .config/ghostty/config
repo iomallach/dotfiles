@@ -3,6 +3,6 @@ font-family-bold = Maple Mono NF
 font-family-italic = Maple Mono NF
 font-family-bold-italic = Maple Mono NF
 font-size = 20
-theme = "Eldritch"
+theme = "onedark_vaporwave"
 macos-titlebar-style = "hidden"
 macos-option-as-alt = true
