@@ -3,6 +3,18 @@ capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").g
 
 return {
 	capabilities = capabilities,
+	cmd = { "lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = {
+		".luarc.json",
+		".luarc.jsonc",
+		".luacheckrc",
+		".stylua.toml",
+		"stylua.toml",
+		"selene.toml",
+		"selene.yml",
+		".git",
+	},
 	settings = {
 		Lua = {
 			diagnostics = {

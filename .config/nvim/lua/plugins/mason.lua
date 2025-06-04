@@ -3,6 +3,7 @@ local ensure_installed = function()
 		"clangd",
 		"clang-format",
 		"rust-analyzer",
+		"pyright",
 		"basedpyright",
 		"mypy",
 		"ruff",

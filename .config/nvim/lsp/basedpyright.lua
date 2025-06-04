@@ -2,7 +2,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities(capabilities))
 
 return {
-	cmd = { "pyright-langserver", "--stdio" },
+	cmd = { "basedpyright-langserver", "--stdio" },
 	filetypes = { "python" },
 	root_markers = {
 		"pyproject.toml",
@@ -15,12 +15,18 @@ return {
 	},
 	capabilities = capabilities,
 	settings = {
-		pyright = {
+		basedpyright = {
 			disableOrganizeImport = true,
 			analysis = {
 				useLibraryCodeForTypes = true,
 				autoSearchPaths = true,
 				autoImportCompletions = true,
+				inlayHints = {
+					variableTypes = true,
+					callArgumentNames = true,
+					functionReturnTypes = true,
+					genericTypes = true,
+				},
 			},
 		},
 		python = {
