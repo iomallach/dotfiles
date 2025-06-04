@@ -1,8 +1,8 @@
 return {
 	"olimorris/persisted.nvim",
-	lazy = false, -- make sure the plugin is always loaded at startup
+	event = "BufReadPre", -- Ensure the plugin loads only when a buffer has been loaded
 	config = true,
 	opts = {
-		autoload = true,
+		autoload = false,
 	},
 }
