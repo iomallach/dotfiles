@@ -5,10 +5,6 @@
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl a" { SwitchToMode "normal"; }
-        bind "Ctrl l" { MoveFocus "right"; }
-        bind "Ctrl h" { MoveFocus "left"; }
-        bind "Ctrl j" { MoveFocus "down"; }
-        bind "Ctrl k" { MoveFocus "up"; }
     }
     pane {
         bind "left" { MoveFocus "left"; }
@@ -104,6 +100,10 @@ keybinds clear-defaults=true {
         bind "Alt k" { MoveFocus "up"; SwitchToMode "locked"; }
         bind "Alt l" { MoveFocusOrTab "right"; SwitchToMode "locked"; }
         bind "s" { SwitchToMode "normal"; }
+        bind "Ctrl l" { MoveFocus "right"; }
+        bind "Ctrl h" { MoveFocus "left"; }
+        bind "Ctrl j" { MoveFocus "down"; }
+        bind "Ctrl k" { MoveFocus "up"; }
     }
     search {
         bind "c" { SearchToggleOption "CaseSensitivity"; }
@@ -111,6 +111,10 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
         bind "p" { Search "up"; }
         bind "w" { SearchToggleOption "Wrap"; }
+        bind "Ctrl l" { MoveFocus "right"; }
+        bind "Ctrl h" { MoveFocus "left"; }
+        bind "Ctrl j" { MoveFocus "down"; }
+        bind "Ctrl k" { MoveFocus "up"; }
     }
     session {
         bind "a" {
@@ -162,6 +166,10 @@ keybinds clear-defaults=true {
         bind "Alt l" { MoveFocusOrTab "right"; }
         bind "Alt n" { NewPane; }
         bind "Alt o" { MoveTab "right"; }
+        bind "Ctrl l" { MoveFocus "right"; }
+        bind "Ctrl h" { MoveFocus "left"; }
+        bind "Ctrl j" { MoveFocus "down"; }
+        bind "Ctrl k" { MoveFocus "up"; }
     }
     shared_among "normal" {
         // bind "f" { SwitchToMode "locked"; Run "bash" "-c" "~/dotfiles/.config/scripts/zellij-sessionizer.sh"; }

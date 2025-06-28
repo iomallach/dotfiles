@@ -1,3 +1,4 @@
+custom-shader = shaders/cursor_smear_fade.glsl
 font-family = Maple Mono NF
 font-family-bold = Maple Mono NF
 font-family-italic = Maple Mono NF
