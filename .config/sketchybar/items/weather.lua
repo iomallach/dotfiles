@@ -74,6 +74,7 @@ local function update_temperature()
 
 	weather_temp:set({
 		label = temperature .. "°C",
+		-- label = "kek" .. "°C",
 	})
 end
 

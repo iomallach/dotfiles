@@ -22,23 +22,12 @@ local tempcpu = sbar.add("item", {
 			style = settings.font.style_map["Bold"],
 		},
 	},
-	update_freq = 10,
 })
 
-local function update_tempcpu()
-	local handle = io.popen("/usr/local/bin/smctemp -c")
-	local temp = handle:read("*a")
-	handle:close()
-
+tempcpu:subscribe({ "system_stats" }, function(env)
 	tempcpu:set({
-		label = temp .. "°C",
+		label = env.CPU_TEMP,
 	})
-end
-
-update_tempcpu()
-
-tempcpu:subscribe({ "force", "routine", "system_woke" }, function()
-	update_tempcpu()
 end)
 
 return tempcpu

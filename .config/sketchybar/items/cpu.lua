@@ -22,29 +22,12 @@ local cpu = sbar.add("item", {
 			style = settings.font.style_map["Bold"],
 		},
 	},
-	update_freq = 4,
 })
-local function update_cpu()
-	local handle = io.popen("sysctl -n hw.ncpu")
-	local ncpu = handle:read("*a"):match("%d+")
-	handle:close()
 
-	handle = io.popen("ps -A -o %cpu | awk '{s+=$1} END {printf s}'")
-	local total_percent = handle:read("*a"):match("%d+%.?%d*")
-	handle:close()
-
-	local cpu_usage = tonumber(total_percent) / tonumber(ncpu)
-	local formatted_cpu_usage = string.format("%.2f%%", cpu_usage)
-
+cpu:subscribe({ "system_stats" }, function(env)
 	cpu:set({
-		label = formatted_cpu_usage,
+		label = env.CPU_USAGE,
 	})
-end
-
-update_cpu()
-
-cpu:subscribe({ "force", "routine" }, function()
-	update_cpu()
 end)
 
 return cpu

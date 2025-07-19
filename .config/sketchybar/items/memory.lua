@@ -22,28 +22,12 @@ local memory = sbar.add("item", {
 			style = settings.font.style_map["Bold"],
 		},
 	},
-	update_freq = 15,
 })
 
-local function update_memory()
-	local handle = io.popen("memory_pressure")
-	local result = handle:read("*a")
-	handle:close()
-
-	local free_percentage = result:match("System%-wide memory free percentage:%s+(%d+)%%")
-	local used_percentage = 100 - tonumber(free_percentage)
-	local label = string.format("%02d%%", used_percentage)
-
+memory:subscribe({ "system_stats" }, function(env)
 	memory:set({
-		label = label,
+		label = env.RAM_USAGE,
 	})
-end
-
-update_memory()
-
--- TODO:might be better to use the guy's helpers here
-memory:subscribe({ "force", "routine", "system_woke" }, function()
-	update_memory()
 end)
 
 return memory
