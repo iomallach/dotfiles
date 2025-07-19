@@ -9,6 +9,8 @@ return {
 		disconnected = "󰖪",
 	},
 	spotify = " ",
+	playing = " ",
+	paused = " ",
 	battery = {
 		charging = {
 			{ threshold = 90, icon = "󰂋" },
