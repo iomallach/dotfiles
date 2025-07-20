@@ -74,14 +74,16 @@ local function update_temperature()
 
 	weather_temp:set({
 		label = temperature .. "°C",
-		-- label = "kek" .. "°C",
 	})
 end
 
 update_temperature()
 
--- TODO:temperature requests are kind of broken at the moment?
 weather_temp:subscribe({ "force", "routine", "system_woke" }, function()
+	update_temperature()
+end)
+
+weather_temp:subscribe({ "mouse.clicked" }, function(env)
 	update_temperature()
 end)
 
