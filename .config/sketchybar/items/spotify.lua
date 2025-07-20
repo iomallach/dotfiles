@@ -39,7 +39,8 @@ sbar.add("bracket", "spotify.bracket", { spotify.name, playback_icon.name }, {
 	},
 })
 
-local separator = " "
+-- local separator = " "
+local separator = "  "
 
 spotify:subscribe({ "spotify_change" }, function(env)
 	local info = env.INFO

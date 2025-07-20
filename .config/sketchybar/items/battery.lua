@@ -46,7 +46,7 @@ end
 
 update_battery()
 
-battery:subscribe({ "force", "routine", "system_woke" }, function()
+battery:subscribe({ "force", "routine", "system_woke", "power_source_change" }, function()
 	update_battery()
 end)
 
