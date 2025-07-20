@@ -1,5 +1,44 @@
 local colors = require("colors")
 local icons = require("icons")
+local settings = require("settings")
+
+local wifi_up = sbar.add("item", {
+	position = "right",
+	icon = {
+		string = icons.upload,
+		color = colors.red,
+		font = {
+			size = 15,
+		},
+	},
+	label = {
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Bold"],
+			size = 10,
+		},
+	},
+	padding_right = 5,
+})
+
+local wifi_down = sbar.add("item", {
+	position = "right",
+	icon = {
+		string = icons.download,
+		color = colors.green,
+		font = {
+			size = 15,
+		},
+	},
+	label = {
+		font = {
+			family = settings.font.text,
+			style = settings.font.style_map["Bold"],
+			size = 10,
+		},
+	},
+	padding_right = 5,
+})
 
 local wifi = sbar.add("item", {
 	position = "right",
@@ -7,10 +46,6 @@ local wifi = sbar.add("item", {
 		string = icons.wifi.connected,
 		color = colors.blue,
 		padding_left = 10,
-	},
-	label = {
-		padding_right = 15,
-		drawing = true,
 	},
 	update_freq = 15,
 })
@@ -45,18 +80,19 @@ wifi:subscribe({ "force", "routine", "system_woke", "wifi_change" }, function()
 end)
 
 wifi:subscribe({ "system_stats" }, function(env)
-	wifi:set({
+	wifi_up:set({
 		label = {
-			string = " "
-				.. icons.upload
-				.. " "
-				.. env.NETWORK_TX_en0
-				.. " "
-				.. icons.download
-				.. " "
-				.. env.NETWORK_RX_en0,
+			string = env.NETWORK_TX_en0,
+		},
+	})
+	wifi_down:set({
+		label = {
+			string = env.NETWORK_RX_en0,
 		},
 	})
 end)
 
-return wifi
+return {
+	wifi = wifi,
+	wifi_up = wifi_up,
+}
