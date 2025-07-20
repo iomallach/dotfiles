@@ -4,7 +4,7 @@ package.cpath = package.cpath .. ";/Users/" .. os.getenv("USER") .. "/.local/sha
 sbar = require("sketchybar")
 
 sbar.exec(
-	"killall stats_provider >/dev/null; ~/.cargo/bin/stats_provider --cpu usage --cpu temperature --disk usage --memory ram_usage --interval 2"
+	"killall stats_provider >/dev/null; ~/.cargo/bin/stats_provider --network en0 --cpu usage --cpu temperature --disk usage --memory ram_usage --interval 2"
 )
 
 sbar.begin_config()

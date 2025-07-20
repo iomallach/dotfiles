@@ -11,6 +11,8 @@ return {
 	spotify = " ",
 	playing = " ",
 	paused = " ",
+	upload = "",
+	download = "",
 	battery = {
 		charging = {
 			{ threshold = 90, icon = "󰂋" },
