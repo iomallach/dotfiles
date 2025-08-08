@@ -20,8 +20,7 @@ return {
 		end
 
 		local checkstyleCfg_exists_in_path = vim.fn.filereadable(cwd .. "/gradle/checkstyle.xml") == 1
-		local path_to_checkstyle_jar =
-			vim.fn.glob(require("mason-registry").get_package("checkstyle"):get_install_path() .. "/**/*.jar")
+		local path_to_checkstyle_jar = vim.fn.glob("$MASON/packages/checkstyle" .. "/**/*.jar")
 		local custom_checkstyle = {
 			cmd = "java",
 			args = {

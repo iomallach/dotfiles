@@ -39,7 +39,7 @@ local ensure_installed = function()
 end
 
 return {
-	"williamboman/mason.nvim",
+	"mason-org/mason.nvim",
 	cmd = "Mason",
 	opts = {
 		ensure_installed = ensure_installed(),
