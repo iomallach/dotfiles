@@ -1,9 +1,13 @@
 return {
 	"ibhagwan/fzf-lua",
 	event = "VimEnter",
+	dependencies = {
+		"elanmed/fzf-lua-frecency.nvim",
+	},
 	init = function()
 		local keymap = require("vim.keymap")
 		keymap.set("n", "<leader>fg", "<CMD>FzfLua live_grep<CR>", { desc = "Fzf Live Grep" })
+		keymap.set("n", "<leader>fG", "<CMD>FzfLua global<CR>", { desc = "Fzf Live Grep" })
 		keymap.set(
 			"n",
 			"<leader>fws",
@@ -11,7 +15,11 @@ return {
 			{ desc = "Fzf Live Workspace symbols" }
 		)
 		keymap.set("n", "<leader>fb", "<CMD>FzfLua buffers<CR>", { desc = "Fzf Buffers" })
-		keymap.set("n", "<leader>ff", "<CMD>FzfLua files<CR>", { desc = "Fzf Files" })
+		keymap.set("n", "<leader>ff", function()
+			require("fzf-lua-frecency").frecency({
+				cwd_only = true,
+			})
+		end, { desc = "Fzf Frecent Files" })
 		keymap.set("n", "<leader>fo", function()
 			require("fzf-lua").oldfiles({
 				cwd_only = true,
