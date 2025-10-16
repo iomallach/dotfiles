@@ -11,20 +11,6 @@ local battery = sbar.add("item", {
 	update_freq = 15,
 })
 
-local function getBatteryPercentage()
-	local handle = io.popen("pmset -g batt | grep -Eo '\\d+%' | cut -d% -f1")
-	local percentage = handle:read("*a"):match("%d+")
-	handle:close()
-	return tonumber(percentage)
-end
-
-local function isCharging()
-	local handle = io.popen("pmset -g batt | grep 'AC Power'")
-	local chargingInfo = handle:read("*a")
-	handle:close()
-	return chargingInfo ~= ""
-end
-
 local function getBatteryIcon(percentage, charging)
 	local state = charging and "charging" or "discharging"
 	for _, entry in ipairs(icons.battery[state]) do
@@ -34,20 +20,27 @@ local function getBatteryIcon(percentage, charging)
 	end
 end
 
-local function update_battery()
-	local percentage = getBatteryPercentage()
-	local charging = isCharging()
+local function update_battery(output)
+	local percentage = output:match("(%d+)%%")
+	local charging = output:match("AC Power")
+
+	if not percentage then
+		battery:set({ label = "N/A" })
+		return
+	end
 
 	battery:set({
-		icon = getBatteryIcon(percentage, charging),
+		icon = getBatteryIcon(tonumber(percentage), charging),
 		label = percentage .. "%",
 	})
 end
 
-update_battery()
+local function battery_callback_handler()
+	sbar.exec("pmset -g batt", update_battery)
+end
 
-battery:subscribe({ "force", "routine", "system_woke", "power_source_change" }, function()
-	update_battery()
-end)
+battery_callback_handler()
+
+battery:subscribe({ "force", "routine", "system_woke", "power_source_change" }, battery_callback_handler)
 
 return battery

@@ -27,11 +27,14 @@ local function set_volume_icon(vol)
 	end
 end
 
-local handle = io.popen("osascript -e 'output volume of (get volume settings)'")
-local init_vol = tonumber(handle:read("*a"))
-handle:close()
+local function initial_volume_callback(output)
+	local vol = tonumber(output)
+	if vol then
+		set_volume_icon(vol)
+	end
+end
 
-set_volume_icon(init_vol)
+sbar.exec("osascript -e 'output volume of (get volume settings)'", initial_volume_callback)
 
 volume:subscribe("volume_change", function(env)
 	local vol = tonumber(env.INFO)
@@ -40,3 +43,4 @@ volume:subscribe("volume_change", function(env)
 end)
 
 return volume
+
