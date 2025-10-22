@@ -15,11 +15,11 @@ return {
 			{ desc = "Fzf Live Workspace symbols" }
 		)
 		keymap.set("n", "<leader>fb", "<CMD>FzfLua buffers<CR>", { desc = "Fzf Buffers" })
-		keymap.set("n", "<leader>ff", function()
-			require("fzf-lua-frecency").frecency({
-				cwd_only = true,
-			})
-		end, { desc = "Fzf Frecent Files" })
+		-- keymap.set("n", "<leader>ff", function()
+		-- 	require("fzf-lua-frecency").frecency({
+		-- 		cwd_only = true,
+		-- 	})
+		-- end, { desc = "Fzf Frecent Files" })
 		keymap.set("n", "<leader>fo", function()
 			require("fzf-lua").oldfiles({
 				cwd_only = true,
