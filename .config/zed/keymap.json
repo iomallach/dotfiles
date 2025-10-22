@@ -1,0 +1,70 @@
+[
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "space f g": "pane::DeploySearch",
+      "space l r n": "editor::Rename",
+      "space c a": "editor::ToggleCodeActions",
+      "shift-k": "editor::Hover",
+      "space l g d": "editor::GoToDefinition",
+      "space f w s": "project_symbols::Toggle",
+      "space space": "pane::AlternateFile",
+      "space f D": "diagnostics::Deploy",
+      "space b k": "pane::CloseActiveItem",
+      "space g g": "git_panel::ToggleFocus",
+      "space t l d": "workspace::ToggleLeftDock",
+      "-": "pane::RevealInProjectPanel",
+      "space g t": "editor::GoToTypeDefinition",
+      "space p h": "editor::ToggleSelectedDiffHunks"
+    }
+  },
+  {
+    "context": "vim_mode == normal || vim_mode == visual",
+    "bindings": {
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushSneakBackward"
+    }
+  },
+  // In VimScript, this would look like this:
+  // set whichwrap+=<,>,[,],h,l
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "left": "vim::WrappingLeft",
+      "right": "vim::WrappingRight",
+      "h": "vim::WrappingLeft",
+      "l": "vim::WrappingRight"
+    }
+  },
+  {
+    "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
+    "bindings": {
+      // Traditional Vim behavior
+      "q": "vim::AnyQuotes",
+      "b": "vim::AnyBrackets",
+
+      // mini.ai plugin behavior
+      "Q": "vim::MiniQuotes",
+      "B": "vim::MiniBrackets"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      // Put key bindings here (in addition to the context above) if you want them to
+      // work when no editor exists.
+      // "space f": "file_finder::Toggle"
+      "space f f": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w j": "workspace::ActivatePaneDown"
+      // ... or other keybindings
+    }
+  }
+]
