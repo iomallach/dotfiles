@@ -98,20 +98,33 @@ zellij_tab_name_update() {
     if [[ $tab_name == $HOME ]]; then
          	tab_name="~"
     fi
+    command nohup zellij action rename-pane "" >/dev/null 2>&1
     command nohup zellij action rename-pane $tab_name >/dev/null 2>&1
   fi
 }
 
-zellij_tab_name_update
-chpwd_functions+=(zellij_tab_name_update)
+# chpwd_functions+=(zellij_tab_name_update)
 
 zellij_pane_name_process_update() {
   if [[ -n $ZELLIJ ]]; then
     pane_name=$1
+    command nohup zellij action rename-pane "" >/dev/null 2>&1
     command nohup zellij action rename-pane $pane_name >/dev/null 2>&1
   fi
 }
 
-autoload -U add-zsh-hook
-add-zsh-hook preexec zellij_pane_name_process_update
-add-zsh-hook precmd zellij_tab_name_update
+if [[ -n $ZELLIJ ]]; then
+  autoload -U add-zsh-hook
+  # Remove existing hooks first
+  add-zsh-hook -d preexec zellij_pane_name_process_update 2>/dev/null
+  add-zsh-hook -d precmd zellij_tab_name_update 2>/dev/null
+  add-zsh-hook -d chpwd zellij_tab_name_update 2>/dev/null
+  # Add fresh hooks
+  zellij_tab_name_update
+  add-zsh-hook chpwd zellij_tab_name_update
+  add-zsh-hook preexec zellij_pane_name_process_update
+  add-zsh-hook precmd zellij_tab_name_update
+fi
+
+source /Users/iomallach/dotfiles/.zshrc.secrets
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"

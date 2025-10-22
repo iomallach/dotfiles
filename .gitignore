@@ -7,3 +7,4 @@
 .config/zellij/plugins/
 .config/configstore
 .config/Wondershare
+.zshrc.secrets
