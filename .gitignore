@@ -4,3 +4,6 @@
 .config/zed/prompts/
 .config/zed/embeddings/
 .config/lazygit/state.yml
+.config/zellij/plugins/
+.config/configstore
+.config/Wondershare
