@@ -6,9 +6,22 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay/cd02956a1f6376f524a10b94893bc9408b476322";
+
+    # homebrew
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, neovim-nightly }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, neovim-nightly, nix-homebrew, ... }:
   let
     configuration = { pkgs, config, ... }: {
       nixpkgs.config.allowUnfree = true;
@@ -98,7 +111,25 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."macbookair" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [
+          configuration 
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = true;
+
+              # User owning the Homebrew prefix
+              user = "iomallach";
+
+              # Automatically migrate existing Homebrew installations
+              autoMigrate = true;
+            };
+          }
+      ];
     };
   };
 }
