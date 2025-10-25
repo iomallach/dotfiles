@@ -62,6 +62,7 @@
           tldr
           zoxide
           (lua54Packages.lua.withPackages (ps: with ps; [ luasocket cjson luasec ]))
+          ghostty-bin
           # sst/tap/opencode - cask within brew
         ];
       # From brew formulaes
