@@ -5,20 +5,77 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay/cd02956a1f6376f524a10b94893bc9408b476322";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, neovim-nightly }:
   let
-    configuration = { pkgs, ... }: {
+    configuration = { pkgs, config, ... }: {
       nixpkgs.config.allowUnfree = true;
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.vim
+        with pkgs ; [ 
+          mkalias
+          vim
+          neovim-nightly.packages.${pkgs.system}.default
+          qmk # split keyboard
+          fzf
+          eza
+          asciiquarium
+          zed-editor
+          uv
+          nix-search-tv
+          figlet # ascii prints
+          bat
+          jq
+          cmatrix
+          curl
+          wget
+          blueutil
+          btop
+          fd
+          helix
+          lazygit
+          gitu
+          # neovide it is a cask within brew
+          nowplaying-cli
+          switchaudio-osx
+          yazi
+          openvpn
+          ripgrep
+          starship # prompt
+          tmux
+          tldr
+          zoxide
+          (lua54Packages.lua.withPackages (ps: with ps; [ luasocket cjson luasec ]))
+          # sst/tap/opencode - cask within brew
         ];
+      # From brew formulaes
+      # ifstat
+      # nasm
 
+      system.activationScripts.applications.text = let
+        env = pkgs.buildEnv {
+          name = "system-applications";
+          paths = config.environment.systemPackages;
+          pathsToLink = "/Applications";
+        };
+      in
+        pkgs.lib.mkForce ''
+          # Set up applications.
+          echo "setting up /Applications..." >&2
+          rm -rf /Applications/Nix\ Apps
+          mkdir -p /Applications/Nix\ Apps
+          find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+          while read -r src; do
+            app_name=$(basename "$src")
+            echo "copying $src" >&2
+            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+          done
+        '';
       # Add Homebrew to PATH
-      environment.systemPath = [ "/opt/homebrew/bin" "/opt/homebrew/sbin" ];
+      # environment.systemPath = [ "/opt/homebrew/bin" "/opt/homebrew/sbin" ];
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
