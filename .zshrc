@@ -74,19 +74,16 @@ eval "$(zoxide init zsh --cmd cd)"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # Starship shell
+# Check that the function `starship_zle-keymap-select()` is defined.
+# xref: https://github.com/starship/starship/issues/3418
+if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+      "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+    zle -N zle-keymap-select "";
+fi
+
 eval "$(starship init zsh)"
 
-# Add brewed LLVM to path
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-
 export PATH=$PATH:/Users/iomallach/.spicetify
-
-# Created by `pipx` on 2024-07-24 18:43:00
-export PATH="$PATH:/Users/iomallach/.local/bin"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Set path for GO to install binaries into
 export GOBIN="$HOME/.go/bin"
@@ -116,4 +113,3 @@ if [[ -n $ZELLIJ ]]; then
 fi
 
 source /Users/iomallach/dotfiles/.zshrc.secrets
-export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
