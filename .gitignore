@@ -8,3 +8,4 @@
 .config/configstore
 .config/Wondershare
 .zshrc.secrets
+.config/nix/result
