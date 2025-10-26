@@ -78,6 +78,7 @@ local options = {
 		python = get_python_formatters(),
 		go = { "gofumpt", "goimports" },
 		java = { "google-java-format" },
+		nix = { "nixfmt" },
 	},
 	format_on_save = {
 		-- These options will be passed to conform.format()

@@ -1,6 +1,5 @@
 local M = {}
 
-local lspconfig = require("lspconfig")
 local diagnostic_signs = {
 	Error = " ",
 	Warn = " ",
@@ -227,7 +226,7 @@ end
 M.setup = function()
 	setup_diagnostic_signs()
 
-	setup_jdtls()
+	-- setup_jdtls()
 end
 
 return M

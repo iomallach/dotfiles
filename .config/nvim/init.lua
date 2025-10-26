@@ -1,3 +1,4 @@
+require("vim._extui").enable({ enable = true, msg = { target = "msg" } })
 require("config")
 require("current-theme")
 
@@ -12,3 +13,4 @@ vim.lsp.enable("zls")
 vim.lsp.enable("marksman")
 vim.lsp.enable("asm_lsp")
 vim.lsp.enable("glsl_analyzer")
+vim.lsp.enable("nixd")
