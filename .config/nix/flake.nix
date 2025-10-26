@@ -60,7 +60,7 @@
             helix
             lazygit
             gitu
-            # neovide it is a cask within brew
+            neovide
             nowplaying-cli
             switchaudio-osx
             yazi
@@ -82,11 +82,7 @@
             nixfmt-rfc-style # formatter
             nil # lsp
             nixd # lsp 2
-            # sst/tap/opencode - cask within brew
           ];
-          # From brew formulaes
-          # ifstat
-          # nasm
 
           system.activationScripts.applications.text =
             let
@@ -120,6 +116,9 @@
           # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
 
+          # Because of homebrew.enable?
+          system.primaryUser = "iomallach";
+
           # Used for backwards compatibility, please read the changelog before changing.
           # $ darwin-rebuild changelog
           system.stateVersion = 6;
@@ -135,6 +134,7 @@
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
+          ./modules/homebrew.nix
           {
             nix-homebrew = {
               # Install Homebrew under the default prefix
