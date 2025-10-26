@@ -112,8 +112,8 @@
       "sf-symbols"
       "sioyek"
       "spotify"
-      "vivaldi"
       "wezterm"
+      "zen"
     ];
   };
 }
