@@ -27,12 +27,12 @@
     ];
 
     casks = [
-      "aerospace"
-      "arc"
-      "betterdisplay"
-      "bitwarden"
-      "firefox"
-      "font-0xproto-nerd-font"
+      "aerospace" # move to nixpkgs
+      "arc" # move to nix
+      "betterdisplay" # move to nixpkgs
+      "bitwarden" # move bitwarden-desktop/bitwarden-cli to nixpkgs
+      "firefox" # move to nixpkgs
+      "font-0xproto-nerd-font" # move all fonts to nixpkgs, I guess
       "font-3270-nerd-font"
       "font-agave-nerd-font"
       "font-anonymice-nerd-font"
@@ -105,14 +105,14 @@
       "font-ubuntu-sans-nerd-font"
       "font-victor-mono-nerd-font"
       "font-zed-mono-nerd-font"
-      "google-chrome"
+      "google-chrome" # move to nixpkgs
       "google-drive"
-      "obsidian"
-      "raycast"
+      "obsidian" # move to nixpkgs
+      "raycast" # move to nixpkgs
       "sf-symbols"
-      "sioyek"
-      "spotify"
-      "wezterm"
+      "sioyek" # move to nixpkgs
+      "spotify" # move to nixpkgs
+      "wezterm" # remove
       "zen"
     ];
   };
