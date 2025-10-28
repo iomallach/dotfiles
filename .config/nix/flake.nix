@@ -82,6 +82,8 @@
             nixfmt-rfc-style # formatter
             nil # lsp
             nixd # lsp 2
+            crush
+            nvd # package diff between generations
           ];
 
           system.activationScripts.applications.text =
