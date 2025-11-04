@@ -48,7 +48,10 @@
     fzf
     gitu
     tmux
-    # plex dependencies
+    neovim
+    zsh
+    zoxide
+    starship
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -84,7 +87,7 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
-    EDITOR = "vim";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
