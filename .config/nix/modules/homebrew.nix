@@ -114,6 +114,7 @@
       "spotify" # move to nixpkgs
       "wezterm" # remove
       "zen"
+      "utm" # virtualization
     ];
   };
 }
