@@ -115,6 +115,7 @@
       "wezterm" # remove
       "zen"
       "utm" # virtualization
+      "karabiner-elements"
     ];
   };
 }
