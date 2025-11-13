@@ -84,6 +84,7 @@
             nixd # lsp 2
             crush
             nvd # package diff between generations
+            kanata # keyboard remapping
           ];
 
           system.activationScripts.applications.text =
