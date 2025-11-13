@@ -41,6 +41,7 @@
   v-to-lower (tap-hold $tap-timeout $hold-timeout v (layer-while-held lower))
   rcmd-to-upper (tap-hold $tap-timeout $hold-timeout rmet (layer-while-held upper))
   t-to-upper (tap-hold $tap-timeout $hold-timeout t (layer-while-held upper))
+  lcmd-to-lower (tap-hold $tap-timeout $hold-timeout lmet (layer-while-held lower))
 )
 
 (defsrc
@@ -56,21 +57,21 @@
   esc     q  w  e  r  @t-to-upper  y  u  i  o  p [ ]
   tab     @a @s @d @f g            h  @j @k @l @; ' \     ret
   lsft    `  z  x  c  @v-to-lower  b  n  m  ,  . / rsft
-      lctl lalt lmet spc @rcmd-to-upper ralt
+      lctl lalt @lcmd-to-lower spc @rcmd-to-upper ralt
 )
 
 
 (deflayer lower
-  esc   1       2   3        4       5        6      7       8         9         0        - =     bspc
+  `     1       2   3        4       5        6      7       8         9         0        - =     bspc
   esc   1       2   3        4       5        6      7       8         9         0        [ ]
-  tab   @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket ' \     ret
+  tab   @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket - \     ret
   lsft  `       z   x        c       v        b      n       m         ,         .        / rsft
       lctl lalt lmet spc rmet ralt
 )
 
 (deflayer upper
   esc   1 2 3 4 5 6    7    8  9     0 - =     bspc
-  esc   1 2 3 4 5 6    7    8  9     0 [ ]
+  esc   1 2 3 4 5 6    7    8  9     0 = ]
   tab   a s d f g left down up right ; ' \     ret
   lsft  ` z x c v b    n    m  ,     . / rsft
       lctl lalt lmet spc rmet ralt
