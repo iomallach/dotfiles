@@ -28,15 +28,19 @@
   a (tap-hold $tap-timeout $hold-timeout a lmet)
   s (tap-hold $tap-timeout $hold-timeout s lalt)
   d (tap-hold $tap-timeout $hold-timeout d lctl)
-  f (tap-hold $tap-timeout $hold-timeout f lsft)
+  f (tap-hold $tap-timeout $hold-timeout f @hyper)
+  g (tap-hold $tap-timeout $hold-timeout g lsft)
 
-  j (tap-hold $tap-timeout $hold-timeout j rsft)
+  h (tap-hold $tap-timeout $hold-timeout h rsft)
+  j (tap-hold $tap-timeout $hold-timeout j @hyper)
   k (tap-hold $tap-timeout $hold-timeout k rctl)
   l (tap-hold $tap-timeout $hold-timeout l ralt)
   ; (tap-hold $tap-timeout $hold-timeout ; rmet)
 
   ;; layers
   v-to-lower (tap-hold $tap-timeout $hold-timeout v (layer-while-held lower))
+  rcmd-to-upper (tap-hold $tap-timeout $hold-timeout rmet (layer-while-held upper))
+  t-to-upper (tap-hold $tap-timeout $hold-timeout t (layer-while-held upper))
 )
 
 (defsrc
@@ -49,25 +53,25 @@
 
 (deflayer main
   esc     1  2  3  4  5            6  7  8  9  0 - =     bspc
-  tab     q  w  e  r  t            y  u  i  o  p [ ]
-  @hyper  @a @s @d @f g            h  @j @k @l @; ' \     ret
+  esc     q  w  e  r  @t-to-upper  y  u  i  o  p [ ]
+  tab     @a @s @d @f g            h  @j @k @l @; ' \     ret
   lsft    `  z  x  c  @v-to-lower  b  n  m  ,  . / rsft
-      lctl lalt lmet spc rmet ralt
+      lctl lalt lmet spc @rcmd-to-upper ralt
 )
 
 
 (deflayer lower
   esc   1       2   3        4       5        6      7       8         9         0        - =     bspc
-  tab   1       2   3        4       5        6      7       8         9         0        [ ]
-  caps  @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket ' \     ret
+  esc   1       2   3        4       5        6      7       8         9         0        [ ]
+  tab   @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket ' \     ret
   lsft  `       z   x        c       v        b      n       m         ,         .        / rsft
       lctl lalt lmet spc rmet ralt
 )
 
 (deflayer upper
-  esc   1 2 3 4 5 6 7 8 9 0 - =     bspc
-  tab   1 2 3 4 5 6 7 8 9 0 [ ]
-  caps  a s d f g h j k l ; ' \     ret
-  lsft  ` z x c v b n m , . / rsft
+  esc   1 2 3 4 5 6    7    8  9     0 - =     bspc
+  esc   1 2 3 4 5 6    7    8  9     0 [ ]
+  tab   a s d f g left down up right ; ' \     ret
+  lsft  ` z x c v b    n    m  ,     . / rsft
       lctl lalt lmet spc rmet ralt
 )
