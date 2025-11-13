@@ -5,5 +5,9 @@ return {
 	cmd = "WhichKey",
 	config = function(_, opts)
 		require("which-key").setup(opts)
+		local wk_mb = require("minibuffer.integrations.which-key")
+		local wk_view = require("which-key.view")
+		wk_view.show = wk_mb.show
+		wk_view.hide = wk_mb.hide
 	end,
 }
