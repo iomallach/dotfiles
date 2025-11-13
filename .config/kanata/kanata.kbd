@@ -1,0 +1,73 @@
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  macos-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+  )
+)
+
+(defvar
+  tap-timeout 200
+  hold-timeout 150
+)
+
+(defalias
+  hyper      (multi sft ctl alt met)
+  excl-p     S-1
+  at         S-2
+  hashtag    S-3
+  dollar     S-4
+  percent    S-5
+  triag      S-6
+  ampers     S-7
+  asterisk   S-8
+  lbracket   S-9
+  rbracket   S-0
+
+  ;; homerow
+  a (tap-hold $tap-timeout $hold-timeout a lmet)
+  s (tap-hold $tap-timeout $hold-timeout s lalt)
+  d (tap-hold $tap-timeout $hold-timeout d lctl)
+  f (tap-hold $tap-timeout $hold-timeout f lsft)
+
+  j (tap-hold $tap-timeout $hold-timeout j rsft)
+  k (tap-hold $tap-timeout $hold-timeout k rctl)
+  l (tap-hold $tap-timeout $hold-timeout l ralt)
+  ; (tap-hold $tap-timeout $hold-timeout ; rmet)
+
+  ;; layers
+  v-to-lower (tap-hold $tap-timeout $hold-timeout v (layer-while-held lower))
+)
+
+(defsrc
+  esc   1 2 3 4 5 6 7 8 9 0 - =     bspc
+  tab   q w e r t y u i o p [ ]
+  caps  a s d f g h j k l ; ' \     ret
+  lsft  ` z x c v b n m , . / rsft
+      lctl lalt lmet spc rmet ralt
+)
+
+(deflayer main
+  esc     1  2  3  4  5            6  7  8  9  0 - =     bspc
+  tab     q  w  e  r  t            y  u  i  o  p [ ]
+  @hyper  @a @s @d @f g            h  @j @k @l @; ' \     ret
+  lsft    `  z  x  c  @v-to-lower  b  n  m  ,  . / rsft
+      lctl lalt lmet spc rmet ralt
+)
+
+
+(deflayer lower
+  esc   1       2   3        4       5        6      7       8         9         0        - =     bspc
+  tab   1       2   3        4       5        6      7       8         9         0        [ ]
+  caps  @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket ' \     ret
+  lsft  `       z   x        c       v        b      n       m         ,         .        / rsft
+      lctl lalt lmet spc rmet ralt
+)
+
+(deflayer upper
+  esc   1 2 3 4 5 6 7 8 9 0 - =     bspc
+  tab   1 2 3 4 5 6 7 8 9 0 [ ]
+  caps  a s d f g h j k l ; ' \     ret
+  lsft  ` z x c v b n m , . / rsft
+      lctl lalt lmet spc rmet ralt
+)
