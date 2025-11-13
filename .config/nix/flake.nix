@@ -19,6 +19,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    # Kanata-tray
+    kanata-tray.url = "github:rszyma/kanata-tray";
+    kanata-tray.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -28,6 +32,7 @@
       nixpkgs,
       neovim-nightly,
       nix-homebrew,
+      kanata-tray,
       ...
     }:
     let
@@ -85,6 +90,7 @@
             crush
             nvd # package diff between generations
             kanata # keyboard remapping
+            kanata-tray.packages.${pkgs.system}.default
           ];
 
           system.activationScripts.applications.text =
