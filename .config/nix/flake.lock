@@ -161,11 +161,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1763151017,
-        "narHash": "sha256-0n0LwTW/NjvniTwOrsJq4zeGJ+WT1MsBiWkPUIW4xSo=",
+        "lastModified": 1763162619,
+        "narHash": "sha256-HFaYZetcKBfaAXJ4B6/me1e4MNS2FVBAh4e2Cil1kMQ=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "2bfc6a1c0e42a13613554aecd42a4fcfd01f4c55",
+        "rev": "4a175ce4fa7446e828c711532b5bf3186f63c87f",
         "type": "github"
       },
       "original": {
@@ -177,11 +177,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1763151991,
-        "narHash": "sha256-pTUt++6z2Q7IDh33+EIFzEayw7Nt029OxoUAgB2GrTQ=",
+        "lastModified": 1763159347,
+        "narHash": "sha256-SDxfOC6yYEW6l9iMMRkTBXER4E1AmkxXINp0ciuBlDA=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "ec00aefd1ccef780a7c593eadc5bea6770dd5bb8",
+        "rev": "f8237f700b1477e99a364e655e95a9db40ebd219",
         "type": "github"
       },
       "original": {
@@ -218,7 +218,9 @@
         "git-hooks": "git-hooks",
         "hercules-ci-effects": "hercules-ci-effects",
         "neovim-src": "neovim-src",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
@@ -293,22 +295,6 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1761236834,
-        "narHash": "sha256-+pthv6hrL5VLW2UqPdISGuLiUZ6SnAXdd2DdUE+fV2Q=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "d5faa84122bc0a1fd5d378492efce4e289f8eac1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
         "lastModified": 1762943920,
         "narHash": "sha256-ITeH8GBpQTw9457ICZBddQEBjlXMmilML067q0e6vqY=",
         "owner": "NixOS",
@@ -331,7 +317,7 @@
         "neovim-nightly": "neovim-nightly",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs"
       }
     },
     "systems": {
