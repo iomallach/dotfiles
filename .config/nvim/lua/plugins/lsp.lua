@@ -10,11 +10,6 @@ return {
 		end,
 	},
 	{
-		"folke/trouble.nvim",
-		opts = {},
-		cmd = "Trouble",
-	},
-	{
 		"chrisgrieser/nvim-lsp-endhints",
 		event = "LspAttach",
 		config = function()

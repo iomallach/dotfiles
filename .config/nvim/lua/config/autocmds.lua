@@ -50,8 +50,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				})
 			end, 1)
 		end, opts("Show line diagnostic"))
-		map("n", "<leader>lD", "<CMD>Trouble diagnostics toggle filter.buf=0<CR>", opts("Buffer diagnostics (trouble)"))
-		map("n", "<leader>ltd", "<CMD>Trouble todo<CR>")
 		map("n", "<leader>lfr", require("fzf-lua").lsp_references, opts("Show references"))
 		map("n", "<leader>lpt", require("goto-preview").goto_preview_type_definition, opts("Peek type definition"))
 
