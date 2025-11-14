@@ -45,34 +45,38 @@
 )
 
 (defsrc
-  esc   1 2 3 4 5 6 7 8 9 0 - =     bspc
-  tab   q w e r t y u i o p [ ]
-  caps  a s d f g h j k l ; ' \     ret
-  lsft  ` z x c v b n m , . / rsft
-      lctl lalt lmet spc rmet ralt
+  esc   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
+  grv   1  2  3  4  5  6  7  8  9  0   -   =     bspc
+  tab   q  w  e  r  t  y  u  i  o  p   [   ]
+  caps  a  s  d  f  g  h  j  k  l  ;   '   \     ret
+  lsft  102d  z  x  c  v  b  n  m  ,  .   /   rsft
+  fn  lctl lalt lmet spc rmet ralt left down up rght
 )
 
 (deflayer main
-  esc     1  2  3  4  5            6  7  8  9  0  - =     bspc
+  esc     brdn brup f3 f4 f5 f6 f7 f8 f9 f10 voldwn volu
+  grv     1  2  3  4  5            6  7  8  9  0  - =     bspc
   esc     q  w  e  r  @t-to-upper  y  u  i  o  p  [ ]
   tab     @a @s @d @f @g           @h  @j @k @l @; ' \     ret
   lsft    `  z  x  c  @v-to-lower  b  n  m  ,  .  / rsft
-      lctl lalt @lcmd-to-lower spc @rcmd-to-upper ralt
+  fn   lctl lalt @lcmd-to-lower spc @rcmd-to-upper ralt left down up rght
 )
 
 
 (deflayer lower
+  esc     f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
   `     1       2   3        4       5        6      7       8         9         0        - =     bspc
   esc   1       2   3        4       5        6      7       8         9         0        [ ]
   tab   @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket - \     ret
-  lsft  `       z   x        c       v        b      n       m         ,         .        / rsft
-      lctl lalt lmet spc rmet ralt
+  lsft  `       z   x        c       v        b      n       m         ,         .        / rsft left down up rght
+  fn    lctl lalt lmet spc rmet ralt
 )
 
 (deflayer upper
+  esc   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
   esc   1 2 3 4 5 6    7    8  9     0 - =     bspc
   esc   1 2 3 4 5 6    7    8  9     0 = ]
   tab   a s d f g left down up right ; ' \     ret
   lsft  ` z x c v b    n    m  ,     . / rsft
-      lctl lalt lmet spc rmet ralt
+  fn   lctl lalt lmet spc rmet ralt left down up rght
 )
