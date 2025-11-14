@@ -57,6 +57,14 @@
     "use_new_terminal": true,
     "reveal_target": "center",
     "allow_concurrent_runs": false,
-    "hide": "on_success"
+    "hide": "always"
+  },
+  {
+    "label": "File Finder",
+    "command": "zed \"$(fd -t f -u --ignore-file '.zed/.ignore' | fzf --preview='bat -n -f -r:100 {}')\"",
+    "hide": "always",
+    "allow_concurrent_runs": true,
+    "use_new_terminal": true,
+    "reveal_target": "center"
   }
 ]
