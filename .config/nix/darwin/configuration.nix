@@ -53,6 +53,7 @@
     nvd # package diff between generations
     kanata # keyboard remapping
     kanata-tray.default
+    claude-code
   ];
 
   system.activationScripts.applications.text =
