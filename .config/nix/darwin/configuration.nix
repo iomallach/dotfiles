@@ -54,6 +54,9 @@
     kanata # keyboard remapping
     kanata-tray.default
     claude-code
+    claude-monitor
+    bun
+    nodejs
   ];
 
   system.activationScripts.applications.text =
@@ -61,7 +64,7 @@
       env = pkgs.buildEnv {
         name = "system-applications";
         paths = config.environment.systemPackages;
-        pathsToLink = "/Applications";
+        pathsToLink = [ "/Applications" ];
       };
     in
     pkgs.lib.mkForce ''
