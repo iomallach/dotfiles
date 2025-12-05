@@ -1,17 +1,17 @@
 {
-  description = "Unified nix-darwin and home-manager configuration";
+  description = "Unified nix-darwin, NixOS, and home-manager configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    
+
     # nix-darwin
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    
+
     # home-manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    
+
     # Shared inputs
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay/cd02956a1f6376f524a10b94893bc9408b476322";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +32,12 @@
     # Kanata-tray
     kanata-tray.url = "github:rszyma/kanata-tray";
     kanata-tray.inputs.nixpkgs.follows = "nixpkgs";
+
+    # NixOS specific inputs
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    tuxedo-nixos.url = "github:sund3RRR/tuxedo-nixos";
   };
 
   outputs =
@@ -43,8 +49,10 @@
       neovim-nightly,
       nix-homebrew,
       kanata-tray,
+      zen-browser,
+      tuxedo-nixos,
       ...
-    }:
+    }@inputs:
     {
       # macOS configuration with nix-darwin
       darwinConfigurations."macbookair" = nix-darwin.lib.darwinSystem {
@@ -92,12 +100,22 @@
             neovim-nightly.overlays.default
           ];
         };
-        
+
         # Pass inputs to home.nix
         extraSpecialArgs = { inherit self; };
-        
+
         modules = [
           ./home-manager/home-linux.nix
+        ];
+      };
+
+      # NixOS configuration
+      nixosConfigurations."tuxbook" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./nixos/configuration.nix
+          tuxedo-nixos.nixosModules.default
         ];
       };
     };
