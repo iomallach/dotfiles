@@ -17,6 +17,9 @@
   boot.kernelParams = [
     "acpi.ec_no_wakeup=1" # acpi wakeup issues
     "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
+    "tuxedo_keyboard.mode=0"
+    "tuxedo_keyboard.brightness=25"
+    "tuxedo_keyboard.color_left=0x0000ff"
   ];
   boot.loader = {
     grub = {
@@ -39,6 +42,7 @@
   hardware.bluetooth.powerOnBoot = true;
   hardware.tuxedo-control-center.enable = true;
   hardware.tuxedo-drivers.enable = true;
+  hardware.tuxedo-keyboard.enable = true;
   services.blueman.enable = true;
   services.power-profiles-daemon.enable = false;
 
@@ -145,9 +149,45 @@
       flavor = "mocha";
       accent = "mauve";
       font = "Noto Sans";
-      fontSize = "9";
+      fontSize = "16";
       # background = "${./wallpaper.png}";
       loginBackground = true;
+    })
+    # Desktop entry for zen browser (non-beta command)
+    (makeDesktopItem {
+      name = "zen";
+      desktopName = "Zen Browser";
+      exec = "zen --name zen %U";
+      icon = "zen-browser";
+      comment = "Browse the Web";
+      genericName = "Web Browser";
+      categories = [ "Network" "WebBrowser" ];
+      mimeTypes = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "application/vnd.mozilla.xul+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
+      startupNotify = true;
+      extraConfig = {
+        StartupWMClass = "zen";
+      };
+      actions = {
+        new-window = {
+          name = "New Window";
+          exec = "zen --new-window %U";
+        };
+        new-private-window = {
+          name = "New Private Window";
+          exec = "zen --private-window %U";
+        };
+        profile-manager-window = {
+          name = "Profile Manager";
+          exec = "zen --ProfileManager";
+        };
+      };
     })
   ];
 
@@ -178,6 +218,7 @@
     enable = true;
     xwayland.enable = true;
   };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
