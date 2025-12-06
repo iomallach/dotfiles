@@ -201,6 +201,7 @@
         };
       };
     })
+    wlogout
   ];
 
   fonts.packages = with pkgs; [
@@ -240,6 +241,12 @@
     package = inputs.neovim-nightly.packages."${pkgs.system}".default;
   };
   programs.zsh.enable = true;
+
+  # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
+  environment.sessionVariables = {
+    GDK_PIXBUF_MODULE_FILE = "${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache";
+  };
+
   users.users.iomallach = {
     shell = pkgs.zsh;
   };
