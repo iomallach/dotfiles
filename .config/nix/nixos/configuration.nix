@@ -205,6 +205,7 @@
     hyprlock
     hyprpwcenter
     pavucontrol
+    nerd-fonts.jetbrains-mono
   ];
 
   fonts.packages = with pkgs; [
