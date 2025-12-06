@@ -204,6 +204,7 @@
     wlogout
     hyprlock
     hyprpwcenter
+    pavucontrol
   ];
 
   fonts.packages = with pkgs; [
