@@ -15,6 +15,7 @@
         "hyprland/window"
     ],
     "modules-right": [
+        "custom/bluetooth",
         // "idle_inhibitor",
         "pulseaudio",
         "network",
@@ -27,7 +28,7 @@
         "clock",
         "tray",
         "custom/power"
-        // TODO: add bluetooth widget, add disk widget
+        // TODO: add disk widget
     ],
     // Modules configuration
     "custom/nixos": {
@@ -139,6 +140,14 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "custom/bluetooth": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "sh ~/.config/waybar/scripts/bluetooth.sh",
+        "interval": 5,
+        "on-click": "blueman-manager",
+        "tooltip": true
     },
     "custom/power": {
         "format" : "⏻ ",

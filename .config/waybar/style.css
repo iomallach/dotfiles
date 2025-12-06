@@ -49,8 +49,9 @@ window#waybar.hidden {
 #scratchpad,
 #power-profiles-daemon,
 #language,
-#bluetooth {
-  padding: 0 7px;
+#bluetooth,
+#custom-bluetooth {
+  padding: 0 10px;
   border-radius: 15px;
 }
 
@@ -71,7 +72,8 @@ window#waybar.hidden {
 #scratchpad:hover,
 #power-profiles-daemon:hover,
 #language:hover,
-#bluetooth:hover {
+#bluetooth:hover,
+#custom-bluetooth:hover {
   background: rgba(69, 71, 90, 0.9);
 }
 
@@ -103,4 +105,12 @@ window#waybar.hidden {
 
 #custom-nixos:hover {
   color: #89b4fa;
+}
+
+#custom-bluetooth.connected {
+  color: #89b4fa;
+}
+
+#custom-bluetooth.disconnected {
+  color: #6c7086;
 }
