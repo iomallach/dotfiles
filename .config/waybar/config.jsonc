@@ -37,22 +37,17 @@
         "on-click-right": "pkill waybar & hyprctl dispatch exec waybar"
     },
     "hyprland/workspaces": {
-        "format": "{id}",
-        "disable-scroll": true,
-        "all-outputs": true,
-        "warp-on-scroll": false,
-        "format": "{name}: {icon}",
+        "format": "{icon}",
+        // "disable-scroll": true,
+        // "all-outputs": true,
+        // "warp-on-scroll": false,
+        "active-only": false,
         "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "focused": "",
-            "default": "",
-            "activated": "",
-            "deactivated": ""
+            "default": "",
+            "active": ""
         }
+    },
+    "hyprland/window": {
     },
     "idle_inhibitor": {
         "format": "{icon}",

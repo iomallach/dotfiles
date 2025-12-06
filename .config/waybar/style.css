@@ -50,7 +50,7 @@ window#waybar.hidden {
 #power-profiles-daemon,
 #language,
 #bluetooth {
-  padding: 0 10px;
+  padding: 0 7px;
   border-radius: 15px;
 }
 
