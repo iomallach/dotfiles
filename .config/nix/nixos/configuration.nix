@@ -202,6 +202,7 @@
       };
     })
     wlogout
+    hyprlock
   ];
 
   fonts.packages = with pkgs; [
