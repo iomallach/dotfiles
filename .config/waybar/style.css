@@ -6,8 +6,8 @@
 }
 
 window#waybar {
-    background: rgba(36, 39, 58, 0.75);
-    color: #cad3f5;
+    background: rgba(30, 30, 46, 0.75);
+    color: #cdd6f4;
     transition: background-color .5s;
 }
 
@@ -19,7 +19,7 @@ window#waybar.hidden {
 .modules-center,
 .modules-right
 {
-  background: rgba(54, 58, 79, 0.9);
+  background: rgba(49, 50, 68, 0.9);
   margin: 5px 10px;
   padding: 0 5px;
   border-radius: 15px;
@@ -72,25 +72,25 @@ window#waybar.hidden {
 #power-profiles-daemon:hover,
 #language:hover,
 #bluetooth:hover {
-  background: rgba(54, 58, 79, 0.9);
+  background: rgba(69, 71, 90, 0.9);
 }
 
 #workspaces button {
   background: transparent;
   font-weight: 900;
   font-size: 13pt;
-  color: #cad3f5;
+  color: #cdd6f4;
   border: none;
   border-radius: 15px;
 }
 
 #workspaces button.active {
-  background: #24273a;
+  background: #1e1e2e;
 }
 
 #workspaces button:hover {
-  background: #363a4f;
-  color: #b7bdf8;
+  background: #313244;
+  color: #b4befe;
   box-shadow: none;
 }
 
@@ -102,5 +102,5 @@ window#waybar.hidden {
 }
 
 #custom-nixos:hover {
-  color: #8aadf4;
+  color: #89b4fa;
 }
