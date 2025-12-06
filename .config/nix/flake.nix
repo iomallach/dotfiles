@@ -37,7 +37,11 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
+    # tuxedo-specific modules (control center, keyboard, etc.)
     tuxedo-nixos.url = "github:sund3RRR/tuxedo-nixos";
+
+    # spicetify
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
   outputs =
@@ -51,6 +55,7 @@
       kanata-tray,
       zen-browser,
       tuxedo-nixos,
+      spicetify-nix,
       ...
     }@inputs:
     {
@@ -63,7 +68,7 @@
           {
             # Set Git commit hash for darwin-version.
             system.configurationRevision = self.rev or self.dirtyRev or null;
-            
+
             nix-homebrew = {
               # Install Homebrew under the default prefix
               enable = true;
@@ -116,6 +121,14 @@
         modules = [
           ./nixos/configuration.nix
           tuxedo-nixos.nixosModules.default
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.iomallach = import ./nixos/home-manager.nix;
+          }
         ];
       };
     };
