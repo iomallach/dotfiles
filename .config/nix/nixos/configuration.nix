@@ -203,6 +203,7 @@
     })
     wlogout
     hyprlock
+    hyprpwcenter
   ];
 
   fonts.packages = with pkgs; [
@@ -242,6 +243,7 @@
     package = inputs.neovim-nightly.packages."${pkgs.system}".default;
   };
   programs.zsh.enable = true;
+  programs.steam.enable = true;
 
   # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
   environment.sessionVariables = {
