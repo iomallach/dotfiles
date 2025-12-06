@@ -114,3 +114,14 @@ window#waybar.hidden {
 #custom-bluetooth.disconnected {
   color: #6c7086;
 }
+
+tooltip {
+  background: #1e1e2e;
+  border: 2px solid #313244;
+  border-radius: 10px;
+  color: #cdd6f4;
+}
+
+tooltip label {
+  color: #cdd6f4;
+}
