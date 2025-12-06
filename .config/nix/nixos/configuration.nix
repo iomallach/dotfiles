@@ -2,13 +2,19 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
   # Use the systemd-boot EFI boot loader.
@@ -26,7 +32,7 @@
       enable = true;
       device = "nodev";
       efiSupport = true;
-#      useOSProber = true;
+      #      useOSProber = true;
     };
     efi.canTouchEfiVariables = true;
   };
@@ -64,9 +70,6 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-  
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -95,7 +98,12 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.iomallach = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "audio"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -140,6 +148,7 @@
     clang
     nil
     nixd
+    nixfmt
     nvd
     brightnessctl
     papirus-icon-theme
@@ -149,7 +158,7 @@
       flavor = "mocha";
       accent = "mauve";
       font = "Noto Sans";
-      fontSize = "16";
+      fontSize = "20";
       # background = "${./wallpaper.png}";
       loginBackground = true;
     })
@@ -161,7 +170,10 @@
       icon = "zen-browser";
       comment = "Browse the Web";
       genericName = "Web Browser";
-      categories = [ "Network" "WebBrowser" ];
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
       mimeTypes = [
         "text/html"
         "text/xml"
@@ -197,8 +209,11 @@
     font-awesome
     material-design-icons
   ];
-  
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -265,4 +280,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-
