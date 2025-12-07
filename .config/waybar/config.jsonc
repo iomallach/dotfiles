@@ -35,7 +35,8 @@
         "format": " ",
         "tooltip": true,
         "tooltip-format": "btw",
-        "on-click-right": "pkill waybar & hyprctl dispatch exec waybar"
+        "on-click-right": "pkill waybar & hyprctl dispatch exec waybar",
+        "on-click": "rofi -show drun"
     },
     "hyprland/workspaces": {
         "format": "{icon}",
