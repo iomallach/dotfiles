@@ -21,7 +21,7 @@ for mac in "${connected_devices[@]}"; do
         *"Corne"*|*"corne"*|*"Keyboard"*|*"keyboard"*)
             icon="⌨"
             ;;
-        *"Momentum"*|*"momentum"*|*"Headphone"*|*"headphone"*)
+        *"MOMENTUM"*|*"momentum"*|*"Headphone"*|*"headphone"*)
             icon="🎧"
             ;;
         *"Mouse"*|*"mouse"*)
@@ -43,9 +43,11 @@ done
 # Remove trailing newline
 tooltip=$(echo -e "$tooltip" | sed '$ d')
 
-# Output JSON for waybar
+# Output JSON for waybar using jq to properly escape (compact output for single line)
 if [ "$device_count" -eq 0 ]; then
-    echo '{"text":"󰂯","class":"disconnected","tooltip":"No devices connected"}'
+    jq -nc --arg text "󰂯" --arg class "disconnected" --arg tooltip "No devices connected" \
+        '{text: $text, class: $class, tooltip: $tooltip}'
 else
-    echo "{\"text\":\"󰂯 $device_count\",\"class\":\"connected\",\"tooltip\":\"$tooltip\"}"
+    jq -nc --arg text "󰂯 $device_count" --arg class "connected" --arg tooltip "$tooltip" \
+        '{text: $text, class: $class, tooltip: $tooltip}'
 fi
