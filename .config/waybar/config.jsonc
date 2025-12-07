@@ -72,8 +72,9 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "  {usage}%",
-        "tooltip": true
+        "format": "  {icon0}{icon1}{icon2}{icon3} {usage}%",
+        "tooltip": true,
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
     },
     "memory": {
         "format": "󰧑  {}%",
@@ -115,12 +116,12 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  ({signalStrength}%)",
+        "format-wifi": " ",
         "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
+        "tooltip-format": "{essid} via {gwaddr}  -- {signalStrength}%",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "󱚼",
-        "format-alt": "  {essid}"
+        "on-click": "sh ~/.config/waybar/scripts/rofi-wifi-menu.sh"
         // TODO: add wifi menu with rofi
     },
     "pulseaudio": {
