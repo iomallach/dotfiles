@@ -10,6 +10,7 @@
     "modules-left": [
         "custom/nixos",
         "hyprland/workspaces",
+        "custom/spotify"
     ],
     "modules-center": [
         "hyprland/window"
@@ -153,7 +154,17 @@
     },
     "custom/power": {
         "format" : "⏻ ",
-		"tooltip": false,
-    "on-click": "wlogout"
+        "tooltip": false,
+        "on-click": "wlogout"
+    },
+    "custom/spotify": {
+        "format": " {}",
+        "max-length": 40,
+        "interval": 5,
+        "exec": "playerctl -p spotify metadata --format '{{ artist }} - {{ title }}'",
+        "exec-if": "pgrep spotify",
+        "on-click": "playerctl -p spotify play-pause",
+        "on-scroll-up": "playerctl -p spotify next",
+        "on-scroll-down": "playerctl -p spotify previous"
     }
 }

@@ -17,7 +17,6 @@ window#waybar.hidden {
     opacity: 0.0;
 }
 
-.modules-left,
 .modules-center,
 .modules-right
 {
@@ -29,6 +28,24 @@ window#waybar.hidden {
 
 .modules-left {
   padding: 0;
+  margin: 5px 10px;
+  background: transparent;
+}
+
+#custom-nixos {
+  background: alpha(@ctp-surface0, 0.9);
+  border-radius: 15px 0 0 15px;
+  padding: 0 5px 0 10px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#workspaces {
+  background: alpha(@ctp-surface0, 0.9);
+  border-radius: 0 15px 15px 0;
+  padding: 0 10px 0 0;
+  margin-left: -4px;
+  margin-right: 10px;
 }
 .modules-center {
   padding: 0 10px;
@@ -108,6 +125,17 @@ window#waybar.hidden {
 
 #custom-nixos:hover {
   color: @ctp-blue;
+}
+
+#custom-spotify {
+  padding: 0 10px;
+  margin-left: 10px;
+  background: alpha(@ctp-surface0, 0.9);
+  border-radius: 15px;
+}
+
+#custom-spotify:hover {
+  background: alpha(@ctp-surface1, 0.9);
 }
 
 #custom-bluetooth.connected {
