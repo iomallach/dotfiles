@@ -1,3 +1,5 @@
+@import "themes/mocha.css";
+
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
@@ -6,8 +8,8 @@
 }
 
 window#waybar {
-    background: rgba(30, 30, 46, 0.75);
-    color: #cdd6f4;
+    background: alpha(@ctp-base, 0.75);
+    color: @ctp-text;
     transition: background-color .5s;
 }
 
@@ -19,7 +21,7 @@ window#waybar.hidden {
 .modules-center,
 .modules-right
 {
-  background: rgba(49, 50, 68, 0.9);
+  background: alpha(@ctp-surface0, 0.9);
   margin: 5px 10px;
   padding: 0 5px;
   border-radius: 15px;
@@ -74,25 +76,25 @@ window#waybar.hidden {
 #language:hover,
 #bluetooth:hover,
 #custom-bluetooth:hover {
-  background: rgba(69, 71, 90, 0.9);
+  background: alpha(@ctp-surface1, 0.9);
 }
 
 #workspaces button {
   background: transparent;
   font-weight: 900;
   font-size: 13pt;
-  color: #cdd6f4;
+  color: @ctp-text;
   border: none;
   border-radius: 15px;
 }
 
 #workspaces button.active {
-  background: #1e1e2e;
+  background: @ctp-base;
 }
 
 #workspaces button:hover {
-  background: #313244;
-  color: #b4befe;
+  background: @ctp-surface0;
+  color: @ctp-lavender;
   box-shadow: none;
 }
 
@@ -101,28 +103,28 @@ window#waybar.hidden {
   padding: 0 10px;
   font-size: 25px;
   transition: color .5s;
-  color: #89b4fa;
+  color: @ctp-blue;
 }
 
 #custom-nixos:hover {
-  color: #89b4fa;
+  color: @ctp-blue;
 }
 
 #custom-bluetooth.connected {
-  color: #89b4fa;
+  color: @ctp-blue;
 }
 
 #custom-bluetooth.disconnected {
-  color: #6c7086;
+  color: @ctp-overlay0;
 }
 
 tooltip {
-  background: #1e1e2e;
-  border: 2px solid #313244;
+  background: @ctp-base;
+  border: 2px solid @ctp-surface0;
   border-radius: 10px;
-  color: #cdd6f4;
+  color: @ctp-text;
 }
 
 tooltip label {
-  color: #cdd6f4;
+  color: @ctp-text;
 }
