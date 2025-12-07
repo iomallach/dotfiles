@@ -43,6 +43,9 @@
     # spicetify
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # catppuccin nixos modules
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs =
@@ -57,6 +60,7 @@
       zen-browser,
       tuxedo-nixos,
       spicetify-nix,
+      catppuccin,
       ...
     }@inputs:
     {
@@ -122,7 +126,7 @@
         modules = [
           ./nixos/configuration.nix
           tuxedo-nixos.nixosModules.default
-
+          catppuccin.nixosModules.catppuccin
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

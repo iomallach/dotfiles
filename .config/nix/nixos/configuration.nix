@@ -27,12 +27,21 @@
     "tuxedo_keyboard.brightness=25"
     "tuxedo_keyboard.color_left=0x0000ff"
   ];
+  catppuccin.grub = {
+    enable = true;
+    flavor = "mocha";
+  };
   boot.loader = {
     grub = {
       enable = true;
       device = "nodev";
       efiSupport = true;
       #      useOSProber = true;
+
+      # presentation
+      font = lib.mkForce "${pkgs.dejavu_fonts}/share/fonts/truetype/DejaVuSansMono.ttf";
+      fontSize = 28;
+      # gfxmodeEfi = "1920x1080";
     };
     efi.canTouchEfiVariables = true;
   };
