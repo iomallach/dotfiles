@@ -27,9 +27,18 @@
     "tuxedo_keyboard.brightness=25"
     "tuxedo_keyboard.color_left=0x0000ff"
   ];
-  catppuccin.grub = {
-    enable = true;
-    flavor = "mocha";
+  catppuccin = {
+    grub = {
+      enable = true;
+      flavor = "mocha";
+    };
+    gtk = {
+      icon = {
+        enable = true;
+        flavor = "macchiato";
+        accent = "blue";
+      };
+    };
   };
   boot.loader = {
     grub = {
