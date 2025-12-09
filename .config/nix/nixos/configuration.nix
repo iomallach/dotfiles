@@ -225,6 +225,8 @@
     pavucontrol
     nerd-fonts.jetbrains-mono
     playerctl
+    mission-center
+    zathura
   ];
 
   fonts.packages = with pkgs; [
