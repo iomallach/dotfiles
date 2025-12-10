@@ -23,6 +23,7 @@
   boot.kernelParams = [
     "acpi.ec_no_wakeup=1" # acpi wakeup issues
     "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
+    "amd_pstate=active" # amd power management
     "tuxedo_keyboard.mode=0"
     "tuxedo_keyboard.brightness=25"
     "tuxedo_keyboard.color_left=0x0000ff"
@@ -69,7 +70,23 @@
   hardware.tuxedo-keyboard.enable = true;
   services.blueman.enable = true;
   services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+    };
+  };
+  systemd.services.systemd-rfkill.enable = false;
+  systemd.sockets.systemd-rfkill.enable = false;
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
