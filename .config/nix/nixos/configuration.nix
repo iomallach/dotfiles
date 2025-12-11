@@ -244,6 +244,7 @@
     playerctl
     mission-center
     zathura
+    obsidian
   ];
 
   fonts.packages = with pkgs; [
