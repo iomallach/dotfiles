@@ -245,6 +245,7 @@
     mission-center
     zathura
     obsidian
+    cava
   ];
 
   fonts.packages = with pkgs; [

@@ -10,7 +10,8 @@
     "modules-left": [
         "custom/nixos",
         "hyprland/workspaces",
-        "custom/spotify"
+        "custom/spotify",
+        "custom/cava"
     ],
     "modules-center": [
         "hyprland/window"
@@ -32,6 +33,10 @@
         // TODO: add disk widget
     ],
     // Modules configuration
+    "custom/cava": {
+        "exec": "sh ~/.config/waybar/scripts/cava.sh",
+        "format": "♪ {}"
+    },
     "custom/nixos": {
         "format": " ",
         "tooltip": true,
