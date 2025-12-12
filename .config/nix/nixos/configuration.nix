@@ -246,6 +246,7 @@
     zathura
     obsidian
     cava
+    hyprcursor
   ];
 
   fonts.packages = with pkgs; [
