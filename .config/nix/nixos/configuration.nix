@@ -24,9 +24,9 @@
     "acpi.ec_no_wakeup=1" # acpi wakeup issues
     "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
     "amd_pstate=active" # amd power management
-    "tuxedo_keyboard.mode=0"
-    "tuxedo_keyboard.brightness=25"
-    "tuxedo_keyboard.color_left=0x0000ff"
+    # "tuxedo_keyboard.mode=0"
+    # "tuxedo_keyboard.brightness=25"
+    # "tuxedo_keyboard.color_left=0x0000ff"
   ];
   catppuccin = {
     grub = {
@@ -63,11 +63,19 @@
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  hardware.tuxedo-control-center.enable = true;
-  hardware.tuxedo-drivers.enable = true;
-  hardware.tuxedo-keyboard.enable = true;
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    tuxedo-control-center.enable = false;
+    tuxedo-drivers.enable = true;
+    tuxedo-keyboard.enable = true;
+    tuxedo-rs = {
+      enable = true;
+      tailor-gui.enable = true;
+    };
+  };
   services.blueman.enable = true;
   services.power-profiles-daemon.enable = false;
   services.tlp = {
@@ -247,6 +255,7 @@
     obsidian
     cava
     hyprcursor
+    powertop
   ];
 
   fonts.packages = with pkgs; [
