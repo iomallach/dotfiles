@@ -68,12 +68,12 @@
       enable = true;
       powerOnBoot = true;
     };
-    tuxedo-control-center.enable = false;
+    tuxedo-control-center.enable = true;
     tuxedo-drivers.enable = true;
     tuxedo-keyboard.enable = true;
     tuxedo-rs = {
-      enable = true;
-      tailor-gui.enable = true;
+      enable = false;
+      tailor-gui.enable = false;
     };
   };
   services.blueman.enable = true;
@@ -256,6 +256,7 @@
     cava
     hyprcursor
     powertop
+    zed-editor-fhs
   ];
 
   fonts.packages = with pkgs; [
