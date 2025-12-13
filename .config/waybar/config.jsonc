@@ -10,8 +10,8 @@
     "modules-left": [
         "custom/nixos",
         "hyprland/workspaces",
-        "custom/spotify",
-        "custom/cava"
+        "custom/spotify"
+        // "custom/cava"
     ],
     "modules-center": [
         "hyprland/window"
