@@ -12,22 +12,18 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./boot.nix
+    ./services.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
-  # Use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [
-    "acpi.ec_no_wakeup=1" # acpi wakeup issues
-    "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
-    "amd_pstate=active" # amd power management
-    # "tuxedo_keyboard.mode=0"
-    # "tuxedo_keyboard.brightness=25"
-    # "tuxedo_keyboard.color_left=0x0000ff"
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
   ];
+
   catppuccin = {
     grub = {
       enable = true;
@@ -41,28 +37,11 @@
       };
     };
   };
-  boot.loader = {
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      #      useOSProber = true;
-
-      # presentation
-      font = lib.mkForce "${pkgs.dejavu_fonts}/share/fonts/truetype/DejaVuSansMono.ttf";
-      fontSize = 28;
-      # gfxmodeEfi = "1920x1080";
-    };
-    efi.canTouchEfiVariables = true;
-  };
-
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "tuxbook"; # Define your hostname.
-
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+
   hardware = {
     bluetooth = {
       enable = true;
@@ -76,25 +55,7 @@
       tailor-gui.enable = false;
     };
   };
-  services.blueman.enable = true;
-  services.power-profiles-daemon.enable = false;
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 20;
-    };
-  };
-  systemd.services.systemd-rfkill.enable = false;
-  systemd.sockets.systemd-rfkill.enable = false;
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -110,30 +71,7 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -266,11 +204,6 @@
     material-design-icons
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -278,11 +211,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-  services.displayManager = {
-    sddm.enable = true;
-    sddm.wayland.enable = true;
-    sddm.theme = "catppuccin-mocha-mauve";
-  };
 
   programs.firefox.enable = true;
   programs.hyprland = {
