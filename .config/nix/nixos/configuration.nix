@@ -15,6 +15,8 @@
     ./hardware-configuration.nix
     ./boot.nix
     ./services.nix
+    ./packages/core.nix
+    ./packages/apps.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -91,111 +93,6 @@
   };
 
   # programs.firefox.enable = true;
-
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    ghostty
-    kitty
-    waybar
-    hyprpaper
-    rofi
-    kdePackages.qtsvg
-    kdePackages.dolphin
-    networkmanagerapplet
-    blueman
-    inputs.zen-browser.packages."${pkgs.system}".default
-    claude-code
-    crush
-    lua54Packages.lua
-    stow
-    fd
-    fzf
-    ripgrep
-    eza
-    bat
-    jq
-    btop
-    gitu
-    starship
-    zoxide
-    tmux
-    zellij
-    gnumake
-    rustup
-    clang
-    nil
-    nixd
-    nixfmt
-    nvd
-    brightnessctl
-    papirus-icon-theme
-    arc-icon-theme
-    flat-remix-icon-theme
-    (pkgs.catppuccin-sddm.override {
-      flavor = "mocha";
-      accent = "mauve";
-      font = "Noto Sans";
-      fontSize = "20";
-      # background = "${./wallpaper.png}";
-      loginBackground = true;
-    })
-    # Desktop entry for zen browser (non-beta command)
-    (makeDesktopItem {
-      name = "zen";
-      desktopName = "Zen Browser";
-      exec = "zen --name zen %U";
-      icon = "zen-browser";
-      comment = "Browse the Web";
-      genericName = "Web Browser";
-      categories = [
-        "Network"
-        "WebBrowser"
-      ];
-      mimeTypes = [
-        "text/html"
-        "text/xml"
-        "application/xhtml+xml"
-        "application/vnd.mozilla.xul+xml"
-        "x-scheme-handler/http"
-        "x-scheme-handler/https"
-      ];
-      startupNotify = true;
-      extraConfig = {
-        StartupWMClass = "zen";
-      };
-      actions = {
-        new-window = {
-          name = "New Window";
-          exec = "zen --new-window %U";
-        };
-        new-private-window = {
-          name = "New Private Window";
-          exec = "zen --private-window %U";
-        };
-        profile-manager-window = {
-          name = "Profile Manager";
-          exec = "zen --ProfileManager";
-        };
-      };
-    })
-    wlogout
-    hyprlock
-    hyprpwcenter
-    pavucontrol
-    nerd-fonts.jetbrains-mono
-    playerctl
-    mission-center
-    zathura
-    obsidian
-    cava
-    hyprcursor
-    powertop
-    zed-editor-fhs
-  ];
 
   fonts.packages = with pkgs; [
     maple-mono.NF
