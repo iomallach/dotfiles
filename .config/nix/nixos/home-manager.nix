@@ -26,4 +26,28 @@
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "macchiato";
     };
+
+  # Zen Browser profile fix - prevents profile reset on updates
+  # This ensures all installation hashes point to the main profile
+  home.activation.fixZenProfile = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    ZEN_DIR="$HOME/.zen"
+    MAIN_PROFILE="ywc9b4dn.Default (release)"
+
+    if [ -d "$ZEN_DIR" ] && [ -f "$ZEN_DIR/profiles.ini" ]; then
+      # Update profiles.ini to point all Install sections to main profile
+      ${pkgs.gnused}/bin/sed -i '/^\[Install.*\]/,/^Locked=/ {
+        /^Default=/ s|=.*|='"$MAIN_PROFILE"'|
+      }' "$ZEN_DIR/profiles.ini"
+
+      # Also update installs.ini if it exists
+      if [ -f "$ZEN_DIR/installs.ini" ]; then
+        ${pkgs.gnused}/bin/sed -i '/^\[.*\]/,/^Locked=/ {
+          /^Default=/ s|=.*|='"$MAIN_PROFILE"'|
+        }' "$ZEN_DIR/installs.ini"
+      fi
+
+      $DRY_RUN_CMD echo "Fixed Zen Browser profile mappings to use $MAIN_PROFILE"
+    fi
+  '';
+
 }
