@@ -34,6 +34,12 @@
     MAIN_PROFILE="ywc9b4dn.Default (release)"
 
     if [ -d "$ZEN_DIR" ] && [ -f "$ZEN_DIR/profiles.ini" ]; then
+      # Remove Default=1 from all profiles
+      ${pkgs.gnused}/bin/sed -i '/^Default=1$/d' "$ZEN_DIR/profiles.ini"
+
+      # Add Default=1 to the main profile section
+      ${pkgs.gnused}/bin/sed -i "/^Path=$MAIN_PROFILE$/a Default=1" "$ZEN_DIR/profiles.ini"
+
       # Update profiles.ini to point all Install sections to main profile
       ${pkgs.gnused}/bin/sed -i '/^\[Install.*\]/,/^Locked=/ {
         /^Default=/ s|=.*|='"$MAIN_PROFILE"'|
