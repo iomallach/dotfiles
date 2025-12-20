@@ -54,5 +54,6 @@
       # background = "${./wallpaper.png}";
       loginBackground = true;
     })
+    # adw-bluetooth # blueman alternative
   ];
 }
