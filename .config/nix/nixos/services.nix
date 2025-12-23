@@ -54,4 +54,6 @@
 
   systemd.services.systemd-rfkill.enable = false;
   systemd.sockets.systemd-rfkill.enable = false;
+
+  services.dbus.packages = [ pkgs.networkmanager-openvpn ];
 }

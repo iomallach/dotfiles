@@ -30,6 +30,7 @@
     starship
     zoxide
     gnumake
+    networkmanager-openvpn
 
     # Nix core
     nvd

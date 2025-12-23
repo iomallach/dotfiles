@@ -42,7 +42,12 @@
 
   networking.hostName = "tuxbook"; # Define your hostname.
   # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [
+      networkmanager-openvpn
+    ];
+  };
 
   hardware = {
     bluetooth = {
@@ -122,6 +127,7 @@
   };
   programs.zsh.enable = true;
   programs.steam.enable = true;
+  programs.nm-applet.enable = true;
 
   # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
   environment.sessionVariables = {
