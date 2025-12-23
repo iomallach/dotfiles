@@ -13,7 +13,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Shared inputs
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay/cd02956a1f6376f524a10b94893bc9408b476322";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
 
     # homebrew (darwin only)
