@@ -38,6 +38,8 @@
     zathura
 
     # Xray & co
+    xray
+    sing-box
     v2rayn
     nekoray
     amnezia-vpn
@@ -87,4 +89,12 @@
       };
     })
   ];
+
+  security.wrappers.xray = {
+    source = "${pkgs.xray}/bin/xray";
+    capabilities = "cap_net_admin,cap_net_bind_service=+eip";
+    owner = "root";
+    group = "root";
+    permissions = "u+rx,g+x,o+x";
+  };
 }

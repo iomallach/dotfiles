@@ -67,4 +67,9 @@
       RestartSec = 3;
     };
   };
+
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
 }

@@ -139,6 +139,13 @@
     shell = pkgs.zsh;
   };
 
+  systemd.tmpfiles.rules = [
+    "L+ /home/iomallach/.local/share/v2rayN/bin/xray/xray - - - - ${config.security.wrapperDir}/xray"
+    "L+ /home/iomallach/.local/share/v2rayN/bin/geoip.dat - - - - ${pkgs.v2ray-geoip}/share/v2ray/geoip.dat"
+    "L+ /home/iomallach/.local/share/v2rayN/bin/geosite.dat - - - - ${pkgs.v2ray-domain-list-community}/share/v2ray/geosite.dat"
+    "L+ /home/iomallach/.local/share/v2rayN/bin/sing_box/sing-box - - - - ${pkgs.sing-box}/bin/sing-box"
+  ];
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
