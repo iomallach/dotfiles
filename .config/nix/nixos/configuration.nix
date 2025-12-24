@@ -48,6 +48,7 @@
       networkmanager-openvpn
     ];
   };
+  networking.wireguard.enable = true;
 
   hardware = {
     bluetooth = {

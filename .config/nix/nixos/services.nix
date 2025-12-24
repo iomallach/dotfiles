@@ -56,4 +56,15 @@
   systemd.sockets.systemd-rfkill.enable = false;
 
   services.dbus.packages = [ pkgs.networkmanager-openvpn ];
+
+  systemd.services.amneziavpn-daemon = {
+    description = "AmneziaVPN Service Daemon";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.amnezia-vpn}/bin/AmneziaVPN-service";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+  };
 }

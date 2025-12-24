@@ -37,6 +37,12 @@
     # Pdf
     zathura
 
+    # Xray & co
+    v2rayn
+    nekoray
+    amnezia-vpn
+    amneziawg-tools
+
     nerd-fonts.jetbrains-mono
 
     # Zen
