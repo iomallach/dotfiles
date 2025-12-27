@@ -39,6 +39,7 @@
     waybar
     hyprpaper
     rofi
+    rofi-calc
     blueman
     networkmanagerapplet
     wlogout

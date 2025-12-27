@@ -41,11 +41,12 @@
     xray
     sing-box
     v2rayn
-    nekoray
     amnezia-vpn
     amneziawg-tools
 
     nerd-fonts.jetbrains-mono
+
+    brave
 
     # Zen
     inputs.zen-browser.packages."${pkgs.system}".default

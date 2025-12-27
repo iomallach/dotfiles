@@ -98,8 +98,6 @@
     ];
   };
 
-  # programs.firefox.enable = true;
-
   fonts.packages = with pkgs; [
     maple-mono.NF
     nerd-fonts.symbols-only
@@ -115,7 +113,7 @@
   #   enableSSHSupport = true;
   # };
 
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -129,6 +127,10 @@
   programs.zsh.enable = true;
   programs.steam.enable = true;
   programs.nm-applet.enable = true;
+  programs.throne = {
+    enable = true;
+    tunMode.enable = true;
+  };
 
   # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
   environment.sessionVariables = {
