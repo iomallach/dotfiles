@@ -4,7 +4,6 @@ return {
 		ft = "python",
 		dependencies = {
 			"mfussenegger/nvim-dap",
-			"rcarriga/nvim-dap-ui",
 		},
 		config = function()
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
@@ -36,32 +35,18 @@ return {
 		end,
 	},
 	{
-		"rcarriga/nvim-dap-ui",
-		event = "VeryLazy",
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-		config = function()
-			local dap = require("dap")
-			local dapui = require("dapui")
-			dapui.setup()
-			dap.listeners.after.event_initialized["dapui-config"] = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated["dapui-config"] = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited["dapui-config"] = function()
-				dapui.close()
-			end
-		end,
-	},
-	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
-			"rcarriga/nvim-dap-ui",
 			"theHamsta/nvim-dap-virtual-text",
+      "leoluz/nvim-dap-go",
+      "igorlfs/nvim-dap-view",
 		},
 		config = function(_, _)
 			local dap = require("dap")
+
+			-- Enable verbose logging
+			dap.set_log_level('TRACE')
+
 			dap.adapters.lldb = {
 				type = "executable",
 				command = "/opt/homebrew/opt/llvm/bin/lldb-dap",
@@ -88,12 +73,6 @@ return {
 					end,
 				},
 			}
-
-			dap.defaults.fallback.external_terminal = {
-				command = "/opt/homebrew/bin/wezterm",
-				args = { "-e" },
-			}
-			dap.defaults.fallback.force_external_terminal = true
 
 			require("nvim-dap-virtual-text").setup()
 
