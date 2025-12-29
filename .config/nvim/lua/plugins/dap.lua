@@ -38,14 +38,14 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"theHamsta/nvim-dap-virtual-text",
-      "leoluz/nvim-dap-go",
-      "igorlfs/nvim-dap-view",
+			"leoluz/nvim-dap-go",
+			"igorlfs/nvim-dap-view",
 		},
 		config = function(_, _)
 			local dap = require("dap")
 
 			-- Enable verbose logging
-			dap.set_log_level('TRACE')
+			dap.set_log_level("TRACE")
 
 			dap.adapters.lldb = {
 				type = "executable",
