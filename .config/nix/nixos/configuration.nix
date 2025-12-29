@@ -131,6 +131,10 @@
     enable = true;
     tunMode.enable = true;
   };
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
   environment.sessionVariables = {

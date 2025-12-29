@@ -113,3 +113,5 @@ if [[ -n $ZELLIJ ]]; then
 fi
 
 source /Users/iomallach/dotfiles/.zshrc.secrets
+
+eval "$(direnv hook zsh)"
