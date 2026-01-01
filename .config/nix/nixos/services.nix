@@ -72,4 +72,10 @@
     enable = true;
     dnssec = "false";
   };
+
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "ignore";
+    lidSwitchDocked = "ignore";
+  };
 }
