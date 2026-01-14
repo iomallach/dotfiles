@@ -1,6 +1,6 @@
 return {
-	"esmuellert/vscode-diff.nvim",
+	"esmuellert/codediff.nvim",
 	event = "VeryLazy",
-  branch = "next",
 	dependencies = { "MunifTanjim/nui.nvim" },
+	cmd = "CodeDiff",
 }
