@@ -1,6 +1,14 @@
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
+local function diagnostic_sign(severity, fallback)
+	local signs = vim.diagnostic.config().signs
+	if type(signs) == "table" and type(signs.text) == "table" then
+		return signs.text[severity] or fallback
+	end
+	return fallback
+end
+
 local ViMode = {
 	-- get vim current mode, this information will be required by the provider
 	-- and the highlight functions, so we compute it only once per component
@@ -179,10 +187,10 @@ local Diagnostics = {
 
 	condition = conditions.has_diagnostics,
 	-- Fetching custom diagnostic icons
-	error_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.ERROR],
-	warn_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.WARN],
-	info_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.INFO],
-	hint_icon = vim.diagnostic.config()["signs"]["text"][vim.diagnostic.severity.HINT],
+	error_icon = diagnostic_sign(vim.diagnostic.severity.ERROR, " "),
+	warn_icon = diagnostic_sign(vim.diagnostic.severity.WARN, " "),
+	info_icon = diagnostic_sign(vim.diagnostic.severity.INFO, ""),
+	hint_icon = diagnostic_sign(vim.diagnostic.severity.HINT, ""),
 
 	init = function(self)
 		self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
