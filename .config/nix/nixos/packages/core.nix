@@ -5,6 +5,17 @@
   ...
 }:
 {
+  nixpkgs.overlays = [
+    (final: prev: {
+      gitu = prev.gitu.overrideAttrs (oldAttrs: {
+        doCheck = false;
+      });
+      crush = prev.crush.overrideAttrs (oldAttrs: {
+        doCheck = false;
+      });
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
     kdePackages.qtsvg
     kdePackages.dolphin
