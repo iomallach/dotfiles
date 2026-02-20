@@ -5,6 +5,15 @@
   inputs,
   ...
 }:
+let
+  zenPackage = inputs.zen-browser.packages."${pkgs.system}".default;
+  zenProfileDir = "${config.users.users.iomallach.home}/.zen/main";
+  zenWrapper = pkgs.writeShellScriptBin "zen" ''
+    exec ${zenPackage}/bin/zen \
+      -profile "${zenProfileDir}" \
+      --no-remote "$@"
+  '';
+in
 {
   environment.systemPackages = with pkgs; [
     # Terminal
@@ -26,9 +35,6 @@
     # Dev
     rustup
     clang
-    nil
-    nixd
-    nixfmt
 
     # Editor & Notes
     zed-editor-fhs
@@ -49,12 +55,12 @@
     brave
 
     # Zen
-    inputs.zen-browser.packages."${pkgs.system}".default
+    zenWrapper
     # Desktop entry for zen browser (non-beta command)
     (makeDesktopItem {
       name = "zen";
       desktopName = "Zen Browser";
-      exec = "zen --name zen %U";
+      exec = "${zenWrapper}/bin/zen --name zen %U";
       icon = "zen-browser";
       comment = "Browse the Web";
       genericName = "Web Browser";
@@ -77,15 +83,15 @@
       actions = {
         new-window = {
           name = "New Window";
-          exec = "zen --new-window %U";
+          exec = "${zenWrapper}/bin/zen --new-window %U";
         };
         new-private-window = {
           name = "New Private Window";
-          exec = "zen --private-window %U";
+          exec = "${zenWrapper}/bin/zen --private-window %U";
         };
         profile-manager-window = {
           name = "Profile Manager";
-          exec = "zen --ProfileManager";
+          exec = "${zenWrapper}/bin/zen --ProfileManager";
         };
       };
     })
