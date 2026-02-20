@@ -17,11 +17,7 @@
     ./services.nix
     ./packages/core.nix
     ./packages/apps.nix
-    ./modules/tuxedo-drivers-fixed.nix
   ];
-
-  # Disable broken tuxedo-drivers module from nixpkgs (bug introduced Jan 2, 2026)
-  disabledModules = [ "hardware/tuxedo-drivers.nix" ];
 
   nixpkgs.config.allowUnfree = true;
 
