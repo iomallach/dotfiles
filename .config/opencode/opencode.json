@@ -21,6 +21,14 @@
       "disable": true
     }
   },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "git *": "allow",
+      "ls *": "allow",
+      "*": "ask"
+    }
+  },
   "plugin": [
     "opencode-openai-codex-auth",
     "oh-my-opencode-slim"
