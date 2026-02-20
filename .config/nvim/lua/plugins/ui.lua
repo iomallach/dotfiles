@@ -146,6 +146,7 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		lazy = false,
+		enabled = false,
 		config = require("config.lualine").config,
 	},
 }
