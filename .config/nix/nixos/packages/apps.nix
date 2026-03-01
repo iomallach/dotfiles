@@ -9,7 +9,7 @@ let
   zenPackage = inputs.zen-browser.packages."${pkgs.system}".default;
   zenProfileDir = "${config.users.users.iomallach.home}/.zen/main";
   zenWrapper = pkgs.writeShellScriptBin "zen" ''
-    exec ${zenPackage}/bin/zen \
+    exec ${zenPackage}/bin/zen-beta \
       -profile "${zenProfileDir}" \
       --no-remote "$@"
   '';
