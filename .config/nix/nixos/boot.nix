@@ -11,8 +11,8 @@
   # boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [
     "acpi.ec_no_wakeup=1" # acpi wakeup issues
-    "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
     "amd_pstate=active" # amd power management
+    # "amdgpu.dcdebugmask=0x10" # wayland slowdonws/freezes
     # "tuxedo_keyboard.mode=0"
     # "tuxedo_keyboard.brightness=25"
     # "tuxedo_keyboard.color_left=0x0000ff"
