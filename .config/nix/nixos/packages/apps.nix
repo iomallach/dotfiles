@@ -54,6 +54,8 @@ in
 
     brave
 
+    sioyek
+
     # Zen
     zenWrapper
     # Desktop entry for zen browser (non-beta command)
