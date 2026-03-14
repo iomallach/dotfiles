@@ -24,7 +24,7 @@
         "cpu",
         "memory",
         "temperature",
-        "backlight",
+        // "backlight",
         "battery",
         "hyprland/language",
         "clock",
@@ -93,12 +93,12 @@
         "format-critical": " {temperatureC}°C",
         "format": " {temperatureC}°C"
     },
-    "backlight": {
+    // "backlight": {
         // "device": "acpi_video1",
-        "format": "{icon} {percent}%",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        // "format": "{icon} {percent}%",
+        // "format-icons": ["", "", "", "", "", "", "", "", ""]
         // TODO: add something like brightness control slider or something
-    },
+    // },
     "hyprland/language": {
         "format": "  {}",
         "format-en": "EN",
