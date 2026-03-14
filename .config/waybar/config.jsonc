@@ -78,9 +78,8 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "  {icon0}{icon1}{icon2}{icon3} {usage}%",
-        "tooltip": true,
-        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+        "format": "  {usage}%",
+        "tooltip": true
     },
     "memory": {
         "format": "󰧑  {}%",
