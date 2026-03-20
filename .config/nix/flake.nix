@@ -148,27 +148,27 @@
       # macOS work laptop configuration with nix-darwin
       darwinConfigurations."workbook" = nix-darwin.lib.darwinSystem {
         modules = [
-          ./darwin/configuration.nix
-          nix-homebrew.darwinModules.nix-homebrew
-          ./darwin/modules/homebrew.nix
-          {
-            # Set Git commit hash for darwin-version.
-            system.configurationRevision = self.rev or self.dirtyRev or null;
-
-            nix-homebrew = {
-              # Install Homebrew under the default prefix
-              enable = true;
-
-              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-              enableRosetta = true;
-
-              # User owning the Homebrew prefix
-              user = "alexander.butenko";
-
-              # Automatically migrate existing Homebrew installations
-              autoMigrate = true;
-            };
-          }
+          ./darwin_work/configuration.nix
+          # nix-homebrew.darwinModules.nix-homebrew
+          # ./darwin_work/modules/homebrew.nix
+          # {
+          #   # Set Git commit hash for darwin-version.
+          #   system.configurationRevision = self.rev or self.dirtyRev or null;
+          #
+          #   nix-homebrew = {
+          #     # Install Homebrew under the default prefix
+          #     enable = true;
+          #
+          #     # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+          #     enableRosetta = true;
+          #
+          #     # User owning the Homebrew prefix
+          #     user = "alexander.butenko";
+          #
+          #     # Automatically migrate existing Homebrew installations
+          #     autoMigrate = true;
+          #   };
+          # }
           # Make neovim-nightly and kanata-tray available in darwin config
           {
             nixpkgs.overlays = [
