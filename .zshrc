@@ -112,6 +112,6 @@ if [[ -n $ZELLIJ ]]; then
   add-zsh-hook precmd zellij_set_pane_name
 fi
 
-source /Users/iomallach/dotfiles/.zshrc.secrets
+source ~/.zshrc.secrets
 
 eval "$(direnv hook zsh)"
