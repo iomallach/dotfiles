@@ -3,43 +3,48 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 15px;
     transition: background-color .3s ease-out;
 }
 
 window#waybar {
-    background: alpha(@ctp-base, 0.3);
+    background: alpha(@ctp-base, 0);
     color: @ctp-text;
     transition: background-color .5s;
 }
 
 window#waybar.hidden {
-    opacity: 0.0;
+    opacity: 0;
 }
 
 .modules-center,
-.modules-right
-{
-  background: alpha(@ctp-surface0, 0.9);
+.modules-right {
   margin: 5px 10px;
   padding: 0 5px;
-  border-radius: 15px;
 }
 
 .modules-left {
   padding: 0;
   margin: 5px 10px;
-  background: transparent;
+  background: alpha(@ctp-surface0, 0.9);
+  border-radius: 15px;
+}
+
+#custom-spotify,
+.modules-center,
+.modules-right {
+  background: alpha(@ctp-surface0, 0.9);
+  border-radius: 15px;
 }
 
 #custom-nixos {
-  background: alpha(@ctp-surface0, 0.9);
-  border-radius: 15px 0 0 15px;
+  margin-left: 5px;
+  padding: 0 10px;
+  font-size: 25px;
+  transition: color .5s;
+  color: @ctp-blue;
 }
 
 #workspaces {
-  background: alpha(@ctp-surface0, 0.9);
-  border-radius: 0 15px 15px 0;
   padding: 0 10px 0 0;
   margin-left: -4px;
   margin-right: 10px;
@@ -48,9 +53,7 @@ window#waybar.hidden {
   padding: 0 10px;
 }
 
-#window {
-  font-weight: 800;
-}
+#window,
 #clock {
   font-weight: 800;
 }
@@ -72,7 +75,7 @@ window#waybar.hidden {
 #language,
 #bluetooth,
 #custom-bluetooth {
-  padding: 0 10px;
+  padding: 0 8px;
   border-radius: 15px;
 }
 
@@ -87,6 +90,7 @@ window#waybar.hidden {
 #pulseaudio:hover,
 #wireplumber:hover,
 #custom-media:hover,
+#custom-spotify:hover,
 #tray:hover,
 #mode:hover,
 #idle_inhibitor:hover,
@@ -101,19 +105,19 @@ window#waybar.hidden {
 #workspaces button {
   background: transparent;
   font-weight: 100;
-  font-size: 10pt;
+  font-size: 12px;
   color: @ctp-green;
   border: none;
   border-radius: 15px;
   transition: all 300ms ease-in-out;
-  min-width: 1rem;
+  min-width: 0.6rem;
 }
 
 #workspaces button.active {
   background: @ctp-base;
-  min-width: 4rem;
+  min-width: 3rem;
   font-weight: 900;
-  font-size: 18pt;
+  font-size: 20px;
 }
 
 #workspaces button.empty {
@@ -126,27 +130,9 @@ window#waybar.hidden {
   box-shadow: none;
 }
 
-#custom-nixos {
-  margin-left: 5px;
-  padding: 0 10px;
-  font-size: 25px;
-  transition: color .5s;
-  color: @ctp-blue;
-}
-
-#custom-nixos:hover {
-  color: @ctp-blue;
-}
-
 #custom-spotify {
   padding: 0 10px;
   margin-left: 10px;
-  background: alpha(@ctp-surface0, 0.9);
-  border-radius: 15px;
-}
-
-#custom-spotify:hover {
-  background: alpha(@ctp-surface1, 0.9);
 }
 
 #custom-bluetooth.connected {
@@ -160,7 +146,7 @@ window#waybar.hidden {
 tooltip {
   background: @ctp-base;
   border: 2px solid @ctp-surface0;
-  border-radius: 10px;
+  border-radius: 15px;
   color: @ctp-text;
 }
 
