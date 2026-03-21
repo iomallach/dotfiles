@@ -8,7 +8,7 @@
 }
 
 window#waybar {
-    background: alpha(@ctp-base, 0.75);
+    background: alpha(@ctp-base, 0.3);
     color: @ctp-text;
     transition: background-color .5s;
 }
@@ -35,9 +35,6 @@ window#waybar.hidden {
 #custom-nixos {
   background: alpha(@ctp-surface0, 0.9);
   border-radius: 15px 0 0 15px;
-  padding: 0 5px 0 10px;
-  margin-left: 0;
-  margin-right: 0;
 }
 
 #workspaces {
@@ -51,7 +48,12 @@ window#waybar.hidden {
   padding: 0 10px;
 }
 
-#clock,
+#window {
+  font-weight: 800;
+}
+#clock {
+  font-weight: 800;
+}
 #battery,
 #cpu,
 #memory,
@@ -98,19 +100,28 @@ window#waybar.hidden {
 
 #workspaces button {
   background: transparent;
-  font-weight: 900;
-  font-size: 13pt;
-  color: @ctp-text;
+  font-weight: 100;
+  font-size: 10pt;
+  color: @ctp-green;
   border: none;
   border-radius: 15px;
+  transition: all 300ms ease-in-out;
+  min-width: 1rem;
 }
 
 #workspaces button.active {
   background: @ctp-base;
+  min-width: 4rem;
+  font-weight: 900;
+  font-size: 18pt;
+}
+
+#workspaces button.empty {
+  color: @ctp-flamingo;
 }
 
 #workspaces button:hover {
-  background: @ctp-surface0;
+  background: @ctp-sapphire;
   color: @ctp-lavender;
   box-shadow: none;
 }

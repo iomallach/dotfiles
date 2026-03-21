@@ -5,7 +5,7 @@
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // "margin-top": 7,
-    "spacing": 4, // Gaps between modules (4px)
+    "spacing": 6, // Gaps between modules (4px)
     "reload_style_on_change": true,
     "modules-left": [
         "custom/nixos",
@@ -45,15 +45,19 @@
         "on-click": "rofi -show drun"
     },
     "hyprland/workspaces": {
-        "format": "{icon}",
-        // "disable-scroll": true,
-        // "all-outputs": true,
-        // "warp-on-scroll": false,
-        "active-only": false,
-        "format-icons": {
-            "default": "",
-            "active": ""
-        }
+      "format": "{name}",
+      // "disable-scroll": true,
+      // "all-outputs": true,
+      // "warp-on-scroll": false,
+      "active-only": false,
+      "format-icons": {
+        "default": "",
+        "active": ""
+      },
+      "persistent-workspaces": {
+        "eDP-1": [1,2,3,4,5],
+        "DP-1": [1,2,3,4,5]
+      }
     },
     "hyprland/window": {
     },
@@ -132,8 +136,8 @@
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
         "format": "{icon}  {volume}%",
-        "format-bluetooth": "{icon} {volume}%  {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": " {icon}",
         "format-muted": " {format_source}",
         "format-source": " {volume}%",
         "format-source-muted": "",
