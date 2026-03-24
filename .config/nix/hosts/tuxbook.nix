@@ -2,7 +2,10 @@
 {
   flake.nixosConfigurations.tuxbook = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
-    specialArgs = { inherit inputs; };
+    specialArgs = {
+      inherit inputs;
+      desktopProfile = "hyprland";
+    };
     modules = [
       ../nixos/configuration.nix
       inputs.tuxedo-nixos.nixosModules.default

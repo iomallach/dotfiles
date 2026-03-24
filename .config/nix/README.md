@@ -15,7 +15,7 @@ This repo is a flake-based Nix setup for two macOS machines and one NixOS host. 
 - NixOS is split into base + desktop slices, so GUI stacks are plug-and-play.
 
 ## Desktop Profiles (NixOS)
-Profiles are defined in `modules/nixos/desktop/profiles.nix` and selected in `nixos/configuration.nix`.
+Profiles are defined in `modules/nixos/desktop/profiles.nix` and selected per host via `specialArgs`.
 
 Available profiles:
 - `hyprland`
@@ -23,9 +23,12 @@ Available profiles:
 - `niri`
 - `niri-quickshell`
 
-To switch profile, edit `nixos/configuration.nix`:
+To switch profile, edit the host definition (example `hosts/tuxbook.nix`):
 ```nix
-desktop.profile = "hyprland";
+specialArgs = {
+  inherit inputs;
+  desktopProfile = "hyprland";
+};
 ```
 
 ## Common Commands
@@ -63,7 +66,7 @@ Profiles live in `modules/nixos/desktop/profiles.nix` and map a name to module l
 To add a profile:
 1) Add a new entry in the `profiles` attrset.
 2) Reference any compositor and UI modules you want.
-3) Select it with `desktop.profile` in `nixos/configuration.nix`.
+3) Select it with `desktopProfile` in the host `specialArgs`.
 
 Example profile entry:
 ```nix

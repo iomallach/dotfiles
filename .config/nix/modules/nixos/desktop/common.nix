@@ -1,18 +1,5 @@
+{ config, pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  enabledProfiles = [
-    "hyprland"
-    "hyprland-quickshell"
-    "niri"
-    "niri-quickshell"
-  ];
-in
-lib.mkIf (lib.elem config.desktop.profile enabledProfiles) {
   catppuccin = {
     grub = {
       enable = true;

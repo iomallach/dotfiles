@@ -10,17 +10,10 @@
     ./boot.nix
     ../modules/nixos/base.nix
     ../modules/nixos/desktop/profiles.nix
-    ../modules/nixos/desktop/common.nix
-    ../modules/nixos/desktops/hyprland.nix
-    ../modules/nixos/desktops/waybar.nix
-    ../modules/nixos/desktops/quickshell.nix
-    ../modules/nixos/desktops/niri.nix
     ./packages/core.nix
     ./packages/desktop.nix
     ./packages/apps.nix
   ];
-
-  desktop.profile = "hyprland";
 
   networking.hostName = "tuxbook"; # Define your hostname.
   # Configure network connections interactively with nmcli or nmtui.
