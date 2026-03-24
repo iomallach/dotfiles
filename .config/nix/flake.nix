@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    # flake-parts
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
     # nix-darwin
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,152 +52,23 @@
   };
 
   outputs =
-    {
-      self,
-      nix-darwin,
-      nixpkgs,
-      home-manager,
-      neovim-nightly,
-      nix-homebrew,
-      kanata-tray,
-      zen-browser,
-      tuxedo-nixos,
-      spicetify-nix,
-      catppuccin,
-      ...
-    }@inputs:
-    let
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
         "aarch64-linux"
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-    in
-    {
-      # macOS configuration with nix-darwin
-      darwinConfigurations."macbookair" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./darwin/configuration.nix
-          nix-homebrew.darwinModules.nix-homebrew
-          ./darwin/modules/homebrew.nix
-          {
-            # Set Git commit hash for darwin-version.
-            system.configurationRevision = self.rev or self.dirtyRev or null;
 
-            nix-homebrew = {
-              # Install Homebrew under the default prefix
-              enable = true;
-
-              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-              enableRosetta = true;
-
-              # User owning the Homebrew prefix
-              user = "iomallach";
-
-              # Automatically migrate existing Homebrew installations
-              autoMigrate = true;
-            };
-          }
-          # Make neovim-nightly and kanata-tray available in darwin config
-          {
-            nixpkgs.overlays = [
-              (final: prev: {
-                neovim-nightly = neovim-nightly.packages.${prev.system};
-                kanata-tray = kanata-tray.packages.${prev.system};
-              })
-            ];
-          }
-        ];
-      };
-
-      # Debian/Linux configuration with home-manager
-      homeConfigurations."debian" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "aarch64-linux";
-          config.allowUnfree = true;
-          overlays = [
-            # Apply neovim-nightly overlay
-            neovim-nightly.overlays.default
-          ];
-        };
-
-        # Pass inputs to home.nix
-        extraSpecialArgs = { inherit self; };
-
-        modules = [
-          ./home-manager/home-linux.nix
-        ];
-      };
-
-      # NixOS configuration
-      nixosConfigurations."tuxbook" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./nixos/configuration.nix
-          tuxedo-nixos.nixosModules.default
-          catppuccin.nixosModules.catppuccin
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.iomallach = import ./nixos/home-manager.nix;
-          }
-        ];
-      };
-
-      # macOS work laptop configuration with nix-darwin
-      darwinConfigurations."workbook" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./darwin_work/configuration.nix
-          # nix-homebrew.darwinModules.nix-homebrew
-          # ./darwin_work/modules/homebrew.nix
-          # {
-          #   # Set Git commit hash for darwin-version.
-          #   system.configurationRevision = self.rev or self.dirtyRev or null;
-          #
-          #   nix-homebrew = {
-          #     # Install Homebrew under the default prefix
-          #     enable = true;
-          #
-          #     # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-          #     enableRosetta = true;
-          #
-          #     # User owning the Homebrew prefix
-          #     user = "alexander.butenko";
-          #
-          #     # Automatically migrate existing Homebrew installations
-          #     autoMigrate = true;
-          #   };
-          # }
-          # Make neovim-nightly and kanata-tray available in darwin config
-          {
-            nixpkgs.overlays = [
-              (final: prev: {
-                neovim-nightly = neovim-nightly.packages.${prev.system};
-                kanata-tray = kanata-tray.packages.${prev.system};
-              })
-            ];
-          }
-        ];
-      };
-
-      devShells = nixpkgs.lib.genAttrs systems (
-        system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          default = pkgs.mkShell {
-            packages = [
-              pkgs.nil
-              pkgs.nixd
-              pkgs.nixfmt
-            ];
-          };
-        }
-      );
+      imports = [
+        ./parts/overlays.nix
+        ./parts/darwin.nix
+        ./parts/home-manager.nix
+        ./parts/devshells.nix
+        ./hosts/macbookair.nix
+        ./hosts/workbook.nix
+        ./hosts/tuxbook.nix
+      ];
     };
 }
