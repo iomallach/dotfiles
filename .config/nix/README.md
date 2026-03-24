@@ -6,7 +6,7 @@ This repo is a flake-based Nix setup for two macOS machines and one NixOS host. 
 - `parts/`: flake-parts modules (overlays, devshells, home-manager).
 - `hosts/`: per-host definitions (macOS + NixOS).
 - `modules/`: shared NixOS/darwin modules.
-- `nixos/`: NixOS host config and packages.
+- `nixos/`: NixOS hardware, boot, packages, and modules.
 - `darwin/`, `darwin_work/`: macOS host configs.
 
 ## How It Works
