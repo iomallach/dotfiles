@@ -2,54 +2,28 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
-}:
+{ ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
-    ./services.nix
+    ../modules/nixos/base.nix
+    ../modules/nixos/desktop/profiles.nix
+    ../modules/nixos/desktop/common.nix
+    ../modules/nixos/desktops/hyprland.nix
+    ../modules/nixos/desktops/waybar.nix
+    ../modules/nixos/desktops/quickshell.nix
+    ../modules/nixos/desktops/niri.nix
     ./packages/core.nix
+    ./packages/desktop.nix
     ./packages/apps.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  catppuccin = {
-    grub = {
-      enable = true;
-      flavor = "mocha";
-    };
-    gtk = {
-      icon = {
-        enable = true;
-        flavor = "macchiato";
-        accent = "blue";
-      };
-    };
-  };
+  desktop.profile = "hyprland";
 
   networking.hostName = "tuxbook"; # Define your hostname.
   # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager = {
-    enable = true;
-    plugins = with pkgs; [
-      networkmanager-openvpn
-    ];
-  };
-  networking.wireguard.enable = true;
-
   hardware = {
     bluetooth = {
       enable = true;
@@ -64,9 +38,6 @@
     };
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -79,89 +50,8 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  security.rtkit.enable = true;
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.iomallach = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "video"
-      "audio"
-    ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      tree
-    ];
-  };
-
-  fonts.packages = with pkgs; [
-    maple-mono.NF
-    nerd-fonts.symbols-only
-    font-awesome
-    material-design-icons
-  ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  programs.firefox.enable = false;
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    package = inputs.neovim-nightly.packages."${pkgs.system}".default;
-  };
-  programs.zsh.enable = true;
-  programs.steam.enable = true;
-  programs.nm-applet.enable = true;
-  programs.throne = {
-    enable = true;
-    tunMode.enable = true;
-  };
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  # Set GDK_PIXBUF_MODULE_FILE to include librsvg for SVG support in GTK apps
-  environment.sessionVariables = {
-    GDK_PIXBUF_MODULE_FILE = "${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache";
-  };
-
-  users.users.iomallach = {
-    shell = pkgs.zsh;
-  };
-
-  systemd.tmpfiles.rules = [
-    "L+ /home/iomallach/.local/share/v2rayN/bin/xray/xray - - - - ${config.security.wrapperDir}/xray"
-    "L+ /home/iomallach/.local/share/v2rayN/bin/geoip.dat - - - - ${pkgs.v2ray-geoip}/share/v2ray/geoip.dat"
-    "L+ /home/iomallach/.local/share/v2rayN/bin/geosite.dat - - - - ${pkgs.v2ray-domain-list-community}/share/v2ray/geosite.dat"
-    "L+ /home/iomallach/.local/share/v2rayN/bin/sing_box/sing-box - - - - ${pkgs.sing-box}/bin/sing-box"
-  ];
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

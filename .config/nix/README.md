@@ -1,10 +1,89 @@
-## Install Nix
-### MacOS
+## Overview
+This repo is a flake-based Nix setup for two macOS machines and one NixOS host. It uses flake-parts to keep host definitions small and to make desktop variants composable.
+
+## Layout
+- `flake.nix`: flake-parts entrypoint, imports parts and host definitions.
+- `parts/`: flake-parts modules (overlays, devshells, home-manager).
+- `hosts/`: per-host definitions (macOS + NixOS).
+- `modules/`: shared NixOS/darwin modules.
+- `nixos/`: NixOS host config and packages.
+- `darwin/`, `darwin_work/`: macOS host configs.
+
+## How It Works
+- Hosts are defined in `hosts/*.nix` and compose shared modules.
+- Overlays are centralized in `parts/overlays.nix` and reused via `self.overlays.default`.
+- NixOS is split into base + desktop slices, so GUI stacks are plug-and-play.
+
+## Desktop Profiles (NixOS)
+Profiles are defined in `modules/nixos/desktop/profiles.nix` and selected in `nixos/configuration.nix`.
+
+Available profiles:
+- `hyprland`
+- `hyprland-quickshell`
+- `niri`
+- `niri-quickshell`
+
+To switch profile, edit `nixos/configuration.nix`:
+```nix
+desktop.profile = "hyprland";
+```
+
+## Common Commands
+Run from `.config/nix`:
+- macOS: `darwin-rebuild switch --flake .#macbookair`
+- macOS (work): `darwin-rebuild switch --flake .#workbook`
+- NixOS: `sudo nixos-rebuild switch --flake .#tuxbook`
+- Home Manager (Debian): `home-manager switch --flake .#debian`
+
+## Adding a New Host
+1) Create a host file in `hosts/` (copy an existing one).
+2) Point it at the right system config (`darwin/` or `nixos/`).
+3) Add the host file to `flake.nix` imports.
+4) Build/apply with the matching flake reference.
+
+Example (NixOS host):
+```nix
+# hosts/myhost.nix
+{ inputs, ... }:
+{
+  flake.nixosConfigurations.myhost = inputs.nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { inherit inputs; };
+    modules = [
+      ../nixos/configuration.nix
+      # Add host-specific modules here
+    ];
+  };
+}
+```
+
+## Desktop Profile Authoring
+Profiles live in `modules/nixos/desktop/profiles.nix` and map a name to module lists.
+
+To add a profile:
+1) Add a new entry in the `profiles` attrset.
+2) Reference any compositor and UI modules you want.
+3) Select it with `desktop.profile` in `nixos/configuration.nix`.
+
+Example profile entry:
+```nix
+  profiles = {
+    hyprland-waybar = [
+      ./common.nix
+      ../desktops/hyprland.nix
+      ../desktops/waybar.nix
+    ];
+  };
+```
+
+## Legacy Notes
+### Install Nix
+#### MacOS
 ```bash
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ```
 
-### Debian (rpi)
+#### Debian (rpi)
 ```bash
 sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
 nix-shell '<home-manager>' -A install
@@ -17,8 +96,8 @@ home-manager switch --flake .#iomallach --extra-experimental-features nix-comman
 home-manager switch --flake .#iomallach
 ```
 
-## Raspberry Pi
-### First boot
+### Raspberry Pi
+#### First boot
 ```bash
 nmcli --help
 ```
@@ -40,7 +119,7 @@ export TERM=xterm-256color
 source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 ```
 
-### Install pihole
+#### Install pihole
 ```bash
 sudo curl -sSL https://install.pi-hole.net | bash
 ```
@@ -51,12 +130,12 @@ sudo pihole-FTL --config webserver.port '8081o,444os,[::]:8081o,[::]:444os'
 sudo systemctl restart pihole-FTL
 ```
 
-### Make new tmux session
+#### Make new tmux session
 ```bash
 tmux new -s general
 ```
 
-### Install plex media server
+#### Install plex media server
 ```bash
 curl -fsSL https://downloads.plex.tv/plex-keys/PlexSign.key | gpg --dearmor | sudo tee /usr/share/keyrings/plex.gpg > /dev/null
 echo "deb [signed-by=/usr/share/keyrings/plex.gpg] https://downloads.plex.tv/repo/deb public main" | sudo tee /etc/apt/sources.list.d/plexmediaserver.list
@@ -67,7 +146,7 @@ sudo systemctl enable plexmediaserver
 sudo systemctl start plexmediaserver
 ```
 
-### Install openvpn
+#### Install openvpn
 ```bash
 wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
 sudo usermod -a -G kvm "$USER"
@@ -80,7 +159,7 @@ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o wlan0 -j MASQUERADE
 sudo systemctl restart openvpn-server@server
 ```
 
-### Install docker desktop (there is no rancher for aarch64)
+#### Install docker desktop (there is no rancher for aarch64)
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
@@ -92,7 +171,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo systemctl status docker
 ```
 
-### Install caddy
+#### Install caddy
 ```bash
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
@@ -152,12 +231,12 @@ filebrowser.pakberrypi.local {
 # https://caddyserver.com/docs/caddyfile
 ```
 
-### Run vaultwarden
+#### Run vaultwarden
 ```bash
 sudo docker run -d   --name vaultwarden   --restart unless-stopped   -v /opt/vaultwarden/data:/data   -p 127.0.0.1:8080:80   -e DOMAIN="https://vault.pakberrypi.local"   vaultwarden/server:latest
 ```
 
-### Run filebrowser
+#### Run filebrowser
 ```bash
 sudo docker run -v /home/iomallach/filebrowser/srv:/srv -v /home/iomallach/filebrowser/database:/database -v /home/iomallach/filebrowser:/config -e PUID=$(id -u) -e PGID=$(id -g) -p8082:80 -d filebrowser/filebrowser
 ```
