@@ -21,6 +21,9 @@
     stow
     tree
     obsidian
+    zsh-autosuggestions
+    zsh-completions
+    zsh-syntax-highlighting
   ];
 
   # Enable alternative shell support in nix-darwin.
