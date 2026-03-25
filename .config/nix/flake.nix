@@ -62,6 +62,7 @@
       ];
 
       imports = [
+        inputs.nix-darwin.flakeModules.default
         ./parts/overlays.nix
         ./parts/darwin.nix
         ./parts/home-manager.nix
