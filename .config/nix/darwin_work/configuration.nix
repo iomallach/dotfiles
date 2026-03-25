@@ -5,7 +5,7 @@
   environment.systemPackages = with pkgs; [
     neovim-nightly.default
     nixfmt # formatter
-    # claude-code
+    claude-code
     opencode
     actionlint
     cmake
@@ -24,6 +24,7 @@
     zsh-autosuggestions
     zsh-completions
     zsh-syntax-highlighting
+    zstd # TODO: see why it is needed, grabbed from brew list
   ];
 
   # Enable alternative shell support in nix-darwin.
