@@ -36,6 +36,7 @@
     nvd
     kanata
     kanata-tray.default
+    spotify
   ];
 
   system.activationScripts.applications.text =
