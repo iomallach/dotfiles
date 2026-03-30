@@ -80,17 +80,13 @@
         add-zsh-hook precmd zellij_set_pane_name
       fi
 
-      zvm_after_init() {
-        source <(fzf --zsh)
-      }
-
       source ~/.zshrc.secrets
     '';
   };
 
   programs.fzf = {
     enable = true;
-    enableZshIntegration = false;
+    enableZshIntegration = true;
   };
 
   programs.zoxide = {
