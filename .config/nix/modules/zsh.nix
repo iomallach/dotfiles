@@ -59,6 +59,10 @@
       zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color --oneline --icons --git -a $realpath'
       zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat $realpath'
 
+      zvm_after_init() {
+        bindkey -M viins '^R' fzf-history-widget
+      }
+
       zellij_set_pane_name() {
         if [[ -n $ZELLIJ ]]; then
           local pane_name="$1"
@@ -91,10 +95,7 @@
 
   programs.zoxide = {
     enable = true;
-    options = [
-      "--cmd"
-      "cd"
-    ];
+    options = [ "--cmd" "cd" ];
   };
 
   programs.direnv.enable = true;

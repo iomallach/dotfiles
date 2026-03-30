@@ -3,8 +3,10 @@
   flake.darwinConfigurations.macbookair = inputs.nix-darwin.lib.darwinSystem {
     modules = [
       ../darwin/configuration.nix
+      inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
       ../darwin/modules/homebrew.nix
+      ({ config, ... }:
       {
         system.configurationRevision = self.rev or self.dirtyRev or null;
 
@@ -14,7 +16,13 @@
           user = "iomallach";
           autoMigrate = true;
         };
-      }
+
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.${config.system.primaryUser} = import ../home-manager/home-darwin.nix;
+        };
+      })
       self.lib.darwinOverlaysModule
     ];
   };

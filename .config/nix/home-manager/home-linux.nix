@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ../modules/zsh.nix
+  ];
+
   nix = {
     package = pkgs.nix;
     settings = {
