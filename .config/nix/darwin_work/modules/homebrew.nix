@@ -30,7 +30,6 @@
     ];
 
     casks = [
-      "aerospace" # move to nixpkgs
       "dbeaver-community"
       "raycast"
       "karabiner-elements"

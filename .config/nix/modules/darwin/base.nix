@@ -67,6 +67,20 @@
     nix-direnv.enable = true;
   };
 
+  services.sketchybar = {
+    enable = true;
+  };
+
+  services.aerospace = {
+    enable = true;
+  };
+
+  launchd.user.agents.aerospace.serviceConfig.ProgramArguments = [
+    "/bin/sh"
+    "-c"
+    "/bin/wait4path /nix/store && exec ${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace --config-path /Users/${config.system.primaryUser}/.config/aerospace/aerospace.toml"
+  ];
+
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 5;

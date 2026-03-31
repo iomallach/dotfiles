@@ -27,7 +27,6 @@
     ];
 
     casks = [
-      "aerospace" # move to nixpkgs
       "arc" # move to nix
       "betterdisplay" # move to nixpkgs
       "bitwarden" # move bitwarden-desktop/bitwarden-cli to nixpkgs

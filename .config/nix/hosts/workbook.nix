@@ -5,14 +5,17 @@
       ../darwin_work/configuration.nix
       inputs.home-manager.darwinModules.home-manager
       self.lib.darwinOverlaysModule
-      ({ config, ... }:
-      {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          users.${config.system.primaryUser} = import ../home-manager/home-darwin.nix;
-        };
-      })
+      (
+        { config, ... }:
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            backupFileExtension = "hm-bak";
+            users.${config.system.primaryUser} = import ../darwin_work/home-manager.nix;
+          };
+        }
+      )
     ];
   };
 }

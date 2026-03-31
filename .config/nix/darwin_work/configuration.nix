@@ -56,4 +56,8 @@
   programs.zsh.shellInit = ''
     eval "$(/opt/homebrew/bin/brew shellenv)"
   '';
+
+  programs.zsh.interactiveShellInit = ''
+    eval "$(direnv hook zsh)"
+  '';
 }
