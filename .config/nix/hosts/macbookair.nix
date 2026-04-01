@@ -6,23 +6,28 @@
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
       ../darwin/modules/homebrew.nix
-      ({ config, ... }:
-      {
-        system.configurationRevision = self.rev or self.dirtyRev or null;
+      (
+        { config, ... }:
+        {
+          system.configurationRevision = self.rev or self.dirtyRev or null;
 
-        nix-homebrew = {
-          enable = true;
-          enableRosetta = true;
-          user = "iomallach";
-          autoMigrate = true;
-        };
+          nix-homebrew = {
+            enable = true;
+            enableRosetta = true;
+            user = "iomallach";
+            autoMigrate = true;
+          };
 
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          users.${config.system.primaryUser} = import ../home-manager/home-darwin.nix;
-        };
-      })
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = {
+              ghosttyHost = "iomabook";
+            };
+            users.${config.system.primaryUser} = import ../home-manager/home-darwin.nix;
+          };
+        }
+      )
       self.lib.darwinOverlaysModule
     ];
   };

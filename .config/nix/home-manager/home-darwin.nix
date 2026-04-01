@@ -3,6 +3,7 @@
 {
   imports = [
     ../modules/zsh.nix
+    ../modules/ghostty.nix
   ];
 
   home.username = config.system.primaryUser;

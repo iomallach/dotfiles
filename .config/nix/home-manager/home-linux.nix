@@ -3,12 +3,16 @@
 {
   imports = [
     ../modules/zsh.nix
+    ../modules/ghostty.nix
   ];
 
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
   # Home Manager needs a bit of information about you and the paths it should

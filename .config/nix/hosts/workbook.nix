@@ -12,6 +12,9 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "hm-bak";
+            extraSpecialArgs = {
+              ghosttyHost = "workbook";
+            };
             users.${config.system.primaryUser} = import ../darwin_work/home-manager.nix;
           };
         }

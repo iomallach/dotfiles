@@ -3,6 +3,7 @@
 {
   imports = [
     ../modules/zsh.nix
+    ../modules/ghostty.nix
   ];
 
   home.username = "alexander.butenko";

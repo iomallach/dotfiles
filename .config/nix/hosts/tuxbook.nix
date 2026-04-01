@@ -42,7 +42,10 @@
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit inputs; };
+        home-manager.extraSpecialArgs = {
+          inherit inputs;
+          ghosttyHost = "tuxbook";
+        };
         home-manager.users.iomallach = import ../nixos/home-manager.nix;
       }
     ];

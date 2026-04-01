@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./starship.nix
+  ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -95,12 +99,13 @@
 
   programs.zoxide = {
     enable = true;
-    options = [ "--cmd" "cd" ];
+    options = [
+      "--cmd"
+      "cd"
+    ];
   };
 
   programs.direnv.enable = true;
-
-  programs.starship.enable = true;
 
   home.sessionVariables = {
     EDITOR = "nvim";

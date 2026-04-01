@@ -28,6 +28,7 @@
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
     ../modules/zsh.nix
+    ../modules/ghostty.nix
   ];
 
   # Configure Spicetify with Catppuccin
