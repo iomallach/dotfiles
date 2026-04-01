@@ -14,7 +14,10 @@ let
   fontsByHost = {
     iomabook = defaultFont;
     tuxbook = defaultFont;
-    workbook = defaultFont;
+    workbook = {
+      family = "Maple Mono NF";
+      size = 20;
+    };
   };
 
   resolvedFont =
