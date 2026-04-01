@@ -37,6 +37,7 @@
     zoxide
     gnumake
     networkmanager-openvpn
+    tree-sitter
 
     # Nix core
     nvd
