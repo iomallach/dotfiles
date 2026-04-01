@@ -1,12 +1,5 @@
 return {
 	{
-		"RRethy/vim-illuminate",
-		event = "VeryLazy",
-		config = function()
-			require("illuminate").configure({})
-		end,
-	},
-	{
 		"hiphish/rainbow-delimiters.nvim",
 		event = "BufReadPost",
 		config = function()

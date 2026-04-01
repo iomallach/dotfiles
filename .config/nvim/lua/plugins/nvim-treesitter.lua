@@ -32,9 +32,13 @@ local opts = {
 
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = "VeryLazy",
+	lazy = false,
+	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter.configs").setup(opts)
+		require("nvim-treesitter").setup({
+			install_dir = vim.fn.stdpath("data") .. "/site",
+		})
+		require("nvim-treesitter").install(opts.ensure_installed)
 	end,
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-context",

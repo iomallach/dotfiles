@@ -40,4 +40,12 @@ return {
 			require("mini.pairs").setup()
 		end,
 	},
+	{
+		"nvim-mini/mini.cursorword",
+		version = "*",
+		event = "VeryLazy",
+		config = function()
+			require("mini.cursorword").setup({})
+		end,
+	},
 }
