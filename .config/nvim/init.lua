@@ -14,3 +14,6 @@ vim.lsp.enable("marksman")
 vim.lsp.enable("asm_lsp")
 vim.lsp.enable("glsl_analyzer")
 vim.lsp.enable("nixd")
+
+vim.cmd.packadd("nvim.undotree")
+vim.cmd.packadd("nvim.difftool")
