@@ -10,6 +10,19 @@
   home.homeDirectory = "/home/iomallach";
   home.stateVersion = "25.05";
 
+  home.pointerCursor = {
+    name = "Catppuccin-Macchiato-Blue-Cursors";
+    package = pkgs.catppuccin-cursors;
+    size = 35;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+  xdg.dataFile."icons/catppuccin-macchiato-blue-cursors".source = pkgs.fetchzip {
+    url = "https://github.com/catppuccin/cursors/releases/download/v2.0.0/catppuccin-macchiato-blue-cursors.zip";
+    sha256 = "1b30cwdl5m7ll5k2kwn91h16pr7i3xrg5x018kbxzyjk7z59pfnw";
+  };
+
   programs.home-manager.enable = true;
 
   programs.git = {

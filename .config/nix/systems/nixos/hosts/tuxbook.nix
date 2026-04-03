@@ -20,6 +20,7 @@
 
         networking.hostName = "tuxbook";
 
+
         hardware = {
           bluetooth = {
             enable = true;
