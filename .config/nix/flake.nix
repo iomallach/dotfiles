@@ -67,9 +67,9 @@
         ./parts/darwin.nix
         ./parts/home-manager.nix
         ./parts/devshells.nix
-        ./hosts/macbookair.nix
-        ./hosts/workbook.nix
-        ./hosts/tuxbook.nix
+        ./systems/darwin/hosts/macbookair.nix
+        ./systems/darwin/hosts/workbook.nix
+        ./systems/nixos/hosts/tuxbook.nix
       ];
     };
 }

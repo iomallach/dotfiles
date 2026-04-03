@@ -12,7 +12,7 @@
     extraSpecialArgs = { inherit self; };
 
     modules = [
-      ../home-manager/home-linux.nix
+      ../homes/hosts/home-rpi.nix
     ];
   };
 }
