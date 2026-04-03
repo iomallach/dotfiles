@@ -1,17 +1,65 @@
 // Niri config aligned with Hyprland keybinds
 // See: https://niri-wm.github.io/niri/Configuration:-Introduction
 
-// Start a bar (Waybar)
+// Start a bar (Waybar) + wallpaper
 spawn-at-startup "waybar"
+spawn-at-startup "hyprpaper"
+
+// Input behavior
+input {
+    // Focus windows and outputs automatically when moving the mouse into them.
+    focus-follows-mouse
+}
+
+// Outputs layout (external left, laptop right)
+output "DP-1" {
+    position x=0 y=0
+}
+
+output "eDP-1" {
+    position x=2560 y=0
+}
+
+// Match Hyprland-like border styling
+prefer-no-csd
+layout {
+    default-column-width { proportion 1.0; }
+
+    focus-ring {
+        width 2
+        active-gradient from="#33ccffee" to="#00ff99ee" angle=45
+        inactive-color "#595959aa"
+    }
+
+    border {
+        width 2
+        active-color "#33ccffee"
+        inactive-color "#595959aa"
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#1a1a1aee"
+    }
+}
 
 // Window rules ported from Hyprland
 window-rule {
-    // Firefox Picture-in-Picture
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // Picture-in-Picture (Zen/Firefox/etc.)
+    match title="^Picture-in-Picture$"
     open-floating true
     default-column-width { proportion 0.25; }
     default-window-height { proportion 0.25; }
     default-floating-position x=32 y=32 relative-to="bottom-right"
+}
+
+// Rounded corners (global)
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
 }
 
 window-rule {
@@ -55,7 +103,7 @@ binds {
     // Workspace navigation
     Mod+Tab { focus-workspace-previous; }
     Mod+Ctrl+Alt+Shift+Tab { focus-workspace-previous; }
-    Alt+Shift+Tab { move-workspace-to-monitor-right; }
+    Alt+Shift+Tab { spawn "~/.config/scripts/niri-move-workspace-to-next-monitor.sh"; }
 
     // Keyboard layout cycling (ensure multiple layouts configured)
     Alt+Space { switch-layout "next"; }

@@ -1,9 +1,10 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = lib.optionals (pkgs ? niri) [
-    pkgs.niri
-    pkgs.wlogout
-    pkgs.hyprlock
-    pkgs.hyprpaper
+  programs.niri.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    wlogout
+    hyprlock
+    hyprpaper
   ];
 }

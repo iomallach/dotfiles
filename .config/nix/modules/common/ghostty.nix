@@ -45,6 +45,7 @@ in
       theme = "onedark_vaporwave";
       macos-titlebar-style = "hidden";
       macos-option-as-alt = true;
+      window-decoration = "none";
       keybind = "shift+enter=text:\x1b\r";
     };
     themes = {

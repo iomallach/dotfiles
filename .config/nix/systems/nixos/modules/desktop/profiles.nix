@@ -14,7 +14,7 @@ let
       ../desktops/hyprland.nix
       ../desktops/quickshell.nix
     ];
-    niri = [
+    niri-waybar = [
       ./common.nix
       ../desktops/niri.nix
       ../desktops/waybar.nix
