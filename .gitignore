@@ -9,3 +9,8 @@
 .config/Wondershare
 .zshrc.secrets
 .config/nix/result
+.config/nix/desktop-repo
+.config/nix/docs-repo
+.config/nix/.direnv
+.config/nvim/.direnv
+.config/btop/btop.conf
