@@ -17,6 +17,7 @@ let
     niri = [
       ./common.nix
       ../desktops/niri.nix
+      ../desktops/waybar.nix
     ];
     niri-quickshell = [
       ./common.nix

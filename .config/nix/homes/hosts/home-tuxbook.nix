@@ -33,6 +33,7 @@
     ../../modules/common/kitty.nix
     ../../modules/common/neovide.nix
     ../../modules/home/hypr.nix
+    ../../modules/home/niri.nix
     ../../modules/home/nvim.nix
     ../../modules/home/rofi.nix
     ../../modules/home/scripts.nix
