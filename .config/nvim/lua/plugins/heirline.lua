@@ -1,6 +1,6 @@
 return {
 	"rebelot/heirline.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons", "neovim/nvim-lspconfig" },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	enabled = false,
 	event = "VeryLazy",
 	config = function()

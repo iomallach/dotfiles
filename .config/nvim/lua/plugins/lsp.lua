@@ -1,15 +1,5 @@
 return {
 	{
-		"neovim/nvim-lspconfig",
-		event = "VeryLazy",
-		dependencies = {
-			"saghen/blink.cmp",
-		},
-		config = function()
-			require("config.nvim-lspconfig").setup()
-		end,
-	},
-	{
 		"chrisgrieser/nvim-lsp-endhints",
 		event = "LspAttach",
 		config = function()

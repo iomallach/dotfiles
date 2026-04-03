@@ -2,8 +2,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		-- lazy = false,
-		-- priority = 1000,
+		enabled = false,
 		opts = {
 			integrations = {
 				cmp = true,
@@ -25,6 +24,7 @@ return {
 	},
 	{
 		"NTBBloodbath/doom-one.nvim",
+		enabled = false,
 		-- priority = 1000,
 		-- lazy = false,
 		setup = function()
@@ -72,7 +72,7 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		-- priority = 1000,
+		enabled = false,
 		config = function()
 			vim.o.background = "dark" -- or "light" for light mode
 			vim.cmd([[colorscheme gruvbox]])
@@ -80,6 +80,7 @@ return {
 	},
 	{
 		"eldritch-theme/eldritch.nvim",
+		enabled = false,
 		-- lazy = false,
 		-- priority = 1000,
 		opts = {},
