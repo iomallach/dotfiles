@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -39,7 +39,7 @@
       ProgramArguments = [
         "/run/current-system/sw/bin/kanata"
         "--cfg"
-        "/Users/alexander.butenko/copydotfiles/dotfiles/.config/kanata/kanata.kbd"
+        "/Users/${config.system.primaryUser}/.config/kanata/kanata.kbd"
         "--quiet"
       ];
       RunAtLoad = true;

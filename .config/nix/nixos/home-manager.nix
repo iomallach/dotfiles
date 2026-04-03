@@ -26,9 +26,26 @@
   };
 
   imports = [
+    ../modules/alacritty.nix
+    ../modules/helix.nix
+    ../modules/tmux.nix
+    ../home-manager/doom-emacs.nix
+    ../modules/kitty.nix
+    ../modules/neovide.nix
+    ../home-manager/hypr.nix
+    ../home-manager/nvim.nix
+    ../home-manager/rofi.nix
+    ../home-manager/scripts.nix
+    ../home-manager/waybar.nix
+    ../home-manager/wezterm.nix
+    ../home-manager/wlogout.nix
+    ../home-manager/zed.nix
+    ../home-manager/vscode.nix
+    ../home-manager/zellij.nix
     inputs.spicetify-nix.homeManagerModules.default
     ../modules/zsh.nix
     ../modules/ghostty.nix
+    # ../home-manager/kanata.nix
   ];
 
   # Configure Spicetify with Catppuccin
