@@ -1,6 +1,8 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = [
-    pkgs.waybar
-  ];
+
+  programs.waybar.enable = true;
+  # environment.systemPackages = [
+  #   pkgs.waybar
+  # ];
 }
