@@ -56,6 +56,8 @@ in
 
     sioyek
 
+    cameractrls-gtk4
+
     # Zen
     zenWrapper
     # Desktop entry for zen browser (non-beta command)
