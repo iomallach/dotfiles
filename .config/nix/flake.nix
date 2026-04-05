@@ -6,6 +6,7 @@
 
     # flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs.follows = "nixpkgs";
 
     # nix-darwin
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
@@ -21,6 +22,7 @@
 
     # homebrew (darwin only)
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
     # Optional: Declarative tap management
     homebrew-core = {
@@ -49,6 +51,7 @@
 
     # catppuccin nixos modules
     catppuccin.url = "github:catppuccin/nix";
+    catppuccin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
