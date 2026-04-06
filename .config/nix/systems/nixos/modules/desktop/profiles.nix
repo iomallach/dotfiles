@@ -8,6 +8,7 @@ let
       ./common.nix
       ../desktops/hyprland.nix
       ../desktops/waybar.nix
+      ../desktops/quickshell.nix
     ];
     hyprland-quickshell = [
       ./common.nix

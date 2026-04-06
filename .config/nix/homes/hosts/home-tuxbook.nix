@@ -60,6 +60,8 @@
     ../../modules/common/zsh.nix
     ../../modules/common/ghostty.nix
     # ../../modules/home/kanata.nix
+    inputs.dms.homeModules.dank-material-shell
+    ../../modules/home/dank-material-shell.nix
   ];
 
   # Configure Spicetify with Catppuccin

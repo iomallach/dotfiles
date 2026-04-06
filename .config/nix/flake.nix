@@ -52,6 +52,9 @@
     # catppuccin nixos modules
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # dank material shell
+    dms.url = "github:AvengeMedia/DankMaterialShell";
   };
 
   outputs =
