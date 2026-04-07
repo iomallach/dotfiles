@@ -3,7 +3,7 @@
   "presets": {
     "openai": {
       "orchestrator": {
-        "model": "openai/gpt-5.2-codex",
+        "model": "openai/gpt-5.4",
         "skills": [
           "*"
         ],
@@ -12,13 +12,13 @@
         ]
       },
       "oracle": {
-        "model": "openai/gpt-5.2-codex",
+        "model": "openai/gpt-5.4",
         "variant": "high",
         "skills": [],
         "mcps": []
       },
       "librarian": {
-        "model": "openai/gpt-5.1-codex-mini",
+        "model": "openai/gpt-5.4-mini",
         "variant": "low",
         "skills": [],
         "mcps": [
@@ -28,13 +28,13 @@
         ]
       },
       "explorer": {
-        "model": "openai/gpt-5.1-codex-mini",
+        "model": "openai/gpt-5.4-mini",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
       "designer": {
-        "model": "openai/gpt-5.1-codex-mini",
+        "model": "openai/gpt-5.4-mini",
         "variant": "medium",
         "skills": [
           "agent-browser"
@@ -42,7 +42,54 @@
         "mcps": []
       },
       "fixer": {
-        "model": "openai/gpt-5.1-codex-mini",
+        "model": "openai/gpt-5.4-mini",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "work": {
+      "orchestrator": {
+        "model": "amazon-bedrock/anthropic-claude-opus-4-5",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "websearch"
+        ]
+      },
+      "oracle": {
+        "model": "amazon-bedrock/anthropic-claude-opus-4-5",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "amazon-bedrock/anthropic-claude-sonnet-4-5",
+        "variant": "low",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "grep_app"
+        ]
+      },
+      "explorer": {
+        "model": "amazon-bedrock/anthropic-claude-haiku-4-5",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "amazon-bedrock/anthropic-claude-sonnet-4-5",
+        "variant": "medium",
+        "skills": [
+          "agent-browser"
+        ],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "amazon-bedrock/anthropic-claude-haiku-4-5",
         "variant": "low",
         "skills": [],
         "mcps": []
