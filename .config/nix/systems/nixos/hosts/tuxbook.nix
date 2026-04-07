@@ -12,14 +12,15 @@
           ./tuxbook/hardware-configuration.nix
           ../modules/boot.nix
           ../modules/base.nix
+          ../modules/services.nix
           ../modules/desktop/profiles.nix
           ../modules/packages/core.nix
           ../modules/packages/desktop.nix
           ../modules/packages/apps.nix
+          ../modules/noctalia.nix
         ];
 
         networking.hostName = "tuxbook";
-
 
         hardware = {
           bluetooth = {

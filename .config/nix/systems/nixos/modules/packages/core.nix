@@ -41,5 +41,6 @@
 
     # Nix core
     nvd
+
   ];
 }
