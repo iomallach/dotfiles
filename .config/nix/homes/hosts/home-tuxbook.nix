@@ -25,6 +25,10 @@
 
   programs.home-manager.enable = true;
 
+  home.sessionVariables = {
+    OH_MY_OPENCODE_SLIM_PRESET = "openai";
+  };
+
   programs.git = {
     enable = true;
     settings = {

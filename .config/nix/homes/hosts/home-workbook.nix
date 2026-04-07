@@ -66,6 +66,7 @@
     GRPC_PYTHON_BUILD_SYSTEM_OPENSSL = "1";
     GRPC_PYTHON_BUILD_SYSTEM_ZLIB = "1";
     MLFLOW_TRACKING_URI = "databricks";
+    OH_MY_OPENCODE_SLIM_PRESET = "work";
     PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring";
   };
 
