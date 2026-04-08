@@ -29,9 +29,9 @@ local opts = {
 			not_loaded = "",
 		},
 	},
-  git = {
-    timeout = 300,
-  },
+	git = {
+		timeout = 1000,
+	},
 
 	performance = {
 		rtp = {
