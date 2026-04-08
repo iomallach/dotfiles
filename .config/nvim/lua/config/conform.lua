@@ -1,6 +1,6 @@
 local function get_python_formatter_executable()
 	-- one of these must be either installed in the venv or installed globally
-	local formatters = { "black", "ruff" }
+	local formatters = { "ruff", "black" }
 
 	for _, formatter in ipairs(formatters) do
 		if vim.fn.executable(formatter) == 1 then
