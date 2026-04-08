@@ -47,17 +47,17 @@
           "name": "Anthropic Claude Opus 4.5 (Bedrock)",
           "id": "anthropic.claude-opus-4-5-20251101-v1:0"
         },
-        "anthropic-claude-sonnet-4-5": {
-          "name": "Anthropic Claude Sonnet 4.5 (Bedrock)",
-          "id": "anthropic.claude-sonnet-4-5-20250929-v1:0"
+        "anthropic-claude-sonnet-4-6": {
+          "name": "Anthropic Claude Sonnet 4.6 (Bedrock)",
+          "id": "global.anthropic.claude-sonnet-4-6"
         },
         "anthropic-claude-haiku-4-5": {
           "name": "Anthropic Claude Haiku 4.5 (Bedrock)",
-          "id": "anthropic.claude-haiku-4-5-20251001-v1:0"
+          "id": "global.anthropic.claude-haiku-4-5-20251001-v1:0"
         },
         "anthropic-claude-3-5-haiku": {
           "name": "Anthropic Claude 3.5 Haiku (Bedrock)",
-          "id": "anthropic.claude-3-5-haiku-20241022-v1:0"
+          "id": "anthropic.claude-3-5-haiku-20240307-v1:0"
         }
       }
     },

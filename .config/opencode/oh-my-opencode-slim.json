@@ -50,7 +50,7 @@
     },
     "work": {
       "orchestrator": {
-        "model": "amazon-bedrock/anthropic-claude-opus-4-5",
+        "model": "amazon-bedrock/anthropic-claude-sonnet-4-6",
         "skills": [
           "*"
         ],
@@ -59,13 +59,13 @@
         ]
       },
       "oracle": {
-        "model": "amazon-bedrock/anthropic-claude-opus-4-5",
+        "model": "amazon-bedrock/anthropic-claude-sonnet-4-6",
         "variant": "high",
         "skills": [],
         "mcps": []
       },
       "librarian": {
-        "model": "amazon-bedrock/anthropic-claude-sonnet-4-5",
+        "model": "amazon-bedrock/anthropic-claude-sonnet-4-6",
         "variant": "low",
         "skills": [],
         "mcps": [
