@@ -13,6 +13,7 @@
     ../../modules/home/karabiner.nix
     ../../modules/common/neovide.nix
     ../../modules/home/nvim.nix
+    ../../modules/home/opencode.nix
     ../../modules/home/scripts.nix
     ../../modules/home/wezterm.nix
     ../../modules/home/zed.nix

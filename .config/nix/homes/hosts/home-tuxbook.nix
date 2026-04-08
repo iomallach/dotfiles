@@ -52,6 +52,7 @@
     ../../modules/home/hypr.nix
     ../../modules/home/niri.nix
     ../../modules/home/nvim.nix
+    ../../modules/home/opencode.nix
     ../../modules/home/rofi.nix
     ../../modules/home/scripts.nix
     ../../modules/home/waybar.nix
