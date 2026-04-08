@@ -173,13 +173,31 @@ keybinds clear-defaults=true {
     }
     shared_among "normal" {
         // bind "f" { SwitchToMode "locked"; Run "bash" "-c" "~/dotfiles/.config/scripts/zellij-sessionizer.sh"; }
-        bind "f" { LaunchOrFocusPlugin "file:~/dotfiles/.config/zellij/plugins/zellij-sessionizer-cust.wasm" {
+        // bind "f" { LaunchOrFocusPlugin "file:~/dotfiles/.config/zellij/plugins/zellij-sessionizer-cust.wasm" {
+        //     floating true
+        //     move_to_focused_tab true
+        //     cwd "/"
+        //     root_dirs "/Users/iomallach/notes/;/Users/iomallach/dev/c;/Users/iomallach/dev/zig;/Users/iomallach/dev/rust;/Users/iomallach/dev/python;/Users/iomallach/dev/go;/Users/iomallach/dev/lua;/Users/iomallach/dev/thirdparty;/Users/iomallach/dotfiles/.config"
+        //     session_layout "default"
+        //   }; SwitchToMode "Locked";
+        // }
+        bind "f" {
+          Run "bash" "-c" "~/.config/scripts/zellij-sessionizer.sh" {
             floating true
-            move_to_focused_tab true
-            cwd "/"
-            root_dirs "/Users/iomallach/notes/;/Users/iomallach/dev/c;/Users/iomallach/dev/zig;/Users/iomallach/dev/rust;/Users/iomallach/dev/python;/Users/iomallach/dev/go;/Users/iomallach/dev/lua;/Users/iomallach/dev/thirdparty;/Users/iomallach/dotfiles/.config"
-            session_layout "default"
-          }; SwitchToMode "Locked";
+            close_on_exit true
+            x "15%"
+            y "10%"
+            width "70%"
+            height "80%"
+            name "sessionizer"
+          }
+          SwitchToMode "locked"
+        }
+        bind "Tab" {
+          Run "bash" "-c" "~/.config/scripts/zellij-toggle-session.sh" {
+            close_on_exit true
+          }
+          SwitchToMode "locked"
         }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "locked"; }
     }
