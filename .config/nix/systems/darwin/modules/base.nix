@@ -37,6 +37,7 @@
     kanata
     kanata-tray.default
     spotify
+    aerospace
   ];
 
   system.activationScripts.applications.text =
