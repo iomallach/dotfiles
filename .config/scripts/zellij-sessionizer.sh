@@ -7,6 +7,7 @@ ROOTS=(
   "$HOME/dev/go"
   "$HOME/dev/rust"
   "$HOME/dev/python"
+  "$HOME/gyg"
 )
 
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/zellij"
@@ -64,7 +65,6 @@ main() {
       | sort -u \
       | fzf \
           --prompt='project > ' \
-          --height=80% \
           --border \
           --preview 'test -d {} && eza --color=always --icons -lha {}'
   )"
