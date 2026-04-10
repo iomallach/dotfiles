@@ -29,12 +29,14 @@
       "find *": "allow",
       "cat *": "allow",
       "grep *": "allow",
+      "head *": "allow",
       "*": "ask"
     }
   },
   "plugin": [
     "opencode-openai-codex-auth",
-    "oh-my-opencode-slim"
+    "oh-my-opencode-slim",
+    "opencode-agent-memory"
   ],
   "provider": {
     "amazon-bedrock": {
