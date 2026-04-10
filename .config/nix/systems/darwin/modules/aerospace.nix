@@ -34,8 +34,8 @@
           left = 20;
           bottom = 20;
           top = [
-            { monitor."built-in" = 20; }
-            50
+            { monitor."built-in" = 15; }
+            45
           ];
           right = 20;
         };
