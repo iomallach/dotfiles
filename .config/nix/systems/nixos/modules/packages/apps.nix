@@ -99,6 +99,7 @@ in
         };
       };
     })
+    anki
   ];
 
   security.wrappers.xray = {
