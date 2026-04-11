@@ -49,6 +49,7 @@
     pulse.enable = true;
   };
   services.displayManager = {
+    defaultSession = "hyprland";
     sddm.enable = true;
     sddm.wayland.enable = true;
     sddm.theme = "catppuccin-mocha-mauve";
