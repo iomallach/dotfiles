@@ -63,27 +63,9 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs =
-    inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-
-      imports = [
-        inputs.nix-darwin.flakeModules.default
-        ./parts/overlays.nix
-        ./parts/darwin.nix
-        ./parts/home-manager.nix
-        ./parts/devshells.nix
-        ./systems/darwin/hosts/macbookair.nix
-        ./systems/darwin/hosts/workbook.nix
-        ./systems/nixos/hosts/tuxbook.nix
-      ];
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
