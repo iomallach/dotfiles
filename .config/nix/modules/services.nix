@@ -33,7 +33,7 @@
         };
 
         displayManager = {
-          defaultSession = "hyprland";
+          defaultSession = "niri";
           sddm.enable = true;
           sddm.wayland.enable = true;
           sddm.theme = "catppuccin-mocha-mauve";

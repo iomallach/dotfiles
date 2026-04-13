@@ -36,11 +36,13 @@
       programs = {
         # dank-material-shell.enable = false;
         hyprland = {
-          enable = true;
+          enable = false;
           xwayland.enable = true;
         };
-        niri.enable = false;
-        waybar.enable = true;
+        niri.enable = true;
+        waybar = {
+          enable = false;
+        };
       };
 
       time.timeZone = "Europe/Berlin";
