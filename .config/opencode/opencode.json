@@ -30,6 +30,10 @@
       "cat *": "allow",
       "grep *": "allow",
       "head *": "allow",
+      "cd *": "allow",
+      "uv run pytest *": "allow",
+      "uv run mypy *": "allow",
+      "uv run ruff *": "allow",
       "*": "ask"
     }
   },
