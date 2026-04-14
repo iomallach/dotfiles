@@ -211,7 +211,7 @@
         {
           environment.sessionVariables = {
             GDK_PIXBUF_MODULE_FILE = "${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache";
-            XCURSOR_THEME = "Catppuccin-Macchiato-Blue-Cursors";
+            XCURSOR_THEME = "catppuccin-macchiato-blue-cursors";
             XCURSOR_SIZE = "35";
             HYPRCURSOR_THEME = "catppuccin-macchiato-blue-cursors";
             HYPRCURSOR_SIZE = "35";

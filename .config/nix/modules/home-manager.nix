@@ -47,15 +47,11 @@
           OH_MY_OPENCODE_SLIM_PRESET = "openai";
         };
         home.pointerCursor = {
-          name = "Catppuccin-Macchiato-Blue-Cursors";
-          package = pkgs.catppuccin-cursors;
+          name = "catppuccin-macchiato-blue-cursors";
+          package = pkgs.catppuccin-cursors.macchiatoBlue;
           size = 35;
           gtk.enable = true;
           x11.enable = true;
-        };
-        xdg.dataFile."icons/catppuccin-macchiato-blue-cursors".source = pkgs.fetchzip {
-          url = "https://github.com/catppuccin/cursors/releases/download/v2.0.0/catppuccin-macchiato-blue-cursors.zip";
-          sha256 = "1b30cwdl5m7ll5k2kwn91h16pr7i3xrg5x018kbxzyjk7z59pfnw";
         };
       };
   };
