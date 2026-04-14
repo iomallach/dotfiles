@@ -7,13 +7,24 @@
 {
   flake.darwinConfigurations.workbook = inputs.nix-darwin.lib.darwinSystem {
     system = "aarch64-darwin";
-    specialArgs = { inherit self inputs; };
-    modules = [
+    modules = with config.flake.modules; [
       inputs.home-manager.darwinModules.home-manager
       inputs.nix-homebrew.darwinModules.nix-homebrew
-      {
-        nixpkgs.overlays = [ self.overlays.default ];
-      }
+      ai
+      nix
+      browsers.darwin
+      fonts.darwin
+      hardware.darwin
+      languages.darwin
+      media.darwin
+      networking.darwin
+      shell.core.base
+      shell.core.darwinWork
+      systemd.darwin
+      desktopGui.darwin
+      git.extraPackages
+      spotify.package
+      keyIntercept.darwin
       (
         { config, ... }:
         {
@@ -25,10 +36,21 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "hm-bak";
-            users.${config.system.primaryUser} = {
-              imports = [
+            users."alexander.butenko" = {
+              imports = with config.flake.modules; [
                 config.flake.modules.home-manager.base
                 config.flake.modules.home-manager.darwinWork
+                inputs.spicetify-nix.homeManagerModules.default
+
+                xdgConfigs
+                homeManager.base
+                homeManager.darwinWork
+                homebrew
+                shell.base
+                git.base
+                spotify.spicetify
+                editors
+                terminals
               ];
             };
           };
