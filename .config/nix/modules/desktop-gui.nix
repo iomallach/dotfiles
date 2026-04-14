@@ -263,6 +263,52 @@
               ];
             };
           };
+
+          services.paneru = {
+            enable = false;
+            settings = {
+              options = {
+                focus_follows_mouse = true;
+                mouse_follows_focus = true;
+                preset_column_widths = [
+                  0.25
+                  0.33
+                  0.5
+                  0.66
+                  0.75
+                  1.0
+                ];
+              };
+              padding = {
+                top = 10;
+                bottom = 10;
+                left = 10;
+                right = 10;
+              };
+              bindings = {
+                window_focus_west = "cmd - h";
+                window_focus_east = "cmd - l";
+                window_focus_north = "cmd - k";
+                window_focus_south = "cmd - j";
+                # window_swap_west = "cmd - ctrl - h";
+                # window_swap_east = "cmd - ctrl - l";
+                # window_swap_north = "cmd - ctrl - k";
+                # window_swap_south = "cmd - ctrl - j";
+                window_resize = "alt - r";
+                window_manage = "alt - v"; # tiled/floating
+                # window_next_display = "alt - shift - tab";
+                window_fullwidth = "alt - f";
+                window_center = "alt - c";
+                mouse_nextdisplay = "alt - n";
+              };
+              decorations.active.border = {
+                enabled = true;
+                width = 2.0;
+                radius = 20;
+                color = "#ff0000";
+              };
+            };
+          };
         };
 
       system =

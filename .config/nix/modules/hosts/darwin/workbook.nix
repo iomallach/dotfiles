@@ -46,6 +46,7 @@ in
           users."alexander.butenko" = {
             imports = with modules; [
               inputs.spicetify-nix.homeManagerModules.default
+              inputs.paneru.homeModules.paneru
 
               xdgConfigs
               homeManager.base
@@ -58,6 +59,9 @@ in
               spotify.spicetify
               editors
               terminals
+              {
+                programs.ghostty.settings.font-size = 20;
+              }
             ];
           };
         };
