@@ -39,8 +39,8 @@
   "provider": {
     "amazon-bedrock": {
       "options": {
-        "region": "{env:AWS_REGION}",
-        "profile": "{env:AWS_PROFILE}"
+        "region": "eu-west-1",
+        "profile": "production/developer"
       },
       "models": {
         "anthropic-claude-opus-4-5": {

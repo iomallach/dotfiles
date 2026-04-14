@@ -223,47 +223,52 @@
         };
 
       darwinWork = {
-        programs.zsh = {
+        system = {
+          programs.zsh = {
+            shellInit = ''
+              eval "$(/opt/homebrew/bin/brew shellenv)"
+            '';
 
-          shellAliases = {
-            load-ca-auth = "export UV_INDEX_CODEARTIFACT_USERNAME=aws && export UV_INDEX_CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --profile production/developer --domain getyourguide --domain-owner 130607246975 --query authorizationToken --output text)";
-            c = "clear";
+            interactiveShellInit = ''
+              eval "$(direnv hook zsh)"
+            '';
           };
+        };
 
-          shellInit = ''
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-          '';
+        homeManager = {
+          programs.zsh = {
+            shellAliases = {
+              load-ca-auth = "export UV_INDEX_CODEARTIFACT_USERNAME=aws && export UV_INDEX_CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --profile production/developer --domain getyourguide --domain-owner 130607246975 --query authorizationToken --output text)";
+              c = "clear";
+            };
 
-          interactiveShellInit = ''
-            eval "$(direnv hook zsh)"
-          '';
+            initExtra = ''
+              # XDG
+              export XDG_CONFIG_HOME="$HOME/.config"
 
-          initExtra = ''
-            # XDG
-            export XDG_CONFIG_HOME="$HOME/.config"
+              # Enable vi mode
+              bindkey -v
 
-            # Enable vi mode
-            bindkey -v
+              # Edit command in $EDITOR with C-x C-e
+              autoload -U edit-command-line
+              zle -N edit-command-line
+              bindkey '^xe' edit-command-line
+              bindkey '^x^e' edit-command-line
 
-            # Edit command in $EDITOR with C-x C-e
-            autoload -U edit-command-line
-            zle -N edit-command-line
-            bindkey '^xe' edit-command-line
-            bindkey '^x^e' edit-command-line
+              # Extra completions
+              fpath=(~/.zsh/completions $fpath)
 
-            # Extra completions
-            fpath=(~/.zsh/completions $fpath)
+              # nvm
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+              [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+              nvm use &>/dev/null
 
-            # nvm
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-            nvm use &>/dev/null
-
-            # SDKMAN (must be last)
-            export SDKMAN_DIR="$HOME/.sdkman"
-            [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-          '';
+              # SDKMAN (must be last)
+              export SDKMAN_DIR="$HOME/.sdkman"
+              [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+            '';
+          };
         };
       };
     };
