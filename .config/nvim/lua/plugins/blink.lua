@@ -23,6 +23,9 @@ return {
 				-- install jsregexp (optional!).
 				build = "make install_jsregexp",
 			},
+			{
+				"fang2hou/blink-copilot",
+			},
 		},
 		event = "InsertEnter",
 
@@ -71,12 +74,17 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
+				default = { "lsp", "path", "snippets", "buffer", "supermaven", "copilot" },
 				providers = {
 					supermaven = {
 						name = "supermaven",
 						module = "blink.compat.source",
 						score_offset = 0,
+						async = true,
+					},
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
 						async = true,
 					},
 				},
