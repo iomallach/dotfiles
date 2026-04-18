@@ -13,6 +13,7 @@
             cmake
             hadolint
             shellcheck
+            copilot-language-server
           ];
         };
 
