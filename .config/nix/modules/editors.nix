@@ -23,6 +23,7 @@
           enable = true;
           defaultEditor = true;
           package = inputs.neovim-nightly.packages."${pkgs.system}".default;
+          sideloadInitLua = true;
         };
         obsidian.enable = true;
         zed-editor = {
