@@ -6,6 +6,7 @@
         opencode
         claude-code
         crush
+        copilot-language-server
       ];
     };
 
