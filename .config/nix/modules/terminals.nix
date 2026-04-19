@@ -5,7 +5,7 @@ let
   };
 in
 {
-  flake.modules.terminals =
+  flake.modules.homeManager.terminals =
     { pkgs, ... }:
     {
       programs = {

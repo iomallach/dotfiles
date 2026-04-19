@@ -1,27 +1,25 @@
 {
-  flake.modules.media =
+  flake.modules.nixos.media =
+    { pkgs, ... }:
 
     {
-      nixos =
-        { pkgs, ... }:
-        {
-          environment.systemPackages = with pkgs; [
-            playerctl
-            cava
-            cameractrls-gtk4
-            brightnessctl
-          ];
+      environment.systemPackages = with pkgs; [
+        playerctl
+        cava
+        cameractrls-gtk4
+        brightnessctl
+      ];
 
-          security.rtkit.enable = true;
-        };
+      security.rtkit.enable = true;
 
-      darwin =
-        { pkgs, ... }:
-        {
-          environment.systemPackages = with pkgs; [
-            nowplaying-cli
-            switchaudio-osx
-          ];
-        };
+    };
+
+  flake.modules.darwin.media =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        nowplaying-cli
+        switchaudio-osx
+      ];
     };
 }

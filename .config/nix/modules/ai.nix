@@ -1,8 +1,8 @@
 {
-  flake.modules.ai =
+  flake.modules.homeManager.ai =
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      home.packages = with pkgs; [
         opencode
         claude-code
         crush

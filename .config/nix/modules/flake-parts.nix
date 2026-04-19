@@ -10,13 +10,8 @@ in
 {
   imports = [
     inputs.nix-darwin.flakeModules.default
+    inputs.flake-parts.flakeModules.modules
   ];
-
-  options.flake.modules = lib.mkOption {
-    type = lib.types.lazyAttrsOf lib.types.raw;
-    default = { };
-    description = "Reusable module registry for dendritic config modules.";
-  };
 
   options.flake.configSources = lib.mkOption {
     type = lib.types.attrsOf (
@@ -54,7 +49,7 @@ in
   };
 
   config = {
-    flake.modules.xdgConfigs =
+    flake.modules.homeManager.xdgConfigs =
       { config, lib, ... }:
       let
         dotfilesConfig = "${config.home.homeDirectory}/dotfiles/.config";

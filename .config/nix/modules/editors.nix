@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.editors =
+  flake.modules.homeManager.editors =
     { pkgs, ... }:
     {
       programs = {

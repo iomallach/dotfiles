@@ -1,5 +1,5 @@
 {
-  flake.modules.boot.nixos =
+  flake.modules.nixos.boot =
     { pkgs, lib, ... }:
     {
       #TODO: this might not be there if it is only the theme

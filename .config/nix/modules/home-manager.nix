@@ -1,45 +1,20 @@
+let
+  shared = {
+    home = {
+      stateVersion = "25.05";
+      sessionVariables = {
+        EDITOR = "nvim";
+      };
+    };
+    programs.home-manager.enable = true;
+  };
+in
 {
-  flake.modules.homeManager = {
-    base = {
-      home = {
-        stateVersion = "25.05";
-        sessionVariables = {
-          EDITOR = "nvim";
-        };
-      };
+  flake.modules.homeManager.iomallach =
+    { pkgs, lib, ... }:
 
-      programs.home-manager.enable = true;
-    };
-
-    darwinWork = {
-      home.username = "alexander.butenko";
-      home.homeDirectory = "/Users/alexander.butenko";
-      home.sessionVariables = {
-        OH_MY_OPENCODE_SLIM_PRESET = "work";
-        DEFAULT_USER = "alex";
-        GRPC_PYTHON_BUILD_SYSTEM_OPENSSL = "1";
-        GRPC_PYTHON_BUILD_SYSTEM_ZLIB = "1";
-        MLFLOW_TRACKING_URI = "databricks";
-        PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring";
-      };
-      home.sessionPath = [
-        "$HOME/.cargo/bin"
-        "$HOME/.rd/bin"
-        "/opt/homebrew/opt/node@22/bin"
-        "/Users/alexander.butenko/Library/pnpm"
-      ];
-    };
-
-    darwinPrivate = {
-      home.username = "iomallach";
-      home.homeDirectory = "/Users/iomallach";
-      home.sessionVariables = {
-        OH_MY_OPENCODE_SLIM_PRESET = "openai";
-      };
-    };
-
-    nixos =
-      { pkgs, ... }:
+    lib.mkMerge [
+      shared
       {
         home.username = "iomallach";
         home.homeDirectory = "/home/iomallach";
@@ -53,6 +28,41 @@
           gtk.enable = true;
           x11.enable = true;
         };
-      };
-  };
+
+        programs.git.settings = {
+          user.name = "Alexander Butenko";
+          user.email = "a.butenko.o@gmail.com";
+        };
+      }
+    ];
+
+  flake.modules.homeManager.alexb =
+    { lib, ... }:
+
+    lib.mkMerge [
+      shared
+      {
+        home.username = "alexander.butenko";
+        home.homeDirectory = "/Users/alexander.butenko";
+        home.sessionVariables = {
+          OH_MY_OPENCODE_SLIM_PRESET = "work";
+          DEFAULT_USER = "alex";
+          GRPC_PYTHON_BUILD_SYSTEM_OPENSSL = "1";
+          GRPC_PYTHON_BUILD_SYSTEM_ZLIB = "1";
+          MLFLOW_TRACKING_URI = "databricks";
+          PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring";
+        };
+        home.sessionPath = [
+          "$HOME/.cargo/bin"
+          "$HOME/.rd/bin"
+          "/opt/homebrew/opt/node@22/bin"
+          "/Users/alexander.butenko/Library/pnpm"
+        ];
+
+        programs.git.settings = {
+          user.name = "Alexander Butenko";
+          user.email = "alexander.butenko@getyourguide.com";
+        };
+      }
+    ];
 }

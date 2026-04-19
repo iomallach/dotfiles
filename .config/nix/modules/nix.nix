@@ -1,5 +1,5 @@
 {
-  flake.modules.nix = {
+  flake.modules.generic.nix = {
     nixpkgs.config.allowUnfree = true;
 
     nix.settings.experimental-features = [

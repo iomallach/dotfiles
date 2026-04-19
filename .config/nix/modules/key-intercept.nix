@@ -1,5 +1,5 @@
 {
-  flake.modules.keyIntercept = {
+  flake.modules.darwin.keyIntercept = {
     darwin =
       { pkgs, ... }:
       {

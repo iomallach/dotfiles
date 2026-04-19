@@ -1,5 +1,5 @@
 {
-  flake.modules.gaming =
+  flake.modules.generic.gaming =
     { pkgs, ... }:
     {
       programs.steam.enable = true;

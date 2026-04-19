@@ -1,5 +1,5 @@
 {
-  flake.modules.services.nixos =
+  flake.modules.nixos.services =
     { pkgs, ... }:
     {
       services = {

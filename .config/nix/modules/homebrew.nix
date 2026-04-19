@@ -1,5 +1,5 @@
 {
-  flake.modules.homebrew = {
+  flake.modules.darwin.homebrew = {
     homebrew = {
       enable = false;
 

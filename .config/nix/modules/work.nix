@@ -1,5 +1,5 @@
 {
-  flake.modules.work = {
+  flake.modules.darwin.work = {
     homebrew = {
       taps = [
         "getyourguide/dev"
