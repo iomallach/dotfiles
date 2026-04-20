@@ -1,19 +1,17 @@
 {
-  flake.modules.darwin.keyIntercept = {
-    darwin =
-      { pkgs, ... }:
-      {
-        environment.systemPackages = with pkgs; [
-          kanata
-          kanata-tray.default
+  flake.modules.darwin.keyIntercept =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        kanata
+        kanata-tray.default
+      ];
+      homebrew = {
+        casks = [
+          "karabiner-elements"
         ];
-        homebrew = {
-          casks = [
-            "karabiner-elements"
-          ];
-        };
       };
-  };
+    };
 
   flake.configSources.karabiner = {
     source = "karabiner";

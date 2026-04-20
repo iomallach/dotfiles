@@ -51,12 +51,10 @@
     };
 
   flake.modules.darwin.hardware = {
-    darwin = {
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 5;
+    # Used for backwards compatibility, please read the changelog before changing.
+    # $ darwin-rebuild changelog
+    system.stateVersion = 5;
 
-      nixpkgs.hostPlatform = "aarch64-darwin";
-    };
+    nixpkgs.hostPlatform = "aarch64-darwin";
   };
 }
