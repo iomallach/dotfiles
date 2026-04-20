@@ -111,8 +111,8 @@ nnoremap <leader>gi :action GotoImplementation<CR>
 nnoremap <leader>gd :action GotoDeclaration<CR>
 nnoremap <leader>gt :action GotoTypeDeclaration<CR>
 map <leader>gs :action GoToSuperMethod<cr>
-nnoremap H :action PreviousTab<CR>
-nnoremap L :action NextTab<CR>
+nnoremap L $
+nnoremap H ^
 nnoremap [e :action GotoPreviousError<cr>
 nnoremap ]e :action GotoNextError<cr>
 nnoremap [[ :action MethodUp<cr>
@@ -120,6 +120,7 @@ nnoremap ]] :action MethodDown<cr>
 map <leader>ns <Action>(ShowNavBar)
 map <leader>fb <Action>(Switcher)
 map <leader>fp <Action>(ManageRecentProjects)
+map <leader>gf <Action>(SelectInProjectView)
 
 " View
 map <leader>fo :action FileStructurePopup<cr>
@@ -201,3 +202,9 @@ nmap <leader>hm <Action>(ca.alexgirard.harpoonIJ.mainGroup)
 nmap <leader>hs <Action>(ShowHarpoon)
 nmap <leader>hS <Action>(SelectHarpoonItem)
 nmap <leader>ha <Action>(AddToHarpoon)
+
+nmap <leader>gg <Action>(LazyGit.Open)
+nmap <leader><space> <C-6>
+nmap <leader>rn <Action>(RenameElement)
+
+nmap <leader>- <Action>(TOpenDir)
