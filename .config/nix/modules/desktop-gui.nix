@@ -56,11 +56,11 @@
             "alt-shift-cmd-ctrl-k" = "focus up";
             "alt-shift-cmd-ctrl-l" = "focus right";
 
-            "alt-shift-cmd-ctrl-1" = "workspace 1";
-            "alt-shift-cmd-ctrl-2" = "workspace 2";
-            "alt-shift-cmd-ctrl-3" = "workspace 3";
-            "alt-shift-cmd-ctrl-4" = "workspace 4";
-            "alt-shift-cmd-ctrl-5" = "workspace 5";
+            "alt-1" = "workspace 1";
+            "alt-2" = "workspace 2";
+            "alt-3" = "workspace 3";
+            "alt-4" = "workspace 4";
+            "alt-5" = "workspace 5";
             "alt-shift-cmd-ctrl-6" = "workspace 6";
             "alt-shift-cmd-ctrl-7" = "workspace 7";
             "alt-shift-cmd-ctrl-8" = "workspace 8";
@@ -186,26 +186,6 @@
 
         "on-window-detected" = [
           {
-            "if".app-id = "com.github.wez.wezterm";
-            run = "move-node-to-workspace T";
-          }
-          {
-            "if".app-id = "company.thebrowser.Browser";
-            run = "move-node-to-workspace B";
-          }
-          {
-            "if".app-id = "com.spotify.client";
-            run = "move-node-to-workspace S";
-          }
-          {
-            "if".app-id = "com.jetbrains.intellij.ce";
-            run = "move-node-to-workspace I";
-          }
-          {
-            "if".app-id = "com.jetbrains.intellij";
-            run = "move-node-to-workspace I";
-          }
-          {
             "if".app-id = "com.google.Chrome";
             run = "move-node-to-workspace C";
           }
@@ -229,16 +209,16 @@
           ];
         };
         padding = {
-          top = 10;
-          bottom = 10;
-          left = 10;
-          right = 10;
+          top = 20;
+          bottom = 20;
+          left = 20;
+          right = 20;
         };
         bindings = {
-          window_focus_west = "cmd - h";
-          window_focus_east = "cmd - l";
-          window_focus_north = "cmd - k";
-          window_focus_south = "cmd - j";
+          window_focus_west = "alt - h";
+          window_focus_east = "alt - l";
+          window_focus_north = "alt - k";
+          window_focus_south = "alt - j";
           # window_swap_west = "cmd - ctrl - h";
           # window_swap_east = "cmd - ctrl - l";
           # window_swap_north = "cmd - ctrl - k";
@@ -251,7 +231,7 @@
           mouse_nextdisplay = "alt - n";
         };
         decorations.active.border = {
-          enabled = true;
+          enabled = false;
           width = 2.0;
           radius = 20;
           color = "#ff0000";
