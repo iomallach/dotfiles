@@ -44,6 +44,8 @@
         shellAliases = {
           gs = "git status";
           ls = "eza -lh --icons --git";
+          c = "clear";
+          oc = "opencode";
         };
 
         plugins = [
