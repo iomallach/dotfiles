@@ -1,23 +1,78 @@
 [
+  // ─── Editor: Normal Mode ──────────────────────────────────────────────────
   {
     "context": "Editor && vim_mode == normal",
     "bindings": {
+      // Fuzzy finder / search
       "space f g": "pane::DeploySearch",
+      "space f f": "file_finder::Toggle",
+      "space f b": "tab_switcher::Toggle",
+      "space f o": "projects::OpenRecent",
+      "space f s": "outline::Toggle",
+      "space f w s": "project_symbols::Toggle",
+      "space f D": "diagnostics::Deploy",
+      "space /": "editor::ToggleFocusedSearch",
+
+      // LSP
+      "space l g d": "editor::GoToDefinition",
+      "space g t": "editor::GoToTypeDefinition",
       "space l r n": "editor::Rename",
       "space c a": "editor::ToggleCodeActions",
+      "space l f r": "editor::FindAllReferences",
       "shift-k": "editor::Hover",
-      "space l g d": "editor::GoToDefinition",
-      "space f w s": "project_symbols::Toggle",
-      "space space": "pane::AlternateFile",
-      "space f D": "diagnostics::Deploy",
-      "space b k": "pane::CloseActiveItem",
+      "space l h t": "editor::ToggleInlayHints",
+      "space f m": "editor::Format",
+
+      // Diagnostics
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+
+      // Git
       "space g g": "git_panel::ToggleFocus",
+      "space g b": "editor::ToggleGitBlameInline",
+      "space r h": "git::RestoreAndNext",
+      "space p h": "editor::ToggleSelectedDiffHunks",
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk",
+
+      // Buffer / pane management
+      "space b k": "pane::CloseActiveItem",
+      "space space": "pane::AlternateFile",
+      "space s v": "pane::SplitRight",
+      "space s h": "pane::SplitDown",
+
+      // UI toggles
       "space t l d": "workspace::ToggleLeftDock",
-      "-": "pane::RevealInProjectPanel",
-      "space g t": "editor::GoToTypeDefinition",
-      "space p h": "editor::ToggleSelectedDiffHunks"
+      "space t z": "workspace::ToggleZoom",
+      "space t t": "terminal_panel::Toggle",
+
+      // Move lines
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+
+      // File explorer
+      "-": "pane::RevealInProjectPanel"
     }
   },
+
+  // ─── Editor: Visual Mode ──────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      // Comment toggle on selection (like <leader>/ in neovim visual)
+      "space /": "editor::ToggleComments",
+
+      // Indent/unindent keeping selection (like < and > in neovim visual)
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+
+      // Move selected lines
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp"
+    }
+  },
+
+  // ─── Vim: Sneak (normal + visual) ────────────────────────────────────────
   {
     "context": "vim_mode == normal || vim_mode == visual",
     "bindings": {
@@ -25,8 +80,9 @@
       "shift-s": "vim::PushSneakBackward"
     }
   },
-  // In VimScript, this would look like this:
-  // set whichwrap+=<,>,[,],h,l
+
+  // ─── Vim: Wrapping h/l across lines ──────────────────────────────────────
+  // Equivalent to: set whichwrap+=<,>,[,],h,l
   {
     "context": "VimControl && !menu",
     "bindings": {
@@ -36,6 +92,8 @@
       "l": "vim::WrappingRight"
     }
   },
+
+  // ─── Vim: Text Objects (mini.ai style) ───────────────────────────────────
   {
     "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
     "bindings": {
@@ -48,15 +106,16 @@
       "B": "vim::MiniBrackets"
     }
   },
+
+  // ─── Workspace (global) ───────────────────────────────────────────────────
   {
     "context": "Workspace",
     "bindings": {
-      // Put key bindings here (in addition to the context above) if you want them to
-      // work when no editor exists.
-      // "space f": "file_finder::Toggle"
       "space f f": "file_finder::Toggle"
     }
   },
+
+  // ─── Dock / Pane Navigation ───────────────────────────────────────────────
   {
     "context": "Dock",
     "bindings": {
@@ -64,7 +123,6 @@
       "ctrl-w l": "workspace::ActivatePaneRight",
       "ctrl-w k": "workspace::ActivatePaneUp",
       "ctrl-w j": "workspace::ActivatePaneDown"
-      // ... or other keybindings
     }
   }
 ]
