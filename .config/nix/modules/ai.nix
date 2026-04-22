@@ -7,6 +7,7 @@
         claude-code
         crush
         copilot-language-server
+        pi-coding-agent
       ];
     };
 
