@@ -61,6 +61,7 @@
             "alt-3" = "workspace 3";
             "alt-4" = "workspace 4";
             "alt-5" = "workspace 5";
+            "alt-6" = "workspace 6";
             "alt-shift-cmd-ctrl-6" = "workspace 6";
             "alt-shift-cmd-ctrl-7" = "workspace 7";
             "alt-shift-cmd-ctrl-8" = "workspace 8";
