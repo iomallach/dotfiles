@@ -57,6 +57,11 @@ let
     shell
     spotify
     ai
+    {
+      programs.zsh.shellAliases = {
+        q = "pi --no-extensions --no-session --model openai-codex/gpt-5.4-mini:medium -p";
+      };
+    }
   ];
 in
 {
