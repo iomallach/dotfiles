@@ -4,25 +4,35 @@
   };
 
   flake.modules.homeManager.shell =
-    { pkgs, config, ... }:
     {
-      home.packages = with pkgs; [
-        vim
-        wget
-        curl
-        fd
-        ripgrep
-        eza
-        bat
-        jq
-        btop
-        yazi
-        nvd
-        figlet
-        cmatrix
-        difftastic
-        dive
-      ];
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
+    {
+      home.packages =
+        with pkgs;
+        [
+          vim
+          wget
+          curl
+          fd
+          ripgrep
+          eza
+          bat
+          jq
+          btop
+          yazi
+          nvd
+          figlet
+          cmatrix
+          difftastic
+          dive
+        ]
+        ++ lib.optionals pkgs.stdenv.isLinux [
+          pkgs.wl-clipboard
+        ];
 
       programs.zsh = {
         enable = true;
