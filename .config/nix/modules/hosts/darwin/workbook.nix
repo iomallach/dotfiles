@@ -78,6 +78,7 @@ let
         shellAliases = {
           load-ca-auth = "export UV_INDEX_CODEARTIFACT_USERNAME=aws && export UV_INDEX_CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --profile production/developer --domain getyourguide --domain-owner 130607246975 --query authorizationToken --output text)";
           c = "clear";
+          q = "pi --no-extensions --no-session --model amazon-bedrock/eu.anthropic.claude-sonnet-4-6 -p";
         };
 
         initExtra = ''
