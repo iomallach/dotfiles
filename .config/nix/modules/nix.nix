@@ -15,6 +15,9 @@
         crush = prev.crush.overrideAttrs (oldAttrs: {
           doCheck = false;
         });
+        direnv = prev.direnv.overrideAttrs (oldAttrs: {
+          doCheck = false;
+        });
       })
     ];
   };
