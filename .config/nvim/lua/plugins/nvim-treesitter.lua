@@ -20,7 +20,8 @@ local opts = {
 		"toml",
 		"gitignore",
 		"typescript",
-    "nix"
+		"nix",
+		"just",
 	},
 	highlight = {
 		enable = true,
