@@ -22,7 +22,10 @@
         neovim = {
           enable = true;
           defaultEditor = true;
-          package = inputs.neovim-nightly.packages."${pkgs.system}".default;
+          # package = inputs.neovim-nightly.packages."${pkgs.system}".default;
+          package = pkgs.neovim-unwrapped;
+          withPython3 = false; # no Python remote plugins used
+          withRuby = false; # no Ruby remote plugins used
           sideloadInitLua = true;
         };
         obsidian.enable = true;
