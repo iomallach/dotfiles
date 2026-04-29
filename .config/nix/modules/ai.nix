@@ -1,6 +1,20 @@
 {
   flake.modules.homeManager.ai =
     { pkgs, config, ... }:
+    let
+      babysitter-sdk = pkgs.writeShellApplication {
+        name = "babysitter";
+        runtimeInputs = [
+          pkgs.nodejs_22
+        ];
+        text = ''
+          exec ${pkgs.nodejs_22}/bin/npx \
+          -y \
+          -p @a5c-ai/babysitter-sdk \
+          babysitter "$@"
+        '';
+      };
+    in
     {
       home.packages = with pkgs; [
         opencode
@@ -21,6 +35,7 @@
             }
           '';
         })
+        babysitter-sdk
       ];
     };
 
