@@ -6,6 +6,7 @@
       zenPackage = inputs.zen-browser.packages."${pkgs.system}".default;
       zenProfileDir = "${config.users.users.iomallach.home}/.zen/main";
       zenWrapper = pkgs.writeShellScriptBin "zen" ''
+        export MOZ_ENABLE_WAYLAND=0
         exec ${zenPackage}/bin/zen-beta \
           -profile "${zenProfileDir}" \
           --no-remote "$@"
