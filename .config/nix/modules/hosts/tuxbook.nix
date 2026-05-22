@@ -27,6 +27,7 @@ let
     systemd
     desktopGui
     vpn
+    keyIntercept
   ];
   hostBoundModules = [
     (
