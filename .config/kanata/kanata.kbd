@@ -1,16 +1,18 @@
 (defcfg
-  process-unmapped-keys yes
-  concurrent-tap-hold yes
+  process-unmapped-keys no
   macos-dev-names-include (
     "Apple Internal Keyboard / Trackpad"
   )
+  linux-dev /dev/input/by-id/usb-Compx_2.4G_Wireless_Receiver-event-kbd:/dev/input/by-id/platform-tuxedo_keyboard-event
 )
 
 (defvar
-  tap-timeout 200
-  hold-timeout 250
-)
+  tap-timeout-homerow 300
+  hold-timeout-homerow 300
 
+  tap-timeout  300
+  hold-timeout 300
+)
 (defalias
   hyper      (multi sft ctl alt met)
   excl-p     S-1
@@ -28,55 +30,64 @@
   a (tap-hold $tap-timeout $hold-timeout a lmet)
   s (tap-hold $tap-timeout $hold-timeout s lalt)
   d (tap-hold $tap-timeout $hold-timeout d lctl)
-  f (tap-hold $tap-timeout $hold-timeout f @hyper)
-  g (tap-hold $tap-timeout $hold-timeout g lsft)
+  f (tap-hold $tap-timeout $hold-timeout f lsft)
 
-  h (tap-hold $tap-timeout $hold-timeout h rsft)
-  j (tap-hold $tap-timeout $hold-timeout j @hyper)
+  j (tap-hold $tap-timeout $hold-timeout j rsft)
   k (tap-hold $tap-timeout $hold-timeout k rctl)
   l (tap-hold $tap-timeout $hold-timeout l ralt)
   ; (tap-hold $tap-timeout $hold-timeout ; rmet)
 
   ;; layers
-  v-to-lower (tap-hold $tap-timeout $hold-timeout v (layer-while-held lower))
-  rcmd-to-upper (tap-hold $tap-timeout $hold-timeout rmet (layer-while-held upper))
-  t-to-upper (tap-hold $tap-timeout $hold-timeout t (layer-while-held upper))
-  lcmd-to-lower (tap-hold $tap-timeout $hold-timeout lmet (layer-while-held lower))
+  v-to-lower (tap-hold $tap-timeout-homerow $hold-timeout-homerow v (layer-while-held lower))
+  t-to-upper (tap-hold $tap-timeout-homerow $hold-timeout-homerow t (layer-while-held upper))
 )
 
-(defsrc
-  esc   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  grv   1  2  3  4  5  6  7  8  9  0   -   =     bspc
-  tab   q  w  e  r  t  y  u  i  o  p   [   ]
-  caps  a  s  d  f  g  h  j  k  l  ;   '   \     ret
-  lsft  102d  z  x  c  v  b  n  m  ,  .   /   rsft
-  fn  lctl lalt lmet spc rmet ralt left down up rght
+(defsrc a s d f j k l ; v caps tab n m q w e r t y u i o p [ g h ')
+
+(deflayermap (main)
+  v @v-to-lower
+  t @t-to-upper
+  caps tab
+  tab esc
+  a @a
+  s @s
+  d @d
+  f @f
+  j @j
+  k @k
+  l @l
+  ; @;
 )
 
-(deflayer main
-  esc     brdn brup f3 f4 f5 f6 f7 f8 f9 f10 voldwn volu
-  grv     1  2  3  4  5            6  7  8  9  0  - =     bspc
-  esc     q  w  e  r  @t-to-upper  y  u  i  o  p  [ ]
-  tab     @a @s @d @f @g           @h  @j @k @l @; ' \     ret
-  lsft    `  z  x  c  @v-to-lower  b  n  m  ,  .  / rsft
-  fn   lctl lalt @lcmd-to-lower spc @rcmd-to-upper ralt left down up rght
+(deflayermap (lower)
+  q 1
+  w 2
+  e 3
+  r 4
+  t 5
+  y 6
+  u 6
+  i 7
+  o 8
+  p 9
+  [ 0
+  a @excl-p
+  s @at
+  d @hashtag
+  f @dollar
+  g @percent
+  h @triag
+  j @ampers
+  k @asterisk
+  l @lbracket
+  ; @rbracket
+  n [
+  m ]
 )
 
-
-(deflayer lower
-  esc     f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  `     1       2   3        4       5        6      7       8         9         0        - =     bspc
-  esc   1       2   3        4       5        6      7       8         9         0        [ ]
-  tab   @excl-p @at @hashtag @dollar @percent @triag @ampers @asterisk @lbracket @rbracket - \     ret
-  lsft  `       z   x        c       v        b      n       m         ,         .        / rsft left down up rght
-  fn    lctl lalt lmet spc rmet ralt
-)
-
-(deflayer upper
-  esc   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  esc   1 2 3 4 5 6    7    8  9     0 - =     bspc
-  esc   1 2 3 4 5 6    7    8  9     0 = ]
-  tab   a s d f g left down up right ; ' \     ret
-  lsft  ` z x c v b    n    m  ,     . / rsft
-  fn   lctl lalt lmet spc rmet ralt left down up rght
+(deflayermap (upper)
+  h left
+  j down
+  k up
+  l right
 )
