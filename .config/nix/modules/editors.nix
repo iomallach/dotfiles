@@ -30,7 +30,7 @@
         };
         obsidian.enable = true;
         zed-editor = {
-          enable = true;
+          enable = false;
           package = if pkgs.stdenv.isDarwin then pkgs.zed-editor else pkgs.zed-editor-fhs;
         };
       };
