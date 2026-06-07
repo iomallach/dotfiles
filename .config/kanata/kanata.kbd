@@ -3,7 +3,11 @@
   macos-dev-names-include (
     "Apple Internal Keyboard / Trackpad"
   )
-  linux-dev /dev/input/by-id/usb-Compx_2.4G_Wireless_Receiver-event-kbd:/dev/input/by-id/platform-tuxedo_keyboard-event
+  linux-dev (
+    /dev/input/by-id/aula-f75-bluetooth-event-kbd
+    /dev/input/by-id/usb-Compx_2.4G_Wireless_Receiver-event-kbd
+    /dev/input/by-id/platform-tuxedo_keyboard-event
+  )
 )
 
 (defvar
