@@ -36,6 +36,7 @@ let
         environment.systemPackages = [
           pkgs.mkalias
           pkgs.databricks-cli
+          pkgs.jira-cli-go
         ];
 
         programs.zsh = {
