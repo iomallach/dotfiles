@@ -31,13 +31,13 @@
             vertical = 20;
           };
           outer = {
-            left = 20;
-            bottom = 20;
+            left = 10;
+            bottom = 10;
             top = [
-              { monitor."built-in" = 15; }
-              45
+              { monitor."built-in" = 13; }
+              40
             ];
-            right = 20;
+            right = 10;
           };
         };
 
