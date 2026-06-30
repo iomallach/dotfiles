@@ -33,6 +33,7 @@ let
     (
       { pkgs, ... }:
       {
+        environment.shells = [ pkgs.zsh ];
         environment.systemPackages = [
           pkgs.mkalias
           pkgs.databricks-cli
@@ -40,6 +41,7 @@ let
         ];
 
         programs.zsh = {
+          enableCompletion = false;
           shellInit = ''
             eval "$(/opt/homebrew/bin/brew shellenv)"
           '';
@@ -48,7 +50,10 @@ let
         networking.hostName = "workbook";
         system.configurationRevision = self.rev or self.dirtyRev or null;
         system.primaryUser = "alexander.butenko";
-        users.users."alexander.butenko".home = "/Users/alexander.butenko";
+        users.users."alexander.butenko" = {
+          home = "/Users/alexander.butenko";
+          shell = pkgs.zsh;
+        };
       }
     )
   ];
@@ -72,8 +77,9 @@ let
     {
       programs.zsh = {
         envExtra = ''
-          export AWS_PROFILE="production/developer"
-          export AWS_REGION="eu-central-1"
+          # export PATH="$HOME/.local/bin:$PATH"
+          # export AWS_PROFILE="production/developer"
+          # export AWS_REGION="eu-central-1"
         '';
 
         shellAliases = {
