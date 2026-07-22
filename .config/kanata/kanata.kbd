@@ -2,6 +2,9 @@
   process-unmapped-keys yes
   macos-dev-names-include (
     "Apple Internal Keyboard / Trackpad"
+    ;; Aula F75 2.4GHz receiver: vendor 0x3554 / product 0xfa09
+    ;; Use the Kanata hash instead of generic "2.4G Wireless Receiver".
+    "0x8928B7CA032DACF1"
   )
   linux-dev (
     /dev/input/by-id/aula-f75-bluetooth-event-kbd
