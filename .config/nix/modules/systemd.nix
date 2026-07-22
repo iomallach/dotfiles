@@ -29,8 +29,31 @@
     };
 
   flake.modules.darwin.systemd =
-    { config, ... }:
+    { config, pkgs, ... }:
+    let
+      karabinerVirtualHidDaemon = "${pkgs.karabiner-elements.driver}/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon";
+    in
     {
+      # Kanata grabs physical keyboards directly, but on macOS it emits remapped keys
+      # through Karabiner-DriverKit-VirtualHIDDevice. If this root daemon is not
+      # running, Kanata can still grab input but cannot output keys, leaving the
+      # configured keyboards apparently dead with `connect_failed asio.system:61`.
+      # The daemon binary comes from nixpkgs so launchd does not depend on a
+      # manually installed /Library copy.
+      launchd.daemons."karabiner-vhid-daemon" = {
+        serviceConfig = {
+          Label = "org.pqrs.Karabiner-VirtualHIDDevice-Daemon";
+          ProgramArguments = [
+            karabinerVirtualHidDaemon
+          ];
+          UserName = "root";
+          RunAtLoad = true;
+          KeepAlive = true;
+          StandardOutPath = "/var/log/karabiner-vhid-daemon.log";
+          StandardErrorPath = "/var/log/karabiner-vhid-daemon.log";
+        };
+      };
+
       # Run kanata as a root launchd daemon (needs root to access keyboard devices)
       launchd.daemons.kanata = {
         serviceConfig = {
