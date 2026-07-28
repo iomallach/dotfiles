@@ -47,11 +47,21 @@
   ;; layers
   v-to-lower (tap-hold $tap-timeout-homerow $hold-timeout-homerow v (layer-while-held lower))
   t-to-upper (tap-hold $tap-timeout-homerow $hold-timeout-homerow t (layer-while-held upper))
+  fn-to-fkeys (layer-while-held fkeys)
 )
 
-(defsrc a s d f j k l ; v caps tab n m q w e r t y u i o p [ g h ')
+(defsrc
+  a s d f j k l ; v caps tab n m q w e r t y u i o p [ g h '
+  fn
+  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
+)
 
 (deflayermap (main)
+  fn @fn-to-fkeys
+  f1 brdn
+  f2 brup
+  f11 voldwn
+  f12 volu
   v @v-to-lower
   t @t-to-upper
   caps tab
@@ -97,4 +107,19 @@
   j down
   k up
   l right
+)
+
+(deflayermap (fkeys)
+  f1 f1
+  f2 f2
+  f3 f3
+  f4 f4
+  f5 f5
+  f6 f6
+  f7 f7
+  f8 f8
+  f9 f9
+  f10 f10
+  f11 f11
+  f12 f12
 )
