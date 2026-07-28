@@ -19,7 +19,6 @@
       home.packages = with pkgs; [
         opencode
         claude-code
-        crush
         copilot-language-server
         (pkgs.symlinkJoin {
           name = "pi-coding-agent";
