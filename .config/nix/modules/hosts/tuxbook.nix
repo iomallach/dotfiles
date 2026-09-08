@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  self,
   ...
 }:
 let
@@ -30,6 +31,7 @@ let
     keyIntercept
   ];
   hostBoundModules = [
+    { nixpkgs.overlays = [ self.overlays.default ]; }
     (
       { pkgs, ... }:
       {
