@@ -38,6 +38,7 @@ let
           pkgs.mkalias
           pkgs.databricks-cli
           pkgs.jira-cli-go
+          inputs.paseo.packages.${pkgs.stdenv.hostPlatform.system}.desktop
         ];
 
         programs.zsh = {

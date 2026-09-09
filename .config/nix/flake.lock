@@ -595,6 +595,26 @@
         "type": "github"
       }
     },
+    "paseo": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788865165,
+        "narHash": "sha256-joLPipJP0pQUVUGBHZQTZMwU6zNqjWDFZax6aYjmkcY=",
+        "owner": "getpaseo",
+        "repo": "paseo",
+        "rev": "18aaec2772a5bd3d5ef1384022e5fa8d7650d5e4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "getpaseo",
+        "repo": "paseo",
+        "type": "github"
+      }
+    },
     "pi": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -634,6 +654,7 @@
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
         "paneru": "paneru",
+        "paseo": "paseo",
         "pi": "pi",
         "spicetify-nix": "spicetify-nix",
         "tuxedo-nixos": "tuxedo-nixos",
