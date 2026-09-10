@@ -5,6 +5,9 @@ return {
 		"elanmed/fzf-lua-frecency.nvim",
 	},
 	init = function()
+		-- Keep the RPC socket path below macOS's Unix socket path limit.
+		vim.g.fzf_lua_server = vim.fn.serverstart("fzf")
+
 		local keymap = require("vim.keymap")
 		keymap.set("n", "<leader>fg", "<CMD>FzfLua live_grep<CR>", { desc = "Fzf Live Grep" })
 		keymap.set("n", "<leader>fG", "<CMD>FzfLua global<CR>", { desc = "Fzf Live Grep" })
