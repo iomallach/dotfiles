@@ -58,12 +58,6 @@
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # noctalia shell
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell?ref=v4.7.7";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     import-tree.url = "github:vic/import-tree";
 
     paneru = {

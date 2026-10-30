@@ -38,10 +38,6 @@
         enable = true;
         enableCompletion = true;
 
-        initExtraBeforeCompInit = ''
-          fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
-        '';
-
         history = {
           size = 5000;
           save = 5000;
@@ -86,41 +82,46 @@
           }
         ];
 
-        initExtra = ''
-          zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-          zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
-          zstyle ':completion:*' menu no
-          zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color --oneline --icons --git -a $realpath'
-          zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color --oneline --icons --git -a $realpath'
-          zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat $realpath'
+        initContent = lib.mkMerge [
+          (lib.mkOrder 550 ''
+            fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
+          '')
+          ''
+            zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+            zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+            zstyle ':completion:*' menu no
+            zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color --oneline --icons --git -a $realpath'
+            zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color --oneline --icons --git -a $realpath'
+            zstyle ':fzf-tab:complete:nvim:*' fzf-preview 'bat $realpath'
 
-          zvm_after_init() {
-            bindkey -M viins '^R' fzf-history-widget
-          }
+            zvm_after_init() {
+              bindkey -M viins '^R' fzf-history-widget
+            }
 
-          zellij_set_pane_name() {
-            if [[ -n $ZELLIJ ]]; then
-              local pane_name="$1"
-              if [[ -z "$pane_name" ]]; then
-                pane_name="$PWD"
-                if [[ "$pane_name" == "$HOME" ]]; then
-                  pane_name="~"
+            zellij_set_pane_name() {
+              if [[ -n $ZELLIJ ]]; then
+                local pane_name="$1"
+                if [[ -z "$pane_name" ]]; then
+                  pane_name="$PWD"
+                  if [[ "$pane_name" == "$HOME" ]]; then
+                    pane_name="~"
+                  fi
                 fi
+                echo -ne "\033]0;''${pane_name}\007"
               fi
-              echo -ne "\033]0;''${pane_name}\007"
+            }
+
+            if [[ -n $ZELLIJ ]]; then
+              autoload -U add-zsh-hook
+              zellij_set_pane_name
+              add-zsh-hook chpwd zellij_set_pane_name
+              add-zsh-hook preexec zellij_set_pane_name
+              add-zsh-hook precmd zellij_set_pane_name
             fi
-          }
 
-          if [[ -n $ZELLIJ ]]; then
-            autoload -U add-zsh-hook
-            zellij_set_pane_name
-            add-zsh-hook chpwd zellij_set_pane_name
-            add-zsh-hook preexec zellij_set_pane_name
-            add-zsh-hook precmd zellij_set_pane_name
-          fi
-
-          source ~/.zshrc.secrets
-        '';
+            source ~/.zshrc.secrets
+          ''
+        ];
       };
 
       programs.direnv = {

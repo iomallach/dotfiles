@@ -7,11 +7,11 @@
 // Find the full list of options on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Input
 
-// NOTE: these are for noctalia-shell specifically as per docs
+// Noctalia v5 compositor integration.
 
 // Set the overview wallpaper on the backdrop.
 layer-rule {
-  match namespace="^noctalia-overview*"
+  match namespace="^noctalia-backdrop"
   place-within-backdrop true
 }
 debug {
@@ -19,7 +19,7 @@ debug {
   honor-xdg-activation-with-invalid-serial
 }
 
-// NOTE: END noctalia shell
+// End Noctalia compositor integration.
 
 input {
     warp-mouse-to-focus
@@ -296,7 +296,7 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-at-startup "noctalia-shell"
+spawn-at-startup "noctalia"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -355,6 +355,14 @@ window-rule {
     default-floating-position x=32 y=32 relative-to="bottom-right"
 }
 
+// Keep Noctalia's settings window floating.
+window-rule {
+    match app-id="^dev\\.noctalia\\.Noctalia$"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}
+
 // Rounded corners (global)
 window-rule {
     geometry-corner-radius 20
@@ -399,11 +407,11 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open terminal: ghostty" { spawn "ghostty"; }
-    Mod+Ctrl+Alt+Shift+Q hotkey-overlay-title="Spawn session menu" { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
-    Mod+Alt+Q hotkey-overlay-title="Spawn session menu" { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
-    Mod+Space hotkey-overlay-title="Spawn launcher" { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
-    Mod+Shift+C hotkey-overlay-title="Spawn noctalia control center" { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
-    Mod+Comma hotkey-overlay-title="Spawn noctalia settings" { spawn "noctalia-shell" "ipc" "call" "settings" "toggle"; }
+    Mod+Ctrl+Alt+Shift+Q hotkey-overlay-title="Spawn session menu" { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+Alt+Q hotkey-overlay-title="Spawn session menu" { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+Space hotkey-overlay-title="Spawn launcher" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    Mod+Shift+C hotkey-overlay-title="Spawn noctalia control center" { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+Comma hotkey-overlay-title="Spawn noctalia settings" { spawn "noctalia" "msg" "settings-toggle"; }
 
     // Windows
     Mod+Q hotkey-overlay-title="Quit focused window" repeat=false { close-window ; }

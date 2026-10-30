@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake.modules.homeManager.desktopGui = {
     programs.aerospace = {
@@ -245,7 +245,6 @@
         wlogout
         rofi
         rofi-calc
-        inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
         kdePackages.qtsvg
         kdePackages.dolphin
         blueman
@@ -272,6 +271,13 @@
           xwayland.enable = true;
         };
         niri.enable = true;
+        noctalia = {
+          enable = true;
+          # Niri/Hyprland start the shell; do not run a second systemd instance.
+          systemd.enable = false;
+          # NetworkManager, Bluetooth and UPower are configured already; keep TLP.
+          recommendedServices.enable = false;
+        };
         waybar = {
           enable = false;
         };
@@ -326,6 +332,10 @@
     borders.source = "borders";
     hypr.source = "hypr";
     niri.source = "niri";
+    noctalia = {
+      source = "noctalia/config.toml";
+      target = "noctalia/config.toml";
+    };
     waybar.source = "waybar";
     wlogout.source = "wlogout";
     rofi.source = "rofi";

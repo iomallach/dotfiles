@@ -1,7 +1,10 @@
 {
   flake.modules.nixos.vpn =
     { pkgs, ... }:
-
+    let
+      # Capability wrappers must target ELF executables, not shell launchers.
+      xray = pkgs.xray.override { makeWrapper = pkgs.makeBinaryWrapper; };
+    in
     {
       environment.systemPackages = with pkgs; [
         xray
@@ -12,7 +15,7 @@
       ];
 
       security.wrappers.xray = {
-        source = "${pkgs.xray}/bin/xray";
+        source = "${xray}/bin/xray";
         capabilities = "cap_net_admin,cap_net_bind_service=+eip";
         owner = "root";
         group = "root";
