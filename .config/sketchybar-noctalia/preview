@@ -1,0 +1,33 @@
+#!/bin/sh
+# Run an isolated second instance. Never reload or stop the current bar.
+set -eu
+ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+for dependency in sketchybar lua; do
+  if ! command -v "$dependency" >/dev/null 2>&1; then
+    printf 'Missing dependency: %s\n' "$dependency" >&2
+    exit 1
+  fi
+done
+TEMP=$(mktemp -d "${TMPDIR:-/tmp}/sketchybar-noctalia.XXXXXX")
+PID=
+cleanup() {
+  if [ -f "$TEMP/lua.pid" ]; then
+    read -r LUA_PID < "$TEMP/lua.pid"
+    kill "$LUA_PID" 2>/dev/null || :
+  fi
+  if [ -n "$PID" ]; then
+    kill "$PID" 2>/dev/null || :
+    wait "$PID" 2>/dev/null || :
+  fi
+  rm -rf -- "$TEMP"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+# SketchyBar derives its IPC namespace from the executable's basename.
+ln -s "$(command -v sketchybar)" "$TEMP/sketchybar-noctalia"
+export NOCTALIA_PREVIEW=1 NOCTALIA_PID_FILE="$TEMP/lua.pid"
+printf 'Preview only — existing bar untouched. Ctrl-C to stop.\n'
+"$TEMP/sketchybar-noctalia" --config "$ROOT/sketchybarrc" &
+PID=$!
+wait "$PID"

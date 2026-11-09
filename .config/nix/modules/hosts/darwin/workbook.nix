@@ -79,8 +79,6 @@ let
       programs.zsh = {
         envExtra = ''
           # export PATH="$HOME/.local/bin:$PATH"
-          # export AWS_PROFILE="production/developer"
-          # export AWS_REGION="eu-central-1"
         '';
 
         shellAliases = {

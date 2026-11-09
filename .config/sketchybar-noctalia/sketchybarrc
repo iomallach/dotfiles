@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+# launchd does not expand $HOME/$USER embedded in a configured PATH.
+PROFILE_USER=${USER:-$(id -un)}
+PATH="$HOME/.nix-profile/bin:/etc/profiles/per-user/$PROFILE_USER/bin:${PATH:-/usr/bin:/bin:/usr/sbin:/sbin}"
+export PATH
+# The isolated preview uses this to clean up only its own Lua process.
+if [ -n "${NOCTALIA_PID_FILE:-}" ]; then
+  printf '%s\n' "$$" > "$NOCTALIA_PID_FILE"
+fi
+exec lua "$ROOT/init.lua"

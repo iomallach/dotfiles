@@ -1,0 +1,26 @@
+return {
+  workspace = "󰍹",
+  clock = "󰥔",
+  weather = {
+    sun = "󰖙",
+    moon = "󰖔",
+    cloud = "󰖐",
+    partly_cloudy = "󰖕",
+    rain = "󰖗",
+    snow = "󰖘",
+    storm = "󰖓",
+    fog = "󰖑",
+    unknown = "󰖐",
+  },
+  volume = { muted = "󰝟", low = "󰕿", medium = "󰖀", high = "󰕾" },
+  battery = { full = "󰁹", medium = "󰁾", low = "󰁻", empty = "󰂎", charging = "󰂄", plug = "󰚥" },
+  bluetooth = {
+    connected = "󰂱", on = "󰂯", off = "󰂲",
+    keyboard = "󰌌", mouse = "󰍽", headphones = "󰋋",
+  },
+  spotify = "",
+  previous = "󰒮",
+  next = "󰒭",
+  play = "󰐊",
+  pause = "󰏤",
+}

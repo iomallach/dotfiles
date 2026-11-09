@@ -334,6 +334,7 @@
     };
 
   flake.configSources = {
+    sketchybar.source = "sketchybar-noctalia";
     borders.source = "borders";
     hypr.source = "hypr";
     niri.source = "niri";
