@@ -6,7 +6,7 @@ let
 in
 {
   flake.modules.homeManager.terminals =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
       programs = {
         alacritty = {
@@ -33,10 +33,9 @@ in
           package = if pkgs.stdenv.isDarwin then pkgs.ghostty-bin else pkgs.ghostty;
           enableZshIntegration = true;
           settings = {
-            custom-shader = [
-              "shaders/cursor_blaze_no_trail.glsl"
-              "shaders/cursor_smear_fade.glsl"
-            ];
+            # Absolute: Ghostty resolves relative includes against the Nix store config.
+            # Edit the included file to switch effects, then reload Ghostty.
+            config-file = "${config.xdg.configHome}/ghostty/shaders/preset.conf";
             font-family = defaultFont.family;
             font-family-bold = defaultFont.family;
             font-family-italic = defaultFont.family;

@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    # OpenCode 2.2.1: cached on Linux and macOS; 2.2.5 has broken dependency hashes.
+    # Remove this pin once https://github.com/NixOS/nixpkgs/issues/583797 is resolved.
+    nixpkgs-opencode.url = "github:NixOS/nixpkgs/3e662c7cafceb2a65f612e1da9dd39f82eb39ad0";
+
     # flake-parts
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs.follows = "nixpkgs";
@@ -39,11 +43,17 @@
     kanata-tray.inputs.nixpkgs.follows = "nixpkgs";
 
     # NixOS specific inputs
+    # Brave continuation after its removal from nixpkgs
+    brave = {
+      url = "git+https://codeberg.org/buckley310/brave-browser-nix?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    # tuxedo-specific modules (control center, keyboard, etc.)
-    tuxedo-nixos.url = "github:sund3RRR/tuxedo-nixos";
+    # TUXEDO Control Center 3.x and its NixOS service integration
+    tuxedo-nixos.url = "github:onurbbr/tuxedo-nixos";
 
     # spicetify
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";

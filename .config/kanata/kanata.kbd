@@ -7,9 +7,11 @@
     "0x8928B7CA032DACF1"
   )
   linux-dev (
+    ;; Built-in typing keyboard and TUXEDO special keys use by-path, not by-id.
+    /dev/input/by-path/platform-i8042-serio-0-event-kbd
+    /dev/input/by-path/platform-tuxedo_keyboard-event
     /dev/input/by-id/aula-f75-bluetooth-event-kbd
     /dev/input/by-id/usb-Compx_2.4G_Wireless_Receiver-event-kbd
-    /dev/input/by-id/platform-tuxedo_keyboard-event
   )
 )
 

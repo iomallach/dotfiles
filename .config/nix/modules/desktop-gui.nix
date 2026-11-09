@@ -237,6 +237,11 @@
   flake.modules.nixos.desktopGui =
     { pkgs, ... }:
     {
+      # Niri needs a separate agent to display normal polkit password prompts.
+      security.polkit.enable = true;
+      systemd.packages = [ pkgs.hyprpolkitagent ];
+      systemd.user.services.hyprpolkitagent.wantedBy = [ "graphical-session.target" ];
+
       environment.systemPackages = with pkgs; [
         hyprpaper
         hyprlock

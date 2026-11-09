@@ -13,6 +13,8 @@
       '';
     in
     {
+      imports = [ inputs.brave.nixosModules.default ];
+
       environment.systemPackages = with pkgs; [
         brave
 

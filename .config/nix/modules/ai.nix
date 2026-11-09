@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.ai =
     { pkgs, config, ... }:
@@ -17,7 +18,7 @@
     in
     {
       home.packages = with pkgs; [
-        opencode
+        inputs.nixpkgs-opencode.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode
         claude-code
         copilot-language-server
         (pkgs.symlinkJoin {
