@@ -17,6 +17,7 @@ let
     shell
   ];
   darwinModules = with modules.darwin; [
+    ai
     work
     browsers
     hardware
@@ -25,6 +26,7 @@ let
     work
     systemd
     desktopGui
+    omniwm
     keyIntercept
     homebrew
   ];
@@ -66,6 +68,7 @@ let
     xdgConfigs
     alexb
     desktopGui
+    omniwm
     shell
     git
     spotify
@@ -87,7 +90,7 @@ let
           q = "pi --no-extensions --no-session --model amazon-bedrock/eu.anthropic.claude-sonnet-4-6 -p";
         };
 
-        initExtra = ''
+        initContent = ''
           # XDG
           export XDG_CONFIG_HOME="$HOME/.config"
 

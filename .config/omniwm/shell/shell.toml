@@ -1,0 +1,6 @@
+profile = "noctalia"
+
+[weather]
+city = "Berlin"
+refresh = 15.0
+units = "celsius"

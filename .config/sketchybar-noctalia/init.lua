@@ -17,7 +17,7 @@ sbar.bar({
   border_width = 0,
   shadow = false,
   -- Keep the entire widget-to-popup pointer path above app windows, even
-  -- where the bar's transparent edge overlaps AeroSpace's reserved gap.
+  -- where the bar's transparent edge overlaps the WM's reserved gap.
   topmost = "window",
   sticky = true,
   height = config.bar.height,
@@ -26,7 +26,7 @@ sbar.bar({
   padding_left = 0,
   padding_right = 0,
   display = config.bar.display,
-  -- The existing AeroSpace gaps are retained; preview never changes them.
+  -- Window-manager gaps are configured separately; preview never changes them.
   hidden = os.getenv("NOCTALIA_HIDDEN") == "1",
 })
 sbar.default({
@@ -56,7 +56,7 @@ sbar.default({
   },
 })
 
-require("widgets.aerospace")
+require("widgets.workspace")
 require("widgets.spotify")
 -- Right-positioned items are laid out from the outside inward.
 require("widgets.clock")

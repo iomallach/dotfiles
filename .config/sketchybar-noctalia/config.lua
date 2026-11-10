@@ -26,9 +26,10 @@ return {
   bluetooth = {
     interval = 15, -- polling fallback; hovering also refreshes immediately
   },
-  aerospace = {
-    -- The existing aerospace_workspace_change hook works as-is. Polling
-    -- also keeps a separately named preview in sync without changing it.
+  workspace = {
+    -- workbook's Nix LaunchAgent sets omniwm; other sessions keep AeroSpace.
+    backend = os.getenv("NOCTALIA_WM") or "aerospace",
+    -- Polling also keeps separately named previews in sync.
     interval = 5,
   },
   spotify = {

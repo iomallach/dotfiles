@@ -1,5 +1,13 @@
 { inputs, ... }:
 {
+  flake.modules.darwin.ai =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = [
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.orca
+      ];
+    };
+
   flake.modules.homeManager.ai =
     { pkgs, config, ... }:
     let

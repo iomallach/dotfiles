@@ -1,6 +1,12 @@
 local root = (arg[0]:match("^(.*)/tests/run.lua$") or ".")
 package.path = root .. "/?.lua;" .. root .. "/?/init.lua;" .. package.path
 local model = require("lib.model")
+local omniwm = require("config").workspace.backend == "omniwm"
+local function omniwm_response(name)
+  return { ok = true, result = { kind = "workspaces", payload = {
+    workspaces = { { rawName = name, isFocused = false } },
+  } } }
+end
 local passed = 0
 local function equal(actual, expected)
   assert(actual == expected, string.format("expected %s, got %s", tostring(expected), tostring(actual)))
@@ -108,6 +114,20 @@ test("workspace cycling wraps and preserves arbitrary names", function()
   equal(model.adjacent(list, "1", -1), "O'Brien")
   equal(model.adjacent(list, "O'Brien", 1), "1")
   equal(model.adjacent({}, "1", 1), nil)
+end)
+test("OmniWM reads the current workspace even without a focused window", function()
+  equal(model.omniwm_workspace(omniwm_response("7")), "7")
+  equal(model.omniwm_workspace(omniwm_response("O'Brien · 東京")), "O'Brien · 東京")
+end)
+test("OmniWM rejects errors, malformed envelopes, and ambiguous current workspaces", function()
+  for _, output in ipairs({
+    "not JSON", {}, { ok = false }, omniwm_response(""), omniwm_response(7),
+    { ok = true, result = { kind = "workspaces", payload = { workspaces = {} } } },
+    { ok = true, result = { kind = "workspaces", payload = { workspaces = { {}, {} } } } },
+    { ok = true, result = { kind = "wrong", payload = { workspaces = { { rawName = "1" } } } } },
+  }) do
+    equal(model.omniwm_workspace(output), nil)
+  end
 end)
 test("Bluetooth counts only connected devices and parses reported battery components", function()
   local data = model.bluetooth(bluetooth_data)
@@ -224,6 +244,7 @@ end)
 local items, events, commands, pending, timers = {}, {}, {}, {}, {}
 local bar_properties, instance_name
 local failures = {}
+local workspace_name = "1"
 local bluetooth_response = bluetooth_data
 local accessory_response = ""
 local spotify_default = "playing\31Test track\31Test artist\31Test album"
@@ -242,8 +263,10 @@ local function merge(target, values)
   end
 end
 local function response(command)
-  if command:find("list-workspaces --focused", 1, true) then
-    return failures.aerospace and "" or "1\n", failures.aerospace and 1 or 0
+  if command:find("omniwmctl query workspaces --current --fields raw-name --json", 1, true) then
+    return failures.workspace and "" or omniwm_response(workspace_name), failures.workspace and 1 or 0
+  elseif command:find("list-workspaces --focused", 1, true) then
+    return failures.workspace and "" or workspace_name .. "\n", failures.workspace and 1 or 0
   elseif command:find("list-workspaces --all", 1, true) then
     return "1\n2\n3\n", 0
   elseif command:find("system_profiler SPBluetoothDataType", 1, true) then
@@ -371,9 +394,46 @@ test("calendar highlights only today and clears stale highlights on refresh", fu
   end
   equal(highlighted, 1)
 end)
-test("workspace event works immediately without changing AeroSpace hooks", function()
-  emit("workspace", "aerospace_workspace_change", { FOCUSED_WORKSPACE = "7" })
+test("workspace events update the selected backend immediately", function()
+  workspace_name = "7"
+  local event = omniwm and "omniwm_workspace_change" or "aerospace_workspace_change"
+  equal(events[event], true)
+  emit("workspace", event, { FOCUSED_WORKSPACE = "7" })
   equal(label("workspace"), "7")
+  workspace_name = "1"
+  emit("workspace", "routine")
+end)
+test("workspace clicks and scrolling use only the selected WM", function()
+  local before = #commands
+  emit("workspace", "mouse.clicked", { BUTTON = "left" })
+  equal(commands[before + 1], omniwm and "omniwmctl command switch-workspace back-and-forth 2>/dev/null"
+    or "aerospace workspace-back-and-forth 2>/dev/null")
+  before = #commands
+  emit("workspace", "mouse.clicked", { BUTTON = "right" })
+  equal(commands[before + 1], omniwm and "open -a OmniWM" or "open -a AeroSpace")
+  before = #commands
+  emit("workspace", "mouse.scrolled", { SCROLL_DELTA = "0" })
+  equal(#commands, before)
+  emit("workspace", "mouse.scrolled", { SCROLL_DELTA = "1" })
+  local expected = omniwm and "omniwmctl command switch-workspace prev 2>/dev/null"
+    or "aerospace workspace '3'"
+  equal(commands[before + (omniwm and 1 or 2)], expected)
+  before = #commands
+  emit("workspace", "mouse.scrolled", { SCROLL_DELTA = "-1" })
+  expected = omniwm and "omniwmctl command switch-workspace next 2>/dev/null"
+    or "aerospace workspace '2'"
+  equal(commands[before + (omniwm and 1 or 2)], expected)
+end)
+test("workspace query failure clears stale state and a later poll recovers", function()
+  failures.workspace = true
+  emit("workspace", "routine")
+  equal(label("workspace"), "Offline")
+  local before = #commands
+  emit("workspace", "mouse.scrolled", { SCROLL_DELTA = "1" })
+  equal(#commands, before)
+  failures.workspace = false
+  emit("workspace", "routine")
+  equal(label("workspace"), "1")
 end)
 test("Spotify recovers from a lost callback and ignores late replies", function()
   hold_spotify = true
@@ -577,7 +637,7 @@ test("stale weather is visibly marked without discarding its last reading", func
   options.stale_after = original_threshold
 end)
 test("unavailable system data and stopped Spotify degrade gracefully", function()
-  failures.aerospace, failures.battery, failures.volume, failures.spotify = true, true, true, true
+  failures.workspace, failures.battery, failures.volume, failures.spotify = true, true, true, true
   failures.bluetooth = true
   emit("workspace", "routine")
   emit("battery", "routine")

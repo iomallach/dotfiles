@@ -1,0 +1,9 @@
+format = 1
+name = "noctalia"
+version = "0.1.0"
+api = 1
+minOmniWM = "0.8.0"
+license = "GPL-2.0-only"
+title = "Noctalia"
+summary = "Detached Macchiato pills with pastel accents and native status widgets."
+tags = ["dark", "rounded", "minimal"]

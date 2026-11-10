@@ -13,7 +13,8 @@ Inspired by Noctalia rather than a port of its Qt/Wayland shell.
 
 The center stays empty for the MacBook notch. The bar is transparent; each
 capsule has its own dark background, fine border, and animated accent on hover.
-Only the focused AeroSpace workspace is shown, not a row of empty workspaces.
+Only the current workspace is shown, not a row of empty workspaces. The workspace
+widget supports AeroSpace (default) and OmniWM (`NOCTALIA_WM=omniwm`).
 
 **Active installation:** `~/.config/sketchybar` now links to this directory,
 and Nix's `configSources.sketchybar` points here. The older repository config
@@ -25,7 +26,8 @@ backed up separately. Preview and tests do not change the active link or service
 - macOS, SketchyBar, Lua 5.4, and [SbarLua](https://github.com/FelixKratz/SbarLua).
 - SbarLua's `sketchybar.so` on Lua's normal C module path or in
   `~/.local/share/sketchybar_lua/` (already installed on this machine).
-- AeroSpace CLI on `PATH`; Spotify installed for media integration.
+- The selected WM's CLI on `PATH`: `aerospace`, or `omniwmctl` with OmniWM IPC
+  enabled. Spotify installed for media integration.
 - **SF Pro Text** (macOS) and **JetBrainsMono Nerd Font**. Fonts are configurable.
 - macOS's `osascript`, `pmset`, `system_profiler`, `open`, and `curl`; no extra
   Lua packages, compiled helpers, Bluetooth utility, weather API key, Python,
@@ -53,12 +55,20 @@ layer so tiled apps cannot cover widgets or interrupt entry into their popups.
 Stop the preview with **Ctrl-C**. The launcher cleans up its own bar and Lua process; it never
 kills/reloads the production bar or changes gaps. Only one preview can run at
 a time. It can overlap application windows because it deliberately does not
-edit AeroSpace's layout.
+edit the window manager's layout.
 
-The existing AeroSpace hook targets the production instance, so the installed
-bar updates immediately on workspace changes. A separate preview still uses
-the five-second focused-workspace polling fallback. Native Spotify, volume,
-power, and wake events work in either instance.
+AeroSpace's existing hook targets the production instance. On workbook, the Nix
+OmniWM integration instead runs `omniwmctl watch active-workspace --reconnect`
+through a LaunchAgent to trigger `omniwm_workspace_change`. Both give immediate
+production updates; a separate preview uses the five-second polling fallback.
+OmniWM queries use `--current`, so empty workspaces still show correctly when
+there is no focused managed window. Native Spotify, volume, power, and wake
+events work in either instance.
+
+For OmniWM previews launched from a normal shell, use `NOCTALIA_WM=omniwm ./preview`;
+the production LaunchAgent's environment is not inherited by your shell. See
+[`../omniwm/README.md`](../omniwm/README.md) for the workbook
+migration, future activation, default shortcuts, and rollback.
 
 For a non-visible runtime check: `NOCTALIA_HIDDEN=1 ./preview`.
 
@@ -66,7 +76,7 @@ For a non-visible runtime check: `NOCTALIA_HIDDEN=1 ./preview`.
 
 | Widget | Hover | Click / scroll |
 | --- | --- | --- |
-| AeroSpace | No popup | Left: previous workspace; right: open AeroSpace; scroll: cycle workspaces |
+| Workspace | No popup | Left: previous workspace; right: open the selected WM; scroll: cycle workspaces |
 | Spotify | Track/artist/album + previous/play/next + open Spotify | Left: play/pause, if Spotify is running |
 | Date/time | Current-month calendar with today in bold mauve, link to Calendar | — |
 | Weather | Conditions, feels-like, humidity, last update, refresh, forecast | Click: retry if weather is unavailable |
@@ -81,7 +91,7 @@ exclusive; clicking a hovered widget does not toggle its popup shut. Weather kee
 last good reading during failures; after an hour
 it dims the icon, adds a `·` marker, and labels the popup **Stale**. Without any
 reading it shows `—`, not a made-up temperature. Desktops show **AC** instead of
-a missing battery percentage. Missing AeroSpace shows **Offline**. Spotify
+a missing battery percentage. An unavailable WM/IPC connection shows **Offline**. Spotify
 remains as a quiet launcher/control pill when not playing.
 
 Bluetooth shows the **number of connected devices**, not the number of paired
@@ -116,6 +126,9 @@ Edit **`config.lua`**:
   Hovering also refreshes immediately. Both reports are read asynchronously;
   `system_profiler` uses a 10-second reporting timeout. No additional
   AeroSpace/launchd wiring is needed.
+- `workspace.backend`: `"aerospace"` or `"omniwm"`, selected initially from
+  `NOCTALIA_WM` (default `"aerospace"`). Workbook's Nix LaunchAgent sets `"omniwm"`;
+  no global shell setting is needed. `workspace.interval` controls fallback polling.
 - `bar.display`: `"main"` or `"all"`; dimensions, margins, fonts, and Spotify
   truncation are configurable too.
 
@@ -133,13 +146,20 @@ directory, and explicitly targets SketchyBar's `BAR_NAME` for IPC isolation.
 
 ```sh
 lua tests/run.lua
+NOCTALIA_WM=omniwm lua tests/run.lua
+NOCTALIA_PREVIEW=1 BAR_NAME=noctalia-test lua tests/run.lua
+NOCTALIA_WM=omniwm NOCTALIA_PREVIEW=1 BAR_NAME=noctalia-test lua tests/run.lua
 sh tests/launcher.sh
 find . -name '*.lua' -exec luac -p '{}' \;
 sh -n sketchybarrc preview tests/launcher.sh
 ```
 
 Tests use fake SketchyBar/macOS/network responses. They do not touch your audio,
-workspace, apps, weather service, or active bar.
+workspace, apps, weather service, or active bar. There are 40 regressions per
+backend/mode and four launchd-style launcher checks. OmniWM coverage includes
+current-but-unfocused workspaces, invalid IPC data, events, click/scroll routing,
+and offline recovery. OmniWM's live tiling/permissions/spacing must still be
+accepted after the migration is activated.
 
 Validated on this machine with **SketchyBar 2.24.0 / Lua 5.4.7**: 36 regression
 tests in both normal and preview modes, two launchd-style launcher checks,

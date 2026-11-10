@@ -134,6 +134,20 @@ function M.spotify(output)
   return { state = fields[1], title = fields[2] or "", artist = fields[3] or "", album = fields[4] or "" }
 end
 
+function M.omniwm_workspace(output)
+  if type(output) ~= "table" or output.ok ~= true or type(output.result) ~= "table"
+    or output.result.kind ~= "workspaces" or type(output.result.payload) ~= "table" then
+    return nil
+  end
+  local list = output.result.payload.workspaces
+  if type(list) ~= "table" or #list ~= 1 or type(list[1]) ~= "table"
+    or type(list[1].rawName) ~= "string" then
+    return nil
+  end
+  local name = M.trim(list[1].rawName)
+  return name ~= "" and name or nil
+end
+
 function M.workspaces(output)
   local list = {}
   for line in tostring(output):gmatch("[^\r\n]+") do
