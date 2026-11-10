@@ -18,6 +18,7 @@ let
   ];
   darwinModules = with modules.darwin; [
     ai
+    herdr
     work
     browsers
     hardware

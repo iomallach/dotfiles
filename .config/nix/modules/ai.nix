@@ -8,6 +8,15 @@
       ];
     };
 
+  flake.modules.darwin.herdr =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+        herdr
+        herdr-app
+      ];
+    };
+
   flake.modules.homeManager.ai =
     { pkgs, config, ... }:
     let
