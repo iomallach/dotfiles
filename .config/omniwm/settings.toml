@@ -113,9 +113,9 @@ margin = 1
 
 [niri]
 allowOverscroll = false
-alwaysCenterSingleColumn = false
-centerFocusedColumn = "never"
-containerPrimarySpanPresets = [0.3333333333333333, 0.5, 0.6666666666666666]
+alwaysCenterSingleColumn = true
+centerFocusedColumn = "always"
+containerPrimarySpanPresets = [0.25, 0.333333, 0.50, 0.666667, 0.75, 0.90, 1.0]
 defaultContainerPrimarySpan = 0.5
 edgeGaps = false
 infiniteLoop = false

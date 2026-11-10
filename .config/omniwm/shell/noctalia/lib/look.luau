@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-2.0-only
 -- Native widgets/actions with Noctalia presentation and read-only Bluetooth details.
 local bluetoothDetails = require("./bluetooth-details")
+local mediaProgress = require("./media-progress")
 local look
 
 local function line(vertical, props)
@@ -97,25 +98,69 @@ look = require("./skin")({
         return pill(ctx, { line(ctx.data.bar.style.vertical, pills) })
     end,
     mediaBar = function(ctx, state)
+        local scale = look.scale(ctx)
         local title = state.title
         if state.artist and state.artist ~= "" then
             title = state.artist .. " — " .. title
         end
+        local bundle = ctx.select("media", "bundle")
+        if type(bundle) ~= "string" or bundle == "" then
+            bundle = nil
+        end
+        local source = ctx.select("media", "app")
+        local label = ui.column{ gap = 0, center = false,
+            text{ text = title, size = 12 * scale, maxWidth = 200 * scale,
+                color = if state.playing then "foreground" else "secondaryForeground" } }
+        local content = { key = "media-content", label }
+        local progress = mediaProgress(ctx, state.playing)
+        if progress ~= nil then
+            label[#label + 1] = ui.box{ w = 0, h = 5 * scale }
+            -- Unsized paths fill their stack without affecting its text-measured width.
+            content[#content + 1] = ui.path{ key = "media-progress-track", h = 2 * scale, align = "bottomLeading",
+                viewBox = { 0, 0, 1, 1 }, d = "M0 0 H1 V1 H0 Z", fill = "border", radius = scale }
+            content[#content + 1] = ui.path{ key = "media-progress:" .. (bundle or "unknown") .. ":" .. title,
+                h = 2 * scale, align = "bottomLeading", viewBox = { 0, 0, 1, 1 },
+                d = string.format("M0 0 H%.6f V1 H0 Z", progress), radius = scale,
+                fill = if state.playing then "indigo" else "mutedForeground", animate = "none" }
+        end
         return pill(ctx, {
-            symbol(ctx, "music.note", "indigo"),
-            text{ text = title, size = 12 * look.scale(ctx), maxWidth = 200 * look.scale(ctx) },
+            ui.stack{ key = "media-source", w = 22 * scale, h = 22 * scale,
+                help = if type(source) == "string" and source ~= "" then source else omniwm.l10n("Media source"),
+                ui.icon{ app = bundle, placeholder = "music.note", w = 20 * scale, h = 20 * scale },
+                ui.stack{ key = "playback-state", align = "bottomTrailing", dx = 2 * scale, dy = 2 * scale,
+                    w = 10 * scale, h = 10 * scale, radius = 5 * scale,
+                    fill = "surface", border = "border", borderWidth = 1,
+                    help = if state.playing then omniwm.l10n("Playing") else omniwm.l10n("Paused"),
+                    ui.symbol{ name = if state.playing then "play.fill" else "pause.fill",
+                        size = 6 * scale, weight = "black", color = if state.playing then "green" else "yellow" } } },
+            ui.stack(content),
         })
     end,
     clockBar = function(ctx, state)
-        local props = { gap = 7 * look.scale(ctx) }
+        local scale = look.scale(ctx)
+        -- Load lazily: the native calendar library also imports look.
+        local calendar = require("./calendar").state(ctx)
+        local event = calendar and calendar.event
+        local size = (if event then 11 else 12) * scale
+        local props = { gap = 7 * scale }
         if state.showIcon then
-            props[#props + 1] = symbol(ctx, "calendar", "accent")
+            props[#props + 1] = ui.symbol{ name = "calendar", size = (if event then 12 else 15) * scale,
+                color = "accent", weight = "medium" }
         end
         if state.showDate then
-            props[#props + 1] = text{ text = state.date, size = 12 * look.scale(ctx), color = "secondaryForeground" }
+            props[#props + 1] = text{ text = state.date, size = size, color = "secondaryForeground" }
         end
-        props[#props + 1] = text{ text = state.time, size = 12 * look.scale(ctx), weight = "semibold", reserve = "00:00 PM" }
-        return pill(ctx, props)
+        props[#props + 1] = text{ text = state.time, size = size, weight = "semibold", reserve = "00:00 PM" }
+        if not event then
+            return pill(ctx, props)
+        end
+        local summary = event.countdown .. " · " .. event.title
+        return pill(ctx, { gap = props.gap, help = summary,
+            ui.column{ key = "clock-content", gap = 0,
+                ui.row(props),
+                text{ key = "clock-event", text = summary, size = 9 * scale, lines = 1,
+                    maxWidth = 160 * scale, color = "secondaryForeground" } },
+        })
     end,
     volumeBar = function(ctx, state)
         local color = if state.muted then "mutedForeground" else "orange"

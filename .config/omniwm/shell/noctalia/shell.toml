@@ -26,6 +26,9 @@ yOffset = 0
 indicator = "pills"
 compact = false
 
+[widgets.media]
+interval = 1
+
 [widgets.weather]
 date = true
 icon = true

@@ -72,6 +72,15 @@ local function context(settings)
     return ctx
 end
 
+local function calendarContext(settings)
+    local ctx = context(settings)
+    ctx.data.calendar = { access = "full", events = {
+        { id = "team-sync", title = "Team sync", start = 2080, ["end"] = 3880, allDay = false,
+            color = "blue", time = "14:48", day = "Today" },
+    } }
+    return ctx
+end
+
 local function find(node, predicate)
     if predicate(node) then return node end
     for _, child in node do
@@ -85,6 +94,17 @@ end
 
 local function hasText(node, value)
     return find(node, function(entry) return entry.text == value end) ~= nil
+end
+
+local function mediaProgressPath(node)
+    return find(node, function(entry)
+        return type(entry.key) == "string" and entry.key:match("^media%-progress:") ~= nil
+    end)
+end
+
+local function renderedProgress(node)
+    local path = mediaProgressPath(node)
+    return path and tonumber(path.d:match("H%s*([%d.]+)"))
 end
 
 local function valid(node)
@@ -164,11 +184,112 @@ local function runTests()
             assert(find(node, function(entry) return entry.help == "System" end))
         end
     end)
-    test("media keeps native click/right-click behavior and bounded Unicode text", function()
-        local node = widgets.media.render(context())
+    test("media uses source app icons while preserving native actions and bounded text", function()
+        local ctx = context()
+        local node = widgets.media.render(ctx)
         assert(node.onClick == ui.popout and node.onRightClick == "media toggle")
         local label = find(node, function(entry) return entry.text == "Artist — Track 🎵" end)
         assert(label and label.maxWidth == 200)
+        assert(find(node, function(entry) return entry.kind == "icon" and entry.app == "com.spotify.client" end))
+        ctx.data.media.bundle, ctx.data.media.app, ctx.data.media.title = "com.google.Chrome", "Chrome", "YouTube video"
+        node = widgets.media.render(ctx)
+        assert(find(node, function(entry) return entry.kind == "icon" and entry.app == "com.google.Chrome" end))
+        ctx.data.media.bundle, ctx.data.media.app = "", ""
+        node = widgets.media.render(ctx)
+        assert(find(node, function(entry) return entry.kind == "icon" and entry.app == nil and entry.placeholder == "music.note" end))
+    end)
+    test("media shows playing/paused badges and freezes progress when paused", function()
+        local ctx = context()
+        ctx.data.media.duration, ctx.data.media.elapsed = 200, 50
+        ctx.data.seconds = 1010
+        local node = widgets.media.render(ctx)
+        local badge = find(node, function(entry) return entry.key == "playback-state" end)
+        assert(badge.help == "Playing" and find(badge, function(entry) return entry.name == "play.fill" end))
+        local progress = mediaProgressPath(node)
+        assert(progress and renderedProgress(node) == 0.3 and progress.h == 2)
+        ctx.data.media.playing, ctx.data.media.elapsed = false, 60
+        ctx.data.seconds = 1100
+        node = widgets.media.render(ctx)
+        badge = find(node, function(entry) return entry.key == "playback-state" end)
+        assert(badge.help == "Paused" and find(badge, function(entry) return entry.name == "pause.fill" end))
+        progress = mediaProgressPath(node)
+        assert(renderedProgress(node) == 0.3 and progress.animate == "none")
+        ctx.data.seconds = 5000
+        assert(renderedProgress(widgets.media.render(ctx)) == 0.3)
+    end)
+    test("media progress follows the capped label width for short, long, and Unicode text", function()
+        local ctx = context()
+        ctx.data.media.artist = ""
+        ctx.data.media.duration, ctx.data.media.elapsed = 100, 25
+        for _, title in { "Hi", string.rep("W", 100), "晚安 🎵" } do
+            ctx.data.media.title = title
+            local node = widgets.media.render(ctx)
+            local content = find(node, function(entry) return entry.key == "media-content" end)
+            local label = find(content, function(entry) return entry.text == title end)
+            assert(content.kind == "stack" and content.w == nil and content[1].w == nil)
+            assert(label.w == nil and label.maxWidth == 200)
+            local track = find(content, function(entry) return entry.key == "media-progress-track" end)
+            for _, path in { track, mediaProgressPath(content) } do
+                assert(path.kind == "path" and path.w == nil and path.h == 2 and path.align == "bottomLeading")
+            end
+            assert(content[1][2].w == 0 and content[1][2].h == 5)
+        end
+        ctx.data.media.duration = nil
+        local content = find(widgets.media.render(ctx), function(entry) return entry.key == "media-content" end)
+        assert(content.w == nil and #content == 1 and #content[1] == 1)
+    end)
+    test("media progress follows native rate without guessing missing timing", function()
+        local fraction = requireModule("lib/media-progress")
+        local ctx = context()
+        ctx.data.media.duration, ctx.data.media.elapsed = 200, 40
+        ctx.data.media.rate, ctx.data.seconds = 2, 1010
+        assert(fraction(ctx, true) == 0.3)
+        ctx.data.media.sampledAt = 1020
+        assert(fraction(ctx, true) == 0.2)
+        ctx.data.media.sampledAt = 1000
+        ctx.data.media.rate = 0
+        assert(fraction(ctx, true) == 0.2)
+        ctx.data.media.rate = nil
+        assert(fraction(ctx, true) == 0.2)
+        ctx.data.media.rate, ctx.data.media.sampledAt = 1, nil
+        assert(fraction(ctx, true) == 0.2)
+    end)
+    test("media progress accepts zero, caps overruns, and hides unusable metadata", function()
+        local ctx = context()
+        ctx.data.media.duration, ctx.data.media.elapsed = 100, 0
+        local function progress()
+            local node = widgets.media.render(ctx)
+            valid(node)
+            return renderedProgress(node)
+        end
+        assert(progress() == 0)
+        ctx.data.media.elapsed = 500
+        assert(progress() == 1)
+        ctx.data.media.duration = nil
+        assert(progress() == nil)
+        for _, value in { 0, -1, math.huge, 0 / 0, "100" } do
+            ctx.data.media.duration = value
+            assert(progress() == nil)
+        end
+        ctx.data.media.duration, ctx.data.media.elapsed = 100, nil
+        assert(progress() == nil)
+        for _, value in { -1, math.huge, 0 / 0, "10" } do
+            ctx.data.media.elapsed = value
+            assert(progress() == nil)
+        end
+    end)
+    test("media track/source changes reset progress instead of retaining the old item", function()
+        local ctx = context()
+        ctx.data.media.duration, ctx.data.media.elapsed = 200, 100
+        local before = widgets.media.render(ctx)
+        ctx.data.media.title, ctx.data.media.elapsed = "Next track", 0
+        local after = widgets.media.render(ctx)
+        assert(renderedProgress(before) == 0.5 and renderedProgress(after) == 0)
+        assert(mediaProgressPath(before).key ~= mediaProgressPath(after).key)
+        ctx.data.media.bundle, ctx.data.media.duration, ctx.data.media.elapsed = "com.google.Chrome", nil, nil
+        local node = widgets.media.render(ctx)
+        assert(not mediaProgressPath(node))
+        assert(find(node, function(entry) return entry.kind == "icon" and entry.app == "com.google.Chrome" end))
     end)
     test("volume keeps scroll control, a zero value, and muted styling", function()
         local ctx = context()
@@ -310,6 +431,81 @@ local function runTests()
             assert(not hasText(node, "87%"))
         end
     end)
+    test("clock stacks the next event below date/time without adding a capsule or action", function()
+        local ctx = calendarContext(options.clock)
+        local before = #commands
+        local node = widgets.clock.render(ctx)
+        capsule(node)
+        assert(node.onClick == ui.popout and node.help == "In 18 min · Team sync")
+        local content = find(node, function(entry) return entry.key == "clock-content" end)
+        assert(content.kind == "column" and content.gap == 0 and #content == 2)
+        assert(content[1].kind == "row" and hasText(content[1], "Tue 10 Nov") and hasText(content[1], "14:30"))
+        assert(find(content[1], function(entry) return entry.name == "calendar" and entry.size == 12 end))
+        assert(find(content[1], function(entry) return entry.text == "14:30" and entry.size == 11 end))
+        local event = content[2]
+        assert(event.key == "clock-event" and event.text == node.help)
+        assert(event.size == 9 and event.maxWidth == 160 and event.lines == 1)
+        assert(#commands == before, "Reading calendar data must not request permissions or perform desktop actions")
+    end)
+    test("clock follows native countdowns, skips all-day/ended entries, and advances after expiry", function()
+        local ctx = calendarContext()
+        local event = ctx.data.calendar.events[1]
+        local ended, allDay, later = table.clone(event), table.clone(event), table.clone(event)
+        ended.start, ended["end"], ended.title = 0, 1000, "Ended"
+        allDay.allDay, allDay.title = true, "All day"
+        later.start, later["end"], later.title, later.time = 6000, 7000, "Planning", "16:00"
+        ctx.data.calendar.events = { ended, allDay, event, later }
+        assert(hasText(widgets.clock.render(ctx), "In 18 min · Team sync"))
+        ctx.data.seconds = 1060
+        assert(hasText(widgets.clock.render(ctx), "In 17 min · Team sync"))
+        ctx.data.seconds = event.start
+        assert(hasText(widgets.clock.render(ctx), "Now · Team sync"))
+        ctx.data.seconds = event["end"]
+        assert(hasText(widgets.clock.render(ctx), "In 36 min · Planning"))
+        ctx.data.seconds = later["end"]
+        assert(not find(widgets.clock.render(ctx), function(entry) return entry.key == "clock-event" end))
+        ctx.data.seconds = 1000
+        event.start, event["end"] = 8200, 10000
+        ctx.data.calendar.events = { event }
+        assert(hasText(widgets.clock.render(ctx), "14:48 · Team sync"))
+        event.start, event["end"] = 1000 + 12 * 3600, 1000 + 13 * 3600
+        assert(not find(widgets.clock.render(ctx), function(entry) return entry.key == "clock-event" end))
+    end)
+    test("clock hides unavailable or empty calendar data and recovers without a stale line", function()
+        local ctx = calendarContext()
+        local data = ctx.data.calendar
+        local before = #commands
+        for _, access in { "notDetermined", "denied", "restricted", "writeOnly", "full" } do
+            data.access = access
+            data.events = if access == "full" then {} else calendarContext().data.calendar.events
+            local node = widgets.clock.render(ctx)
+            assert(hasText(node, "14:30") and not find(node, function(entry) return entry.key == "clock-content" end))
+            assert(node.help == nil)
+        end
+        ctx.data.calendar = calendarContext().data.calendar
+        assert(hasText(widgets.clock.render(ctx), "In 18 min · Team sync"))
+        ctx.data.calendar = nil
+        local node = widgets.clock.render(ctx)
+        assert(not find(node, function(entry) return entry.key == "clock-event" end))
+        assert(find(node, function(entry) return entry.text == "14:30" and entry.size == 12 end))
+        assert(#commands == before)
+    end)
+    test("clock caps long Unicode event lines and scales them with the bar", function()
+        local ctx = calendarContext({ date = false, icon = false })
+        local title = string.rep("Planning 晚安 🎵 ", 20)
+        ctx.data.calendar.events[1].title = title
+        for _, scale in { 1, 2 } do
+            ctx.data.bar.style.height = 38 * scale
+            local node = widgets.clock.render(ctx)
+            valid(node)
+            local event = find(node, function(entry) return entry.key == "clock-event" end)
+            assert(event.text == "In 18 min · " .. title and event.maxWidth == 160 * scale)
+            assert(event.w == nil and event.size == 9 * scale and event.lines == 1)
+            assert(node.help == event.text and node.h == 30 * scale)
+            assert(hasText(node, "14:30") and not hasText(node, "Tue 10 Nov"))
+            assert(not find(node, function(entry) return entry.name == "calendar" end))
+        end
+    end)
     test("popouts use matte rounded surfaces instead of native menu glass", function()
         for _, name in { "media", "weather", "notifications", "bluetooth", "volume", "battery-details", "control-center", "clock" } do
             local node = widgets[name].popout(context(options[name]))
@@ -390,8 +586,24 @@ local function runTests()
         find(node, function(entry) return entry.key == "bluetooth" end).onClick(ctx, {})
         assert(hasText(groups.bluetooth.popout(ctx), "45%"))
     end)
+    test("grouped event line still opens the native calendar inside one shared weather capsule", function()
+        local ctx = calendarContext(options.clock)
+        local before = #commands
+        local node = groups.weather.render(ctx)
+        capsule(node)
+        assert(surfaces(node) == 1)
+        local clock = find(node, function(entry) return entry.key == "clock" end)
+        assert(hasText(clock, "In 18 min · Team sync"))
+        clock.onClick(ctx, {})
+        assert(ctx.state.active == "clock" and clock.popout == true)
+        local panel = groups.weather.popout(ctx)
+        valid(panel)
+        assert(hasText(panel, "Team sync"))
+        assert(find(panel, function(entry) return entry.onClick == "calendar open team-sync" end))
+        assert(#commands == before)
+    end)
     test("grouped clock options still hide its date and calendar icon", function()
-        local ctx = context({ date = false, icon = false })
+        local ctx = calendarContext({ date = false, icon = false })
         local node = groups.weather.render(ctx)
         local clock = find(node, function(entry) return entry.key == "clock" end)
         assert(hasText(clock, "14:30") and not hasText(clock, "Tue 10 Nov"))

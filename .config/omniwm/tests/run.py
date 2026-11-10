@@ -32,6 +32,8 @@ def main() -> None:
     assert names == ["workspaces", "media", "active-window", "control-center", "bluetooth", "weather"]
     assert config["trailing"] == ["control-center", "bluetooth", "weather"]
     assert config["widgets"]["workspaces"]["compact"] is False
+    assert config["widgets"]["media"]["interval"] == 1
+    assert config["widgets"]["bluetooth"]["interval"] == 15
     assert config["workspaceBar"]["showLabels"] is True
     assert config["workspaceBar"]["transparentBackground"] is True
     assert config["workspaceBar"]["showItemBackgrounds"] is True

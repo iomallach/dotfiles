@@ -71,7 +71,7 @@ option. The shared Weather Location editor remains available.
 | Widget section | Native interaction |
 | --- | --- |
 | Workspaces | Labels + app icons; click to focus; app previews; native menus and drag/drop |
-| Media | Click for Now Playing controls; right-click to toggle playback |
+| Media | Source app icon, playing/paused badge, and progress; click for controls, right-click to toggle |
 | Active window (center) | Focused app icon/title; click to open the native window picker |
 | Weather | Click for conditions/forecast, or setup guidance when no reading is available |
 | Notifications | Native retained notifications, permission/status messages, and supported actions |
@@ -79,7 +79,7 @@ option. The shared Weather Location editor remains available.
 | Bluetooth | Connected count; click for labeled battery percentages and native permission/settings actions |
 | Volume | Click for slider/output controls; scroll to adjust |
 | Battery | Click for power details; percentage layout remains configurable |
-| Clock | Click for calendar; date and icon remain configurable |
+| Clock | Compact next-event line below date/time; click for calendar; date and icon remain configurable |
 
 This first pass inherits OmniWM's native **click popouts**, not SketchyBar's
 hover-to-open behavior. Media follows macOS Now Playing, rather than polling
@@ -96,6 +96,45 @@ Noctalia → Bar → Weather → Weather Location**, or set
 shared across styles; the profile-specific key scopes a hand-edited location to
 Noctalia. No location is guessed and no network request runs from a Settings
 preview.
+
+### Media source and progress
+
+The pill uses the Now Playing source app's icon: Spotify for Spotify, the browser
+for browser playback, and a music-note fallback if app identity is unavailable.
+It does not infer a YouTube logo from the title or inspect browser tabs. A small
+green play/yellow pause badge and paused text/progress styling show playback state.
+
+The thin line matches the label's native measured width, up to the existing
+200pt long-title cap. Short titles shrink the text area and progress track
+together; Unicode and proportional fonts need no character-count estimate.
+Progress appears only when a finite positive duration and valid elapsed position
+are reported. Native sample time/rate advance
+it while playing; pausing freezes it. Missing timing information leaves the last
+known sample rather than inventing a rate, and missing duration/position hides the
+line. Values stay within the track bounds; new tracks/sources do not retain the
+previous item's progress.
+
+The media widget refreshes once per second using native data. No Spotify polling,
+browser scripting, new permission, or background service is involved. Click still
+opens the original media popup; right-click still toggles playback.
+
+### Next calendar event
+
+The clock shows a small second line beneath the date/time, for example
+`In 18 min · Team sync`, inside the existing weather/clock capsule. It stays on
+one line, capped at 160pt (scaled with the bar); long titles truncate, with the
+full summary available on hover. The bar and capsule heights are unchanged.
+Clicking anywhere in the clock section still opens the native calendar popup.
+
+This reuses OmniWM's native calendar feed and selection: the first ongoing or
+upcoming timed event within the next 12 hours. Events starting within an hour
+show a countdown, ongoing events show `Now`, and later events show their start
+time. All-day and ended events are skipped. With no matching event or no calendar
+access, the extra line disappears and the original date/time layout remains.
+
+Calendars must be synced into macOS Calendar. Grant access explicitly through
+**Allow Calendar Access** in the clock popup if needed; rendering the bar never
+requests permission. There is no new helper, network integration, or event store.
 
 ### Bluetooth battery data
 
@@ -144,6 +183,7 @@ than being guessed.
     ├── themes/macchiato.toml  # palette, deliberately dark in either appearance
     ├── lib/look.luau          # presentation hooks shared by native widgets
     ├── lib/bluetooth-details.luau # validated native/accessory battery merge
+    ├── lib/media-progress.luau # bounded native playback position/extrapolation
     ├── lib/capsule-group.luau # shared surfaces, callback/state scoping, popup routing
     ├── lib/weather-widget.luau # visible unavailable state + native weather forecast
     └── widgets/              # weather/clock, Bluetooth/volume/battery, notifications/controls
