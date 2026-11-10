@@ -1,6 +1,7 @@
 -- Offline host for the installed widgets: no commands, network, or native windows.
 local loaders = {}
 local cache = {}
+local commands = {}
 local ui = setmetatable({ popout = "test:popout" }, {
     __index = function(_, kind)
         return function(props)
@@ -10,7 +11,7 @@ local ui = setmetatable({ popout = "test:popout" }, {
     end,
 })
 local omniwm = {
-    run = function() error("Rendering must not invoke desktop actions") end,
+    run = function(command) commands[#commands + 1] = command end,
     l10n = function(format, ...)
         return string.format((format:gsub("%%@", "%%s"):gsub("%%lld", "%%d")), ...)
     end,
@@ -113,13 +114,15 @@ local function runTests()
     local options = { workspaces = { compact = false, indicator = "pills" }, clock = { date = true, icon = true } }
     for _, name in { "workspaces", "media", "active-window", "weather", "notifications", "bluetooth", "volume",
         "battery-details", "control-center", "clock" } do
-        widgets[name] = requireModule("widgets/" .. name)
+        widgets[name] = requireModule("units/" .. name)
         test(name .. " renders a pill and valid available popout", function()
             local ctx = context(options[name])
+            local before = #commands
             capsule(widgets[name].render(ctx))
             if widgets[name].popout then
                 valid(widgets[name].popout(ctx))
             end
+            assert(#commands == before, "Rendering must not invoke desktop actions")
         end)
     end
     test("workspace pills retain native targets, focus, menus, and drop destinations", function()
@@ -312,6 +315,87 @@ local function runTests()
             local node = widgets[name].popout(context(options[name]))
             assert(node.material == "clear" and node.fill == "background" and node.radius == 16)
         end
+    end)
+    local groups = {}
+    local members = {
+        weather = { "weather", "clock" },
+        bluetooth = { "bluetooth", "volume", "battery-details" },
+        ["control-center"] = { "notifications", "control-center" },
+    }
+    local function surfaces(node)
+        local total = if node.fill == "surface" and node.border == "border" then 1 else 0
+        for key, child in node do
+            if type(key) == "number" then total += surfaces(child) end
+        end
+        return total
+    end
+    for name, parts in members do
+        groups[name] = requireModule("widgets/" .. name)
+        test(name .. " group draws one shared capsule and routes each clickable section", function()
+            local ctx = context()
+            local before = #commands
+            local node = groups[name].render(ctx)
+            capsule(node)
+            assert(surfaces(node) == 1, "Child bubbles must not retain their own backgrounds")
+            for _, part in parts do
+                local section = find(node, function(entry) return entry.key == part end)
+                assert(section and section.popout == true and type(section.onClick) == "function")
+                section.onClick(ctx, { button = "left" })
+                assert(ctx.state.active == part)
+                valid(groups[name].popout(ctx))
+            end
+            assert(#commands == before, "Opening/rendering a panel must not perform its actions")
+        end)
+    end
+    test("control-center tab state stays separate from notification drafts", function()
+        local ctx = context()
+        local widget = groups["control-center"]
+        local node = widget.render(ctx)
+        find(node, function(entry) return entry.key == "control-center" end).onClick(ctx, {})
+        local panel = widget.popout(ctx)
+        find(panel, function(entry) return entry.help == "Audio" end).onClick(ctx, {})
+        assert(ctx.state.members["control-center"].tab == "audio" and ctx.state.tab == nil)
+        find(node, function(entry) return entry.key == "notifications" end).onClick(ctx, {})
+        panel = widget.popout(ctx)
+        assert(hasText(panel, "Notifications"))
+        assert(ctx.state.members.notifications.drafts ~= nil)
+        assert(ctx.state.members["control-center"].tab == "audio")
+    end)
+    test("volume scroll remains local to its section and preserves configured step", function()
+        local ctx = context({ step = 5 })
+        local node = groups.bluetooth.render(ctx)
+        local volume = find(node, function(entry) return entry.key == "volume" end)
+        local before = #commands
+        volume.onScroll(ctx, { precise = true, dy = 6 })
+        assert(#commands == before and ctx.state.members.volume.scroll == 0.5)
+        volume.onScroll(ctx, { precise = true, dy = 6 })
+        assert(#commands == before + 1 and commands[#commands] == "volume up 5")
+        assert(ctx.state.scroll == nil and ctx.state.members.bluetooth.scroll == nil)
+        assert(ctx.state.active == nil, "Scrolling must not select or open a popup")
+    end)
+    test("device capsule hides unavailable children without empty separators", function()
+        local ctx = context()
+        ctx.data.bluetooth, ctx.data.battery = nil, nil
+        local node = groups.bluetooth.render(ctx)
+        capsule(node)
+        assert(not find(node, function(entry) return entry.key == "bluetooth" or entry.key == "battery-details" end))
+        assert(find(node, function(entry) return entry.key == "volume" end))
+        assert(not find(node, function(entry) return entry.fill == "border" and entry.w == 1 and entry.h == 14 end))
+    end)
+    test("grouped Bluetooth popup retains accessory battery details", function()
+        local ctx = context()
+        ctx.data.bluetooth.devices[1].battery = nil
+        ctx.data.vars.noctalia_bluetooth_power = report
+        local node = groups.bluetooth.render(ctx)
+        find(node, function(entry) return entry.key == "bluetooth" end).onClick(ctx, {})
+        assert(hasText(groups.bluetooth.popout(ctx), "45%"))
+    end)
+    test("grouped clock options still hide its date and calendar icon", function()
+        local ctx = context({ date = false, icon = false })
+        local node = groups.weather.render(ctx)
+        local clock = find(node, function(entry) return entry.key == "clock" end)
+        assert(hasText(clock, "14:30") and not hasText(clock, "Tue 10 Nov"))
+        assert(not find(clock, function(entry) return entry.name == "calendar" end))
     end)
     print(string.format("%d widget tests passed (mock host; native visual preview still required)", count))
 end

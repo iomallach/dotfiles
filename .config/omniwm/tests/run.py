@@ -29,10 +29,8 @@ def main() -> None:
     names = config["leading"] + config["center"] + config["trailing"]
     assert len(names) == len(set(names)), "A widget must not appear in multiple lanes"
     assert config["center"] == ["active-window"]
-    assert names == [
-        "workspaces", "media", "active-window", "weather", "notifications",
-        "bluetooth", "volume", "battery-details", "control-center", "clock",
-    ]
+    assert names == ["workspaces", "media", "active-window", "control-center", "bluetooth", "weather"]
+    assert config["trailing"] == ["control-center", "bluetooth", "weather"]
     assert config["widgets"]["workspaces"]["compact"] is False
     assert config["workspaceBar"]["showLabels"] is True
     assert config["workspaceBar"]["transparentBackground"] is True
@@ -55,16 +53,31 @@ def main() -> None:
     chunks = [(ROOT / "tests/widgets.luau").read_text()]
     for name, path in sorted(libraries.items()):
         chunks.append(f"loaders[{json.dumps('lib/' + name)}] = function(require, ui, omniwm)\n{path.read_text()}\nend\n")
-    for name in names:
+
+    def widget_source(name: str) -> str:
         candidates = [folder / f"widgets/{name}/init.luau" for folder in [SHELL, PROFILE, SHELL / "default"]]
         path = next((candidate for candidate in candidates if candidate.is_file()), None)
         if path is None:
             raise SystemExit(f"Missing widget source: {name}")
-        chunks.append(
-            f"loaders[{json.dumps('widgets/' + name)}] = function(require, ui, omniwm)\n"
-            "local render, popout, spanIslands\n"
-            f"{path.read_text()}\nreturn {{ render = render, popout = popout }}\nend\n"
-        )
+        return "local render, popout, spanIslands\n" + path.read_text() + "\nreturn { render = render, popout = popout }"
+
+    def module(name: str, source: str) -> None:
+        chunks.append(f"loaders[{json.dumps(name)}] = function(require, ui, omniwm)\n{source}\nend\n")
+
+    for name in names:
+        module("widgets/" + name, widget_source(name))
+    for name in ["workspaces", "media", "active-window", "weather", "notifications", "bluetooth", "volume",
+                 "battery-details", "control-center", "clock"]:
+        if name == "weather":
+            source = 'return require("../lib/weather-widget")'
+        elif name in ["workspaces", "media", "active-window"]:
+            source = widget_source(name)
+        else:
+            adapter = "noctalia-native-" + name
+            if adapter not in libraries:
+                raise SystemExit(f"Missing {adapter}; install the Home Manager native-adapter links first")
+            source = f'return require("../lib/{adapter}")'
+        module("units/" + name, source)
     chunks.append("runTests()\n")
     with tempfile.TemporaryDirectory(prefix="omnishell-noctalia-tests-") as directory:
         bundle = Path(directory) / "widgets.luau"

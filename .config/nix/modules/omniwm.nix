@@ -1,7 +1,33 @@
 { ... }:
 {
   flake.modules.homeManager.omniwm =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      nativeWidgetNames = [
+        "clock"
+        "bluetooth"
+        "volume"
+        "battery-details"
+        "notifications"
+        "control-center"
+      ];
+      nativeWidgets = pkgs.runCommand "omniwm-native-widgets-${pkgs.omniwm.version}" { } ''
+        widgets="${pkgs.omniwm}/Applications/OmniWM.app/Contents/Resources/OmniWM_OmniWM.bundle/Contents/Resources/ShellDefault/widgets"
+        mkdir -p "$out"
+        for name in ${lib.concatStringsSep " " nativeWidgetNames}; do
+          target="$out/noctalia-native-$name.luau"
+          printf 'local render, popout\n' > "$target"
+          # Flat library modules use ./look rather than ../lib/look.
+          sed 's#require("../lib/#require("./#g' "$widgets/$name/init.luau" >> "$target"
+          printf '\nreturn { render = render, popout = popout }\n' >> "$target"
+        done
+      '';
+    in
     {
       programs.aerospace.enable = lib.mkForce false;
       programs.omniwm = {
@@ -11,10 +37,20 @@
       };
 
       # Keep editable shell config beside other dotfiles; OmniWM owns shell/default.
-      xdg.configFile."omniwm/shell/shell.toml".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/omniwm/shell/shell.toml";
-      xdg.configFile."omniwm/shell/noctalia".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/omniwm/shell/noctalia";
+      xdg.configFile = {
+        "omniwm/shell/shell.toml".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/omniwm/shell/shell.toml";
+        "omniwm/shell/noctalia".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/omniwm/shell/noctalia";
+      }
+      // lib.listToAttrs (
+        map (
+          name:
+          lib.nameValuePair "omniwm/shell/lib/noctalia-native-${name}.luau" {
+            source = "${nativeWidgets}/noctalia-native-${name}.luau";
+          }
+        ) nativeWidgetNames
+      );
     };
 
   flake.modules.darwin.omniwm =

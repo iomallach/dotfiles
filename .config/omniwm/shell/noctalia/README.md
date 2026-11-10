@@ -4,15 +4,17 @@ Detached Catppuccin Macchiato pills, matching the existing SketchyBar theme rath
 than imitating the macOS menu bar. This is a local style for OmniWM **0.8.0**.
 
 ```text
-[ 1 Apps · 2 Apps · ●3 Apps … ] [ ♫ Track ]   [ Focused app / window ]   [ Weather ] [ Notifications ] [ ᛒ ] [ Volume ] [ Battery ] [ Controls ] [ Clock ]
+[ 1 Apps · 2 Apps · ●3 Apps … ] [ ♫ Track ]   [ Focused app / window ]   [ Notifications | Controls ] [ ᛒ 2 | Volume | Battery ] [ Weather | Clock ]
 ```
 
 The 38pt transparent canvas holds 30pt dark capsules with subtle borders, rounded
 ends, pastel icons, and matte popouts. Workspaces show their labels and native
 app icons, retaining focus, previews, context-menu, Shift-click, and drag/drop
-behavior. The center shows Default's focused app/window widget; notifications
-and the native control center are on the right. There are no Apple/app-menu
-labels or extra system-stat buttons.
+behavior. The center shows Default's focused app/window widget. The right side
+has three shared capsules, in order: **notifications + control center**,
+**Bluetooth + volume + battery**, and **weather + clock**. Each has one background
+and border with subtle internal dividers, not smaller bubbles inside it. There
+are no Apple/app-menu labels or extra system-stat buttons.
 
 ## Preview without changing the desktop
 
@@ -53,7 +55,20 @@ reservation; it does not modify the gap settings themselves.
 
 ## Widgets
 
-| Widget | Native interaction |
+Each section remains its own click target and opens its original panel content,
+anchored to that section. A shared capsule uses native popup-toggle behavior:
+clicking it again closes its popup. Popup state is scoped per section, so the
+control-center tab, notification drafts, and volume scroll accumulation do not
+leak into one another. Volume scrolling acts only on the volume section and does
+not open a popup. Missing Bluetooth/battery feeds leave no empty separators.
+
+The native Settings lane editor now lists three trailing entries: **Control
+Center**, **Bluetooth**, and **Weather**, representing the groups. Weather's
+options include clock date/icon and forecast hours; Bluetooth's include battery
+percentage layout and volume scroll step. Control Center retains its initial-tab
+option. The shared Weather Location editor remains available.
+
+| Widget section | Native interaction |
 | --- | --- |
 | Workspaces | Labels + app icons; click to focus; app previews; native menus and drag/drop |
 | Media | Click for Now Playing controls; right-click to toggle playback |
@@ -129,7 +144,9 @@ than being guessed.
     ├── themes/macchiato.toml  # palette, deliberately dark in either appearance
     ├── lib/look.luau          # presentation hooks shared by native widgets
     ├── lib/bluetooth-details.luau # validated native/accessory battery merge
-    └── widgets/weather/      # visible fallback + native forecast, with its option schema
+    ├── lib/capsule-group.luau # shared surfaces, callback/state scoping, popup routing
+    ├── lib/weather-widget.luau # visible unavailable state + native weather forecast
+    └── widgets/              # weather/clock, Bluetooth/volume/battery, notifications/controls
 ```
 
 Home Manager links the selector and this profile separately. OmniWM continues to
@@ -137,6 +154,14 @@ own `~/.config/omniwm/shell/default/`; it can update that directory normally.
 GUI style choices/options write through the selector's writable symlink into the
 repository. Per-style overrides there take precedence over the profile defaults.
 There are no top-level widget/library overrides that would change other styles.
+
+Nix also generates six uniquely named `shell/lib/noctalia-native-*.luau` modules
+from the **same pinned OmniWM package**. These make the native render/popout
+functions importable and adapt their relative library paths. No upstream widget
+implementation is copied into the repository. Flat file links are deliberate:
+OmniShell does not traverse a symlinked library subdirectory. The adapters use
+Noctalia's palette/hooks but retain upstream notification actions, controls,
+calendar behavior, and permissions. Stock Default does not import them.
 
 ## Checks
 
@@ -152,7 +177,10 @@ nix build --no-link 'path:.#darwinConfigurations.workbook.system'
 The Python/Luau checks render the resolved profile/native widgets against an
 offline mock host, exercise missing/zero data, native actions, accessory matching
 and expiry, and verify capsule geometry. Isolated subprocess fakes test publisher
-quoting and failure handling without invoking device commands. They do **not** validate AppKit layout or activate a style.
+quoting and failure handling without invoking device commands. Group tests check
+one background per capsule, popup routing, isolated state, retained scrolling,
+and missing-data layout. They do **not** validate AppKit layout or activate a
+style. The installed Home Manager adapter links are required for these checks.
 `OMNIWM_SHELL_DIR` can point at another installed shell directory for testing.
 
 ## Credits

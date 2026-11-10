@@ -1,0 +1,13 @@
+[options.percent]
+type = "choice"
+title = "Battery percentage"
+default = "beside"
+choices = ["beside", "inside", "off"]
+
+[options.step]
+type = "number"
+title = "Volume change per scroll"
+default = 6.25
+min = 0.25
+max = 25
+step = 0.25

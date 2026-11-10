@@ -2,7 +2,8 @@
 theme = "macchiato"
 leading = ["workspaces", "media"]
 center = ["active-window"]
-trailing = ["weather", "notifications", "bluetooth", "volume", "battery-details", "control-center", "clock"]
+# Shared capsules: notifications/controls, Bluetooth/volume/battery, weather/clock.
+trailing = ["control-center", "bluetooth", "weather"]
 
 [workspaceBar]
 position = "overlappingMenuBar"
@@ -25,12 +26,10 @@ yOffset = 0
 indicator = "pills"
 compact = false
 
-[widgets.clock]
+[widgets.weather]
 date = true
 icon = true
 
-[widgets.battery-details]
-percent = "beside"
-
 [widgets.bluetooth]
 interval = 15
+percent = "beside"
