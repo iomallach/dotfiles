@@ -8,6 +8,8 @@ in
   flake.modules.homeManager.terminals =
     { config, pkgs, ... }:
     {
+      home.packages = [ pkgs.tuios ];
+
       programs = {
         alacritty = {
           enable = false;

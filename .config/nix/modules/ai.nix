@@ -20,6 +20,15 @@
   flake.modules.homeManager.ai =
     { pkgs, config, ... }:
     let
+      # Generate upstream's integration in the store, never in the live Pi config.
+      tuiosPiIntegration = pkgs.runCommand "tuios-pi-integration-${pkgs.tuios.version}" { } ''
+        export HOME="$out"
+        mkdir -p "$HOME/.pi/agent"
+        ${pkgs.tuios}/bin/tuios integration install pi --command "${pkgs.tuios}/bin/tuios"
+        test -s "$HOME/.pi/agent/extensions/tuios-agent-state.ts"
+        test -s "$HOME/.agents/skills/tuios/SKILL.md"
+      '';
+
       babysitter-sdk = pkgs.writeShellApplication {
         name = "babysitter";
         runtimeInputs = [
@@ -34,6 +43,12 @@
       };
     in
     {
+      home.file = {
+        ".pi/agent/extensions/tuios-agent-state.ts".source =
+          "${tuiosPiIntegration}/.pi/agent/extensions/tuios-agent-state.ts";
+        ".agents/skills/tuios/SKILL.md".source = "${tuiosPiIntegration}/.agents/skills/tuios/SKILL.md";
+      };
+
       home.packages = with pkgs; [
         inputs.nixpkgs-opencode.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode
         claude-code
