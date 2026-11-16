@@ -20,15 +20,15 @@
   (**Control + Option + Shift + H/J/K/L**). The nine numbered workspaces,
   app resize-floor rules, and Niri layout are unchanged. Workspaces 6/7 prefer
   the secondary display and retain their upstream heart/rocket display names.
-  The SketchyBar pill shows the raw workspace number.
 - OmniWM's native focused-window border, workspace bar, and Hidden Bar are
-  enabled in the current settings. SketchyBar remains configured as well;
-  the package upgrade does not change any of these selections.
-- IPC is enabled for SketchyBar. It permits automation by other processes running
-  as your macOS user; OmniWM's secret is not a per-application security boundary.
-- SketchyBar's LaunchAgent sets `NOCTALIA_WM=omniwm`. A separate
-  `org.nixos.omniwm-sketchybar` agent watches `active-workspace` and triggers
-  updates; five-second polling covers startup, reconnects, and previews.
+  enabled in the current settings. OmniShell is the desktop bar; the OmniWM Nix
+  module disables SketchyBar for workbook without changing other hosts.
+- Neither `org.nixos.sketchybar` nor the retired
+  `org.nixos.omniwm-sketchybar` workspace bridge is configured. The shared
+  SketchyBar config is retained for manual previews and rollback.
+- IPC remains enabled for `omniwmctl` and the native bar's Bluetooth helper. It
+  permits automation by other processes running as your macOS user; OmniWM's
+  secret is not a per-application security boundary.
 - `org.nixos.omniwm-bluetooth-power` publishes read-only accessory battery data
   every 30 seconds for Noctalia. The editable helper is `bin/bluetooth-power.sh`;
   see [Bluetooth battery data](shell/noctalia/README.md#bluetooth-battery-data)
@@ -36,7 +36,7 @@
 - Inner gaps are 20pt **between windows only** (`niri.edgeGaps = false`), so
   single- and multi-window workspaces share the same outer margins. Outer
   side/bottom gaps are 10pt. The 48pt top gap is
-  measured from the **physical screen edge** and reserves the 38pt SketchyBar
+  measured from the **physical screen edge** and reserves the 38pt OmniShell bar
   plus border clearance. Outer gaps also apply to single-window and WM-fullscreen
   layouts. Native macOS fullscreen is separate. Check spacing visually on each
   display after activation; no display-specific overrides are assumed.
@@ -63,8 +63,8 @@ and links, not the editable application source.
 [`shell/noctalia/README.md`](shell/noctalia/README.md) describes the separate
 **Noctalia** style: detached Macchiato pills using native OmniShell widgets.
 Preview it in **Settings → Styles & Widgets** before choosing **Use Style**.
-The initial selector in `shell/shell.toml` keeps **Default** active. Home Manager
-links that writable selector and the `shell/noctalia/` profile individually;
+The writable selector in `shell/shell.toml` controls the active style. Home Manager
+links that selector and the `shell/noctalia/` profile individually;
 OmniWM still owns and updates its bundled `shell/default/` directory.
 
 The old shared AeroSpace configuration and JankyBorders package/configuration
@@ -76,9 +76,10 @@ flake-lock changes are needed for this migration.
 ## Upgrade from 0.7.6 to 0.8.0
 
 The package override retains nixpkgs' signed-app installation and changes only
-OmniWM and its CLI; SketchyBar remains the desktop bar. The upgrade has already
-migrated the settings to schema v5. The existing Workspace Bar and Hidden Bar
-enable flags are preserved; the new Dynamic Island defaults to disabled.
+OmniWM and its CLI; SketchyBar was used during the initial migration and is now
+disabled in favor of OmniShell. The upgrade has already migrated the settings to
+schema v5. The existing Workspace Bar and Hidden Bar enable flags are preserved;
+the new Dynamic Island defaults to disabled.
 
 On first launch, 0.8.0 backs up the exact old file to
 `~/.config/omniwm/settings.toml.pre-v5` (or `.pre-v5.1` if the first slot is used),
@@ -136,15 +137,11 @@ From `~/dotfiles/.config/nix`:
 nix build --no-link 'path:.#darwinConfigurations.workbook.system'
 nixfmt --check modules/omniwm.nix modules/hosts/darwin/workbook.nix
 
-cd ../sketchybar-noctalia
-lua tests/run.lua
-NOCTALIA_WM=omniwm lua tests/run.lua
-NOCTALIA_PREVIEW=1 BAR_NAME=noctalia-test lua tests/run.lua
-NOCTALIA_WM=omniwm NOCTALIA_PREVIEW=1 BAR_NAME=noctalia-test lua tests/run.lua
-sh tests/launcher.sh
+nix shell 'path:.#darwinConfigurations.workbook.pkgs.luau' \
+  --command python3 ../omniwm/tests/run.py
 ```
 
-These tests fake macOS/network/SketchyBar calls and never switch workspaces.
+These tests use an offline mock host and never switch workspaces.
 A system **build** writes to the Nix store; it does not apply the configuration,
 start OmniWM, reload SketchyBar, or stop AeroSpace/borders.
 
@@ -172,26 +169,29 @@ start OmniWM, reload SketchyBar, or stop AeroSpace/borders.
    for tiling, but Noctalia's notification widget needs it to read retained
    notifications. Complete OmniWM's permission/start window.
 6. Check `omniwmctl ping`, workspace keys 1–9, moving windows, native borders,
-   SketchyBar workspace updates/clicks/scrolling, and laptop/external-display gaps.
-   Check that AeroSpace and JankyBorders are no longer running. The full first
+   native OmniShell widgets, and laptop/external-display gaps. Confirm that
+   `org.nixos.sketchybar` and `org.nixos.omniwm-sketchybar` are absent after the
+   switch, and that AeroSpace and JankyBorders are no longer running. The full first
    launch, permission flow, tiling, and visual spacing still need live acceptance.
 
-For an OmniWM preview from a normal shell, explicitly select the backend:
+For a manual preview of the retained legacy SketchyBar config, explicitly select
+the OmniWM backend (this is not the active desktop bar):
 
 ```sh
 NOCTALIA_WM=omniwm ~/.config/sketchybar/preview
 ```
 
-The production backend is set by launchd, not by a global shell environment.
-The default without this variable is still AeroSpace, preserving other hosts
-and allowing the pre-migration bar to reload safely before activation.
+No SketchyBar backend is configured through launchd on workbook anymore. The
+legacy config defaults to AeroSpace without this variable, preserving other hosts
+and rollback behavior.
 
 ### Rollback
 
 For a durable configuration rollback, remove `omniwm` from **both** module lists
 in `modules/hosts/darwin/workbook.nix`, then rebuild/switch again. This restores
-AeroSpace's original settings/LaunchAgent and the bar's default backend, and
-removes the OmniWM and watcher agents. Do not run both window managers together.
+AeroSpace's original settings/LaunchAgent and the shared SketchyBar service, and
+removes the OmniWM and Bluetooth-helper agents. Do not run both window managers
+together.
 
 For an immediate rollback after a completed switch:
 

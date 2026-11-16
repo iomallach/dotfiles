@@ -54,7 +54,12 @@
     };
 
   flake.modules.darwin.omniwm =
-    { config, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       # TODO: Remove this override once pinned nixpkgs provides OmniWM >= 0.8.0.
       # Retain nixpkgs' signed-app packaging without updating unrelated packages.
@@ -72,27 +77,8 @@
         })
       ];
 
-      services.sketchybar.extraPackages = [ pkgs.omniwm ];
-      launchd.user.agents.sketchybar.serviceConfig.EnvironmentVariables.NOCTALIA_WM = "omniwm";
-
-      # Keep workspace updates immediate; polling still covers startup and previews.
-      launchd.user.agents.omniwm-sketchybar.serviceConfig = {
-        ProgramArguments = [
-          "${pkgs.omniwm}/bin/omniwmctl"
-          "watch"
-          "active-workspace"
-          "--reconnect"
-          "--exec"
-          "${config.services.sketchybar.package}/bin/sketchybar"
-          "--trigger"
-          "omniwm_workspace_change"
-        ];
-        KeepAlive = true;
-        RunAtLoad = true;
-        ThrottleInterval = 5;
-        StandardOutPath = "/tmp/omniwm-sketchybar.log";
-        StandardErrorPath = "/tmp/omniwm-sketchybar.err.log";
-      };
+      # OmniShell replaces SketchyBar; keep the shared desktop default for other hosts.
+      services.sketchybar.enable = lib.mkForce false;
 
       # Supplement native Bluetooth data with the same accessory report as SketchyBar.
       launchd.user.agents.omniwm-bluetooth-power.serviceConfig = {

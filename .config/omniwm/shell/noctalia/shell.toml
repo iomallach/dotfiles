@@ -2,8 +2,8 @@
 theme = "macchiato"
 leading = ["workspaces", "media"]
 center = ["active-window"]
-# Shared capsules: notifications/controls, Bluetooth/volume/battery, weather/clock.
-trailing = ["control-center", "bluetooth", "weather"]
+# Agent status, then shared notifications/controls, Bluetooth/volume/battery, weather/clock.
+trailing = ["agents", "control-center", "bluetooth", "weather"]
 
 [workspaceBar]
 position = "overlappingMenuBar"

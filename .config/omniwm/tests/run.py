@@ -29,8 +29,8 @@ def main() -> None:
     names = config["leading"] + config["center"] + config["trailing"]
     assert len(names) == len(set(names)), "A widget must not appear in multiple lanes"
     assert config["center"] == ["active-window"]
-    assert names == ["workspaces", "media", "active-window", "control-center", "bluetooth", "weather"]
-    assert config["trailing"] == ["control-center", "bluetooth", "weather"]
+    assert names == ["workspaces", "media", "active-window", "agents", "control-center", "bluetooth", "weather"]
+    assert config["trailing"] == ["agents", "control-center", "bluetooth", "weather"]
     assert config["widgets"]["workspaces"]["compact"] is False
     assert config["widgets"]["media"]["interval"] == 1
     assert config["widgets"]["bluetooth"]["interval"] == 15
@@ -61,7 +61,7 @@ def main() -> None:
         path = next((candidate for candidate in candidates if candidate.is_file()), None)
         if path is None:
             raise SystemExit(f"Missing widget source: {name}")
-        return "local render, popout, spanIslands\n" + path.read_text() + "\nreturn { render = render, popout = popout }"
+        return "local render, popout, spanIslands, trigger, interval\n" + path.read_text() + "\nreturn { render = render, popout = popout, trigger = trigger }"
 
     def module(name: str, source: str) -> None:
         chunks.append(f"loaders[{json.dumps(name)}] = function(require, ui, omniwm)\n{source}\nend\n")
@@ -69,10 +69,10 @@ def main() -> None:
     for name in names:
         module("widgets/" + name, widget_source(name))
     for name in ["workspaces", "media", "active-window", "weather", "notifications", "bluetooth", "volume",
-                 "battery-details", "control-center", "clock"]:
+                 "battery-details", "control-center", "clock", "agents"]:
         if name == "weather":
             source = 'return require("../lib/weather-widget")'
-        elif name in ["workspaces", "media", "active-window"]:
+        elif name in ["workspaces", "media", "active-window", "agents"]:
             source = widget_source(name)
         else:
             adapter = "noctalia-native-" + name

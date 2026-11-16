@@ -4,15 +4,16 @@ Detached Catppuccin Macchiato pills, matching the existing SketchyBar theme rath
 than imitating the macOS menu bar. This is a local style for OmniWM **0.8.0**.
 
 ```text
-[ 1 Apps · 2 Apps · ●3 Apps … ] [ ♫ Track ]   [ Focused app / window ]   [ Notifications | Controls ] [ ᛒ 2 | Volume | Battery ] [ Weather | Clock ]
+[ 1 Apps · 2 Apps · ●3 Apps … ] [ ♫ Track ]   [ Focused app / window ]   [ ✨ Pi agents ] [ Notifications | Controls ] [ ᛒ 2 | Volume | Battery ] [ Weather | Clock ]
 ```
 
 The 38pt transparent canvas holds 30pt dark capsules with subtle borders, rounded
 ends, pastel icons, and matte popouts. Workspaces show their labels and native
 app icons, retaining focus, previews, context-menu, Shift-click, and drag/drop
 behavior. The center shows Default's focused app/window widget. The right side
-has three shared capsules, in order: **notifications + control center**,
-**Bluetooth + volume + battery**, and **weather + clock**. Each has one background
+starts with a separate **Pi agents** information pill, followed by three shared
+capsules: **notifications + control center**, **Bluetooth + volume + battery**,
+and **weather + clock**. Each has one background
 and border with subtle internal dividers, not smaller bubbles inside it. There
 are no Apple/app-menu labels or extra system-stat buttons.
 
@@ -62,8 +63,8 @@ control-center tab, notification drafts, and volume scroll accumulation do not
 leak into one another. Volume scrolling acts only on the volume section and does
 not open a popup. Missing Bluetooth/battery feeds leave no empty separators.
 
-The native Settings lane editor now lists three trailing entries: **Control
-Center**, **Bluetooth**, and **Weather**, representing the groups. Weather's
+The native Settings lane editor now lists four trailing entries: **Agents**,
+**Control Center**, **Bluetooth**, and **Weather**. The last three represent groups. Weather's
 options include clock date/icon and forecast hours; Bluetooth's include battery
 percentage layout and volume scroll step. Control Center retains its initial-tab
 option. The shared Weather Location editor remains available.
@@ -73,6 +74,7 @@ option. The shared Weather Location editor remains available.
 | Workspaces | Labels + app icons; click to focus; app previews; native menus and drag/drop |
 | Media | Source app icon, playing/paused badge, and progress; click for controls, right-click to toggle |
 | Active window (center) | Focused app icon/title; click to open the native window picker |
+| Pi agents | Agent/attention count; click only opens an informational status popout, with page navigation |
 | Weather | Click for conditions/forecast, or setup guidance when no reading is available |
 | Notifications | Native retained notifications, permission/status messages, and supported actions |
 | Control center | Native overview, audio, media, calendar, weather, and system tabs |
@@ -96,6 +98,43 @@ Noctalia → Bar → Weather → Weather Location**, or set
 shared across styles; the profile-specific key scopes a hand-edited location to
 Noctalia. No location is guessed and no network request runs from a Settings
 preview.
+
+### Pi agent status
+
+`widgets/agents/` and `lib/agent-status.luau` implement an informational popout.
+The pill shows the number of connected interactive Pi sessions and adds `!N`
+when approval or input is needed. The panel lists working, idle, waiting-for-input,
+interactive-UI, and explicit Editgate approval states, with project/session/model
+and the proposed path/reason where available. Each status shows its elapsed
+duration (for example `Working · 2m 13s`), which is not reset by heartbeat,
+tool, model or usage updates. Available metrics below the model show current
+context tokens/capacity/percentage and Pi's recorded session cost in USD. Cost
+uses all recorded session history and is an estimate; unpriced models can report
+zero. Unknown values are not fabricated as zero. Timing starts with the reporter;
+a widget reload preserves it, but a Pi extension reload starts a new observer.
+Run `/reload` in existing Pi sessions to load the new timing/usage fields.
+Four agents fit per page; arrows
+only change the information page. There are **no terminal/browser launches,
+focus commands, messages, or approve/deny controls**.
+
+The companion extension is
+`~/dev/pi-extensions/extensions/omniwm-agents/`. It is installed through Pi's
+extension-discovery symlink; running Pi sessions must `/reload` to start sending
+status. New sessions load it automatically. It sends complete snapshots through
+`omniwmctl shell trigger agents snapshot` every five seconds and on transitions.
+A source/profile reload rehydrates within one heartbeat. Normal shutdown removes
+an entry; crashes expire after 30 seconds. No per-agent shell variables, network
+permissions, macOS notifications, or additional daemon are needed.
+
+Generic custom Pi screens may be loaders or questions, so they are labeled
+**Interactive UI**, not guessed to be waiting for input. Editgate emits its own
+review events, which stay **Awaiting approval** across fullscreen/editor/feedback
+transitions. No prompts, full diffs, file contents or browser approval tokens are
+sent to the widget. Existing Editgate review UIs remain unchanged.
+
+Remove `agents` from this profile's trailing list to hide it; remove the Pi
+reporter symlink and `/reload` to stop reporting. The companion extension's README
+contains the event protocol and real-Pi/OmniWM test command.
 
 ### Media source and progress
 

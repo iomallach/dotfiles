@@ -2,6 +2,8 @@
 local loaders = {}
 local cache = {}
 local commands = {}
+local packets = {}
+local json = { decode = function(value) return packets[value] end }
 local ui = setmetatable({ popout = "test:popout" }, {
     __index = function(_, kind)
         return function(props)
@@ -133,7 +135,7 @@ local function runTests()
     local widgets = {}
     local options = { workspaces = { compact = false, indicator = "pills" }, clock = { date = true, icon = true } }
     for _, name in { "workspaces", "media", "active-window", "weather", "notifications", "bluetooth", "volume",
-        "battery-details", "control-center", "clock" } do
+        "battery-details", "control-center", "clock", "agents" } do
         widgets[name] = requireModule("units/" .. name)
         test(name .. " renders a pill and valid available popout", function()
             local ctx = context(options[name])
@@ -608,6 +610,144 @@ local function runTests()
         local clock = find(node, function(entry) return entry.key == "clock" end)
         assert(hasText(clock, "14:30") and not hasText(clock, "Tue 10 Nov"))
         assert(not find(clock, function(entry) return entry.name == "calendar" end))
+    end)
+    local agents = requireModule("lib/agent-status")
+    local function snapshot(index, status, sequence)
+        return { version = 1, instance = string.format("00000000-0000-4000-8000-%012d", index),
+            sessionId = "session-" .. tostring(index), project = "Project " .. tostring(index),
+            title = "Agent " .. tostring(index), cwd = "/dev/project", model = "provider/model",
+            status = status or "working", sequence = sequence or 1, updatedAt = 1000000,
+            detail = "Tool: read", review = { tool = "edit", path = "src/file.ts", reason = "Add a guard", view = "tui" } }
+    end
+    test("agent snapshots prioritize approval and reject stale or reordered updates", function()
+        local state = agents.receive(nil, "snapshot", snapshot(1, "working", 2), 1000)
+        local second = snapshot(2, "awaiting_approval")
+        second.sessionId = snapshot(1).sessionId
+        state = agents.receive(state, "snapshot", second, 1000)
+        state = agents.receive(state, "snapshot", snapshot(1, "idle", 1), 1000)
+        local view = agents.view(state, 1000)
+        assert(view.total == 2 and view.attention == 1 and view.agents[1].status == "awaiting_approval")
+        assert(view.counts.working == 1 and view.counts.idle == 0)
+        assert(agents.view(state, 1029).total == 2)
+        assert(agents.view(state, 1030).total == 0, "A crash must expire without any new messages")
+        state = agents.receive(state, "remove", { version = 1, instance = snapshot(1).instance }, 1000)
+        assert(agents.view(state, 1000).total == 1)
+    end)
+    test("malformed, unsupported and future agent messages cannot break the widget", function()
+        for _, value in { {}, { version = 2 }, { version = 1, instance = false },
+            { version = 1, instance = snapshot(1).instance, updatedAt = "wrong" } } do
+            assert(agents.view(agents.receive(nil, "snapshot", value, 1000), 1000).total == 0)
+        end
+        local future = snapshot(1)
+        future.updatedAt = 2000000
+        assert(agents.view(agents.receive(nil, "snapshot", future, 1000), 1000).total == 0)
+        local invalid = snapshot(1)
+        invalid.status = "unknown"
+        assert(agents.view(agents.receive(nil, "snapshot", invalid, 1000), 1000).total == 0)
+    end)
+    test("the agent popout shows metadata, paginates, and never invokes external actions", function()
+        local ctx = context()
+        local before = #commands
+        for index = 1, 6 do
+            packets[tostring(index)] = snapshot(index, if index == 1 then "awaiting_approval" else "idle")
+            widgets.agents.trigger(ctx, { name = "snapshot", value = tostring(index) })
+        end
+        local bar = widgets.agents.render(ctx)
+        capsule(bar)
+        assert(bar.onClick == ui.popout and hasText(bar, "6 · !1"))
+        local panel = widgets.agents.popout(ctx)
+        valid(panel)
+        assert(hasText(panel, "Awaiting approval") and hasText(panel, "Add a guard"))
+        assert(hasText(panel, "Agent 1") and not hasText(panel, "Agent 6"))
+        local nextPage = find(panel, function(entry) return entry.help == "More agents" end)
+        assert(nextPage)
+        nextPage.onClick(ctx, {})
+        panel = widgets.agents.popout(ctx)
+        valid(panel)
+        assert(hasText(panel, "Agent 6"))
+        assert(not hasText(panel, "Status only · no agent actions"))
+        assert(#commands == before, "Only the popout and its information pages may be clicked")
+        ctx.data.seconds = 1030
+        assert(hasText(widgets.agents.render(ctx), "0"))
+    end)
+    test("agent model information stays stable across heartbeats without a recency counter", function()
+        local ctx = context()
+        for _, seconds in { 1000, 1004, 1005, 1009 } do
+            ctx.data.seconds = seconds
+            local packet = snapshot(1, "working", seconds)
+            packet.updatedAt = math.floor(seconds / 5) * 5000
+            packets.update = packet
+            widgets.agents.trigger(ctx, { name = "snapshot", value = "update" })
+            local panel = widgets.agents.popout(ctx)
+            assert(hasText(panel, "provider/model"))
+            assert(not find(panel, function(entry)
+                return type(entry.text) == "string" and entry.text:match("%d+s ago") ~= nil
+            end))
+        end
+    end)
+    test("state duration advances across heartbeats and reloads and resets on a status change", function()
+        local ctx = context()
+        for _, seconds in { 1000, 1004, 1005, 1009 } do
+            ctx.data.seconds = seconds
+            local packet = snapshot(1, "working", seconds)
+            packet.statusSince = 990000
+            packet.updatedAt = math.floor(seconds / 5) * 5000
+            packets.duration = packet
+            widgets.agents.trigger(ctx, { name = "snapshot", value = "duration" })
+            assert(hasText(widgets.agents.popout(ctx), "Working · " .. tostring(seconds - 990) .. "s"))
+        end
+        ctx.state = {}
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "duration" })
+        assert(hasText(widgets.agents.popout(ctx), "Working · 19s"))
+        local idle = snapshot(1, "idle", 1010)
+        idle.statusSince, idle.updatedAt = 1010000, 1010000
+        ctx.data.seconds = 1010
+        packets.duration = idle
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "duration" })
+        assert(hasText(widgets.agents.popout(ctx), "Idle · 0s"))
+    end)
+    test("state durations use readable units without inventing missing start times", function()
+        assert(agents.duration(1000000, 1061) == "1m 01s")
+        assert(agents.duration(1000000, 4661) == "1h 01m")
+        assert(agents.duration(1000000, 91061) == "1d 01h")
+        assert(agents.duration(nil, 1000) == nil)
+        assert(agents.duration(2000000, 1000) == nil)
+    end)
+    test("the agent popout shows context and recorded cost only when available", function()
+        local ctx = context()
+        local packet = snapshot(1, "working", 1)
+        packet.context = { tokens = 38000, window = 200000, percent = 19 }
+        packet.costUsd = 0.123
+        packets.usage = packet
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "usage" })
+        assert(hasText(widgets.agents.popout(ctx), "Context 38k/200k (19%) · Session $0.123"))
+        packet = snapshot(1, "working", 2)
+        packet.context = { window = 200000 }
+        packets.usage = packet
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "usage" })
+        local panel = widgets.agents.popout(ctx)
+        assert(hasText(panel, "Context —/200k"))
+        assert(not hasText(panel, "Context 38k/200k (19%) · Session $0.123"))
+        packet = snapshot(1, "working", 3)
+        packet.context = { tokens = 0, window = 200000, percent = 0 }
+        packet.costUsd = 0
+        packets.usage = packet
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "usage" })
+        assert(hasText(widgets.agents.popout(ctx), "Context 0/200k (0%) · Session $0.000"))
+        packet = snapshot(1, "working", 4)
+        packet.context, packet.costUsd = { window = -1 }, 0 / 0
+        local state = agents.receive(nil, "snapshot", packet, 1000)
+        assert(agents.usageSummary(agents.view(state, 1000).agents[1]) == "")
+        assert(agents.usageSummary({ costUsd = 0.0004 }) == "Session <$0.001")
+    end)
+    test("a reloaded agent widget rehydrates from the next complete heartbeat", function()
+        local ctx = context()
+        assert(hasText(widgets.agents.render(ctx), "0"))
+        packets.heartbeat = snapshot(1)
+        widgets.agents.trigger(ctx, { name = "snapshot", value = "heartbeat" })
+        assert(hasText(widgets.agents.render(ctx), "1"))
+        widgets.agents.trigger(ctx, { name = "remove", value = "heartbeat" })
+        assert(hasText(widgets.agents.render(ctx), "0"))
     end)
     print(string.format("%d widget tests passed (mock host; native visual preview still required)", count))
 end
