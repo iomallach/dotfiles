@@ -180,6 +180,7 @@ in
       source = "ghostty/shaders";
       recursive = true;
     };
+    tuios.source = "tuios";
     zellij.source = "zellij";
   };
 }
