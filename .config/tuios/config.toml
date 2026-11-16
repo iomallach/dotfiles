@@ -122,6 +122,10 @@ daemon = true
 
 [keybindings]
 leader_key = "ctrl+a"
+nest_exit_key = "ctrl+g"
+
+[keybindings.global]
+command_palette = ["ctrl+shift+p"]
 
 [keybindings.terminal_mode]
 terminal_focus_left = ["ctrl+h", "alt+left"]
@@ -132,5 +136,5 @@ terminal_focus_right = ["ctrl+l", "alt+right"]
 [[keybindings.command]]
 key = "prefix+alt+f"
 type = "popup"
-command = 'dir=$(find ~/gyg -mindepth 1 -maxdepth 1 -type d | fzf) && tuios switch-session --create --cwd "$dir" "$(basename "$dir")"'
+command = 'dir=$(find ~/gyg ~/dev/go/ ~/dev/lua/ ~/dev/python/ ~/dev/rust/ ~/dev/thirdparty/ ~/dev/ -mindepth 1 -maxdepth 1 -type d | fzf) && tuios switch-session --create --cwd "$dir" "$(basename "$dir")"'
 description = "Open a project"

@@ -47,7 +47,10 @@ in
             macos-titlebar-style = "hidden";
             macos-option-as-alt = true;
             window-decoration = "none";
-            keybind = "shift+enter=text:\x1b\r";
+            keybind = [
+              "shift+enter=text:\x1b\r"
+              "ctrl+shift+p=unbind"
+            ];
           };
           themes = {
             Eldritch = {
