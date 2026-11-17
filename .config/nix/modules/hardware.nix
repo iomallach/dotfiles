@@ -31,7 +31,6 @@
               };
             in
             {
-              # Compatibility with the 3.1.3 source layout; remove when fixed in tuxedo-nixos.
               # Application patches do not affect package-lock.json or the npm cache.
               npmDeps = old.npmDeps.overrideAttrs {
                 postPatch = "";
@@ -40,7 +39,7 @@
                 # Upstream generates this with electron-builder, which the Nix build bypasses.
                 cp ${desktopItem}/share/applications/tuxedo-control-center.desktop src/dist-data/
               '';
-              # Skip format-files: it chmods a bundled tccd that the Nix build does not produce.
+              # Copy runtime assets without upstream's packaging-only steps.
               buildPhase =
                 lib.replaceStrings
                   [ "npm run copy-files\n" ]
@@ -52,11 +51,6 @@
                     ''
                   ]
                   old.buildPhase;
-              installPhase =
-                lib.replaceStrings
-                  [ "com.tuxedocomputers.tccd.policy" "com.tuxedocomputers.tccd.conf" ]
-                  [ "com.tuxedocomputers.tccd-service.policy" "com.tuxedocomputers.tccd-dbus.conf" ]
-                  old.installPhase;
               postPatch = (old.postPatch or "") + ''
                 # A separate Electron binary reports app.isPackaged=false even for this installed app.
                 substituteInPlace src/e-app/backendAPIs/utilsAPI.ts \
@@ -74,7 +68,7 @@
                   --replace-fail 'pkexec ' '${config.security.wrapperDir}/pkexec '
 
                 # Match the installed daemon while preserving upstream's auth_admin_keep policy.
-                substituteInPlace src/dist-data/com.tuxedocomputers.tccd-service.policy \
+                substituteInPlace src/dist-data/com.tuxedocomputers.tccd.policy \
                   --replace-fail '/opt/tuxedo-control-center/resources/dist/tuxedo-control-center/data/service/tccd' \
                     "$out/bin/tccd"
               '';

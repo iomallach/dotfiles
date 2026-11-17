@@ -63,33 +63,7 @@
         # Use the systemd-boot EFI boot loader.
         # boot.loader.systemd-boot.enable = true;
         # boot.loader.efi.canTouchEfiVariables = true;
-        kernelPackages = pkgs.linuxPackages_latest.extend (
-          _final: prev: {
-            tuxedo-drivers = prev.tuxedo-drivers.overrideAttrs (old: {
-              # 4.25.0 replaces ACPI driver APIs removed by Linux 7.3.
-              version = "4.25.0";
-              src = pkgs.fetchFromGitLab {
-                group = "tuxedocomputers";
-                owner = "development/packages";
-                repo = "tuxedo-drivers";
-                rev = "v4.25.0";
-                hash = "sha256-AER+JPl3lem1OFV51VdOZAnr3Uy1BFSpEJNrE+shYis=";
-              };
-              # NixOS runs depmod after assembling the complete module tree.
-              makeFlags = old.makeFlags ++ [ "DEPMOD=true" ];
-              postInstall = builtins.replaceStrings
-                [ "usr/lib/udev/rules.d" ]
-                [ "files/usr/lib/udev/rules.d" ]
-                old.postInstall;
-              postPatch = (old.postPatch or "") + ''
-                # Let recursive make inherit flags without exposing signing expressions to the shell.
-                substituteInPlace Makefile \
-                  --replace-fail 'make -C' '$(MAKE) -C' \
-                  --replace-fail ' $(MAKEFLAGS)' ""
-              '';
-            });
-          }
-        );
+        kernelPackages = pkgs.linuxPackages_latest;
 
         kernel.sysctl = {
           "net.ipv4.ip_forward" = 1;
