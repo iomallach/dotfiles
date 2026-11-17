@@ -121,6 +121,9 @@ layout = "scrolling"
 tiled = true
 daemon = true
 
+[worktree]
+path = "~/worktrees/{{ repo }}/{{ branch | slug }}"
+
 [keybindings]
 leader_key = "ctrl+a"
 nest_exit_key = "ctrl+g"
